@@ -53,7 +53,8 @@ void MainWindow::PaintBoard()
 
             QColor color = (i + j) % 2 ? dark : light; // Чередуем цвета квадратов
 
-            boardScene->addRect(QRectF(top_left, bottom_right), Qt::NoPen, QBrush(color)); // Добавляем квадраты на доску
+            QRectF rect(top_left, bottom_right);
+            boardScene->addRect(rect, Qt::NoPen, QBrush(color)); // Добавляем квадраты на доску
         }
 }
 
@@ -69,6 +70,9 @@ void MainWindow::SetupFigures()
             QPointF top_left(x, y);
             QPointF bottom_right(x + cellSize, y + cellSize);
 
-            boardScene->addEllipse(QRectF(top_left, bottom_right), Qt::NoPen, QBrush(Qt::white)); // Добавляем кружки на доску
+            QPixmap pixmap("D:/GitHub/Chess/graphics/pieces/pawn_white.png");
+            pixmap = pixmap.scaled(cellSize, cellSize);
+            auto item = boardScene->addPixmap(pixmap);
+            item->setPos(top_left);
         }
 }
