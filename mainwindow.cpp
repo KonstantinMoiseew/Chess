@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Раскрашиваем доску
     PaintBoard();
 
-    SetupFigures();
+    SetupFiguresWhite();
+     SetupFiguresBlack();
 
     ui->boardView->setSceneRect(QRectF(0, 0, ui->boardView->width(), ui->boardView->height()));
 }
@@ -58,14 +59,35 @@ void MainWindow::PaintBoard()
         }
 }
 
-void MainWindow::SetupFigures()
+void MainWindow::SetupFiguresWhite()
 {
-    // Создаем два ряда фигур
-    for (int i = 0; i < 2; i++)
+    QPixmap *white = new QPixmap[8];
+    white[0]= QPixmap ("D:/GitHub/Chess/graphics/pieces/rook_white.png");
+    white[1]= QPixmap ("D:/GitHub/Chess/graphics/pieces/knight_white.png");
+    white[2]= QPixmap ("D:/GitHub/Chess/graphics/pieces/bishop_white.png");
+    white[3]= QPixmap ("D:/GitHub/Chess/graphics/pieces/queen_white.png");
+    white[4]= QPixmap ("D:/GitHub/Chess/graphics/pieces/king_white.png");
+    white[5]= QPixmap ("D:/GitHub/Chess/graphics/pieces/bishop_white.png");
+    white[6]= QPixmap ("D:/GitHub/Chess/graphics/pieces/knight_white.png");
+    white[7]= QPixmap ("D:/GitHub/Chess/graphics/pieces/rook_white.png");
+
+    for(int i=0; i<8; i++)
+    {
+        int x = i * cellSize;
+        int y = 7 * cellSize;
+        QPointF top_left(x, y);
+        QPointF bottom_right(x + cellSize, y + cellSize);
+        QPixmap pixmap = white[i];
+        pixmap = pixmap.scaled(cellSize, cellSize);
+        auto item = boardScene->addPixmap(pixmap);
+        item->setPos(top_left);
+    }
+
+   delete[] white;
         for (int j = 0; j < 8; j++)
         {
             int x = j * cellSize;
-            int y = (i + 6) * cellSize;
+            int y = 6 * cellSize;
 
             QPointF top_left(x, y);
             QPointF bottom_right(x + cellSize, y + cellSize);
@@ -74,5 +96,60 @@ void MainWindow::SetupFigures()
             pixmap = pixmap.scaled(cellSize, cellSize);
             auto item = boardScene->addPixmap(pixmap);
             item->setPos(top_left);
+}
+
+}
+
+void MainWindow::SetupFiguresBlack()
+{
+    QPixmap *white = new QPixmap[8];
+    white[0]= QPixmap ("D:/GitHub/Chess/graphics/pieces/rook_black.png");
+    white[1]= QPixmap ("D:/GitHub/Chess/graphics/pieces/knight_black.png");
+    white[2]= QPixmap ("D:/GitHub/Chess/graphics/pieces/bishop_black.png");
+    white[3]= QPixmap ("D:/GitHub/Chess/graphics/pieces/queen_black.png");
+    white[4]= QPixmap ("D:/GitHub/Chess/graphics/pieces/king_black.png");
+    white[5]= QPixmap ("D:/GitHub/Chess/graphics/pieces/bishop_black.png");
+    white[6]= QPixmap ("D:/GitHub/Chess/graphics/pieces/knight_black.png");
+    white[7]= QPixmap ("D:/GitHub/Chess/graphics/pieces/rook_black.png");
+
+    for(int i=0; i<8; i++)
+    {
+        int x = i * cellSize;
+        int y = 0 * cellSize;
+        QPointF top_left(x, y);
+        QPointF bottom_right(x + cellSize, y + cellSize);
+        QPixmap pixmap = white[i];
+        pixmap = pixmap.scaled(cellSize, cellSize);
+        auto item = boardScene->addPixmap(pixmap);
+        item->setPos(top_left);
+    }
+
+   delete[] white;
+
+        for (int j = 0; j < 8; j++)
+        {
+            int x = j * cellSize;
+            int y = 1 * cellSize;
+
+            QPointF top_left(x, y);
+            QPointF bottom_right(x + cellSize, y + cellSize);
+
+            QPixmap pixmap("D:/GitHub/Chess/graphics/pieces/pawn_black.png");
+            pixmap = pixmap.scaled(cellSize, cellSize);
+            auto item = boardScene->addPixmap(pixmap);
+            item->setPos(top_left);
         }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

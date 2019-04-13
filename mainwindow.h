@@ -20,7 +20,8 @@ public:
 private:
 
     void PaintBoard();
-    void SetupFigures();
+    void SetupFiguresWhite();
+    void SetupFiguresBlack();
 
     Ui::MainWindow* ui;
     QGraphicsScene* boardScene; // Сцена для доски
