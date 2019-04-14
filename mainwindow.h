@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -28,4 +27,4 @@ private:
     int cellSize; // Размер клетки
 };
 
-#endif // MAINWINDOW_H
+
