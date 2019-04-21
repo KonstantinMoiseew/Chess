@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QGraphicsItem>
+#include "source/game/piece.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,12 +20,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->boardView->setFrameStyle(QFrame::NoFrame);
 
+    game.reset(new Chess::Game);
+    game->RegisterObserver(*this);
+
     // Раскрашиваем доску
     PaintBoard();
 
-    SetupFiguresWhite();
+    //SetupFiguresWhite();
 
-    ui->boardView->setSceneRect(QRectF(0, 0, ui->boardView->width(), ui->boardView->height()));
+    game->AddPiece(*new Chess::Piece);
 }
 
 MainWindow::~MainWindow()
@@ -36,6 +40,13 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
+
+ void MainWindow::OnPieceAdded(Chess::Piece& )
+ {
+    //auto item = new QGraphicsPixmapItem;
+    //item->SetPiece(piece);
+    //boardScene->addItem(item);
+ }
 
 void MainWindow::PaintBoard()
 {

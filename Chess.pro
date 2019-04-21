@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
     source/widgets/main.cpp \
-    source/widgets/mainwindow.cpp
+    source/widgets/mainwindow.cpp \
+    source/game/piece.cpp \
+    source/game/game.cpp
 
 HEADERS += \
-    source/widgets/mainwindow.h
+    source/widgets/mainwindow.h \
+    source/game/piece.h \
+    source/game/game.h \
+    source/game/iobserver.h \
+    source/game/gamecommon.h
 
 FORMS += \
     source/widgets/mainwindow.ui
