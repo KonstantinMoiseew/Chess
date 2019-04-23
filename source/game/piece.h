@@ -15,6 +15,7 @@ namespace Chess
 
     };
 
-    using Pieces = std::vector<std::unique_ptr<Piece>>;
+    using PieceUnPtr = std::unique_ptr<Piece>;
+    using Pieces = std::vector<PieceUnPtr>;
 
 }

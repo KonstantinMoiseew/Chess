@@ -23,17 +23,17 @@ const Chess::Observers& Chess::Game::GetObservers() const
 
 void Chess::Game::AddPiece(Piece& piece)
 {
-    if (std::find(pieces.begin(), pieces.end(), &piece) == pieces.end())
+    if (std::find_if(pieces.begin(), pieces.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces.end())
     {
-        pieces.push_back(&piece);
+        pieces.emplace_back(&piece);
         OBS_CALL(observers, OnPieceAdded(piece));
     }
 }
 
 void Chess::Game::RemovePiece(Piece& piece)
 {
-    auto it = std::find(pieces.begin(), pieces.end(), &piece);
+    auto it = std::find_if(pieces.begin(), pieces.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;});
     assert(it != pieces.end());
-    pieces.erase(std::remove(pieces.begin(), pieces.end(), &piece));
+    pieces.erase(std::remove_if(pieces.begin(), pieces.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}));
     OBS_CALL(observers, OnPieceRemoved(piece));
 }
