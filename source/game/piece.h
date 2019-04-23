@@ -1,5 +1,6 @@
 #pragma once
 
+#include "defs.h"
 #include "position.h"
 #include <vector>
 #include <memory>
@@ -23,6 +24,7 @@ namespace Chess
 
     protected:
 
+        Color color;
         Type type;
         Pos position;
 

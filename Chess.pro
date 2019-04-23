@@ -37,7 +37,8 @@ HEADERS += \
     source/game/game.h \
     source/game/iobserver.h \
     source/game/gamecommon.h \
-    source/game/position.h
+    source/game/position.h \
+    source/game/defs.h
 
 FORMS += \
     source/widgets/mainwindow.ui
