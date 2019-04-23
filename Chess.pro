@@ -28,14 +28,16 @@ SOURCES += \
     source/widgets/main.cpp \
     source/widgets/mainwindow.cpp \
     source/game/piece.cpp \
-    source/game/game.cpp
+    source/game/game.cpp \
+    source/game/position.cpp
 
 HEADERS += \
     source/widgets/mainwindow.h \
     source/game/piece.h \
     source/game/game.h \
     source/game/iobserver.h \
-    source/game/gamecommon.h
+    source/game/gamecommon.h \
+    source/game/position.h
 
 FORMS += \
     source/widgets/mainwindow.ui

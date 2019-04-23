@@ -1,5 +1,6 @@
 #pragma once
 
+#include "position.h"
 #include <vector>
 #include <memory>
 
@@ -10,8 +11,20 @@ namespace Chess
     {
     public:
 
+        enum class Type
+        {
+            Pawn,
+            Knight,
+            Bishop,
+            Rook,
+            Queen,
+            King
+        };
+
     protected:
 
+        Type type;
+        Pos position;
 
     };
 
