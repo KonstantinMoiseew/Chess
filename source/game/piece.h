@@ -24,8 +24,8 @@ namespace Chess
 
     protected:
 
-        Color color;
-        Type type;
+        Color color = Color::White;
+        Type type = Type::Pawn;
         Pos position;
 
     };
