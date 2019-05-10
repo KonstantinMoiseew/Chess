@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QMainWindow>
 #include "source/game/iobserver.h"
 #include "source/game/gamecommon.h"
@@ -30,7 +29,7 @@ private:
     Ui::MainWindow* ui;
     QGraphicsScene* boardScene; // Сцена для доски
     int cellSize; // Размер клетки
-    std::unique_ptr<Chess::Game> game;
+    Chess::Game * game;
 };
 
 

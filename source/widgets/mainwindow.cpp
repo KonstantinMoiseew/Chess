@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QGraphicsItem>
 #include "source/game/piece.h"
+#include "source/game/pieceitem.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,15 +21,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->boardView->setFrameStyle(QFrame::NoFrame);
 
-    game.reset(new Chess::Game);
+   // game.reset(new Chess::Game);
+    game = new Chess::Game();
     game->RegisterObserver(*this);
 
     // Раскрашиваем доску
     PaintBoard();
 
-    //SetupFiguresWhite();
-
-    game->AddPiece(*new Chess::Piece);
+   SetupFiguresWhite();
 }
 
 MainWindow::~MainWindow()
@@ -41,13 +41,77 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
- void MainWindow::OnPieceAdded(Chess::Piece& )
+ void MainWindow::OnPieceAdded(Chess::Piece& Pos )
  {
-    //auto item = new QGraphicsPixmapItem;
-    //item->SetPiece(piece);
-    //boardScene->addItem(item);
- }
 
+     int X= Pos.get_pos().x_;
+     int Y=Pos.get_pos().y_;
+     QPointF top_left(X, Y);
+     QPointF bottom_right(X + cellSize, Y + cellSize);
+     // Будет еще реализованно в зависимости от type и color
+     //выбор нужного  QString& fileName в классе PieceItem с помощью switch
+     QString string;
+     Chess::Color color_used = Pos.get_color();
+     Chess::Type type_used=Pos.get_type();
+     if (color_used==Chess::Color::White)
+     {
+                switch(type_used)
+                {
+                                case  Chess::Type::Pawn:
+                    string = "D:/GitHub/Chess/graphics/pieces/pawn_white.png";
+                    break;
+                                case Chess::Type::Knight:
+                     string = "D:/GitHub/Chess/graphics/pieces/knight_white.png";
+                    break;
+                                case Chess::Type::Bishop:
+                      string = "D:/GitHub/Chess/graphics/pieces/bishop_white.png";
+                      break;
+                                case Chess::Type::Rook:
+                      string = "D:/GitHub/Chess/graphics/pieces/rook_white.png";
+                      break;
+                                 case Chess::Type::Queen:
+                      string = "D:/GitHub/Chess/graphics/pieces/queen_white.png";
+                      break;
+                                 case Chess::Type::King:
+                      string = "D:/GitHub/Chess/graphics/pieces/king_white.png";
+                      break;
+
+     }
+     }
+     else
+     {
+         switch(type_used)
+         {
+                         case  Chess::Type::Pawn:
+             string = "D:/GitHub/Chess/graphics/pieces/pawn_black.png";
+             break;
+                         case Chess::Type::Knight:
+              string = "D:/GitHub/Chess/graphics/pieces/knight_black.png";
+             break;
+                         case Chess::Type::Bishop:
+               string = "D:/GitHub/Chess/graphics/pieces/bishop_black.png";
+               break;
+                         case Chess::Type::Rook:
+               string = "D:/GitHub/Chess/graphics/pieces/rook_black.png";
+               break;
+                          case Chess::Type::Queen:
+               string = "D:/GitHub/Chess/graphics/pieces/queen_black.png";
+               break;
+                          case Chess::Type::King:
+               string = "D:/GitHub/Chess/graphics/pieces/king_black.png";
+               break;
+     }
+     }
+
+     PieceItem *P = new PieceItem(game,string);
+      P->scaled(cellSize, cellSize);
+     auto item = boardScene->addPixmap(P->scaled(cellSize, cellSize));
+     item->setPos(top_left);
+    // delete item;
+
+
+
+}
 void MainWindow::PaintBoard()
 {
     for (int i = 0; i < 8; i++)
@@ -71,29 +135,114 @@ void MainWindow::PaintBoard()
 
 void MainWindow::SetupFiguresWhite()
 {
-    QPixmap *white = new QPixmap[8];
-    white[0]= QPixmap (":/graphics/pieces/pawn_white.png");
-    white[1]= QPixmap (":/graphics/pieces/knight_white.png");
-    white[2]= QPixmap (":/graphics/pieces/bishop_white.png");
-    white[3]= QPixmap (":/graphics/pieces/queen_white.png");
-    white[4]= QPixmap (":/graphics/pieces/king_white.png");
-    white[5]= QPixmap (":/graphics/pieces/bishop_white.png");
-    white[6]= QPixmap (":/graphics/pieces/knight_white.png");
-    white[7]= QPixmap (":/graphics/pieces/rook_white.png");
 
-    for(int i=0; i<8; i++)
-    {
-        int x = i * cellSize;
-        int y = 7 * cellSize;
-        QPointF top_left(x, y);
-        QPointF bottom_right(x + cellSize, y + cellSize);
-        QPixmap pixmap = white[i];
-        pixmap = pixmap.scaled(cellSize, cellSize);
-        auto item = boardScene->addPixmap(pixmap);
-        item->setPos(top_left);
-    }
+    //setting black
+    Chess::Piece * Rook_Black = new Chess::Piece(Chess::Type::Rook, Chess::Color::Black, Chess::Pos(0,0));
+     game->AddPiece(*Rook_Black) ;
 
-    delete[] white;
+    Chess::Piece * Knight_Black = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(cellSize,0));
+    game->AddPiece(*Knight_Black) ;
+
+    Chess::Piece * Bishop_black = new Chess::Piece(Chess::Type::Bishop, Chess::Color::Black, Chess::Pos(2*cellSize,0));
+    game->AddPiece(*Bishop_black) ;
+
+    Chess::Piece * King_black = new Chess::Piece(Chess::Type:: King, Chess::Color::Black, Chess::Pos(3*cellSize,0));
+    game->AddPiece(*King_black) ;
+
+    Chess::Piece * Quin_black = new Chess::Piece(Chess::Type:: Queen, Chess::Color::Black, Chess::Pos(4*cellSize,0));
+    game->AddPiece(*Quin_black) ;
+
+    Chess::Piece * Bishop_black2 = new Chess::Piece(Chess::Type::Bishop, Chess::Color::Black, Chess::Pos(5*cellSize,0));
+    game->AddPiece(*Bishop_black2) ;
+
+    Chess::Piece * Knight_Black2 = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(6*cellSize,0));
+    game->AddPiece(*Knight_Black2) ;
+
+    Chess::Piece * Rook_Black2 = new Chess::Piece(Chess::Type::Rook, Chess::Color::Black, Chess::Pos(7*cellSize,0));
+     game->AddPiece(*Rook_Black2) ;
+
+     Chess::Piece * Pawn_Black1 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(0,cellSize));
+      game->AddPiece(*Pawn_Black1) ;
+
+      Chess::Piece * Pawn_Black2 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(cellSize,cellSize));
+       game->AddPiece(*Pawn_Black2) ;
+
+       Chess::Piece * Pawn_Black3 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(2*cellSize,cellSize));
+        game->AddPiece(*Pawn_Black3) ;
+
+        Chess::Piece * Pawn_Black4 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(3*cellSize,cellSize));
+         game->AddPiece(*Pawn_Black4) ;
+
+         Chess::Piece * Pawn_Black5 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(4*cellSize,cellSize));
+          game->AddPiece(*Pawn_Black5) ;
+
+          Chess::Piece * Pawn_Black6 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(5*cellSize,cellSize));
+           game->AddPiece(*Pawn_Black6) ;
+
+           Chess::Piece * Pawn_Black7 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(6*cellSize,cellSize));
+            game->AddPiece(*Pawn_Black7) ;
+
+            Chess::Piece * Pawn_Black8 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black, Chess::Pos(7*cellSize,cellSize));
+             game->AddPiece(*Pawn_Black8);
+
+             //setting white
+
+             Chess::Piece * Rook_White = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(0,7*cellSize));
+              game->AddPiece(*Rook_White) ;
+
+             Chess::Piece * Knight_White = new Chess::Piece(Chess::Type::Knight, Chess::Color::White, Chess::Pos(cellSize,7*cellSize));
+             game->AddPiece(*Knight_White) ;
+
+             Chess::Piece * Bishop_White = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(2*cellSize,7*cellSize));
+             game->AddPiece(*Bishop_White) ;
+
+             Chess::Piece * Quin_White = new Chess::Piece(Chess::Type:: Queen, Chess::Color::White, Chess::Pos(3*cellSize,7*cellSize));
+             game->AddPiece(*Quin_White) ;
+
+             Chess::Piece * King_White = new Chess::Piece(Chess::Type:: King, Chess::Color::White, Chess::Pos(4*cellSize,7*cellSize));
+             game->AddPiece(*King_White) ;
+
+             Chess::Piece * Bishop_White2 = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(5*cellSize,7*cellSize));
+             game->AddPiece(*Bishop_White2) ;
+
+             Chess::Piece * Knight_White2 = new Chess::Piece(Chess::Type::Knight, Chess::Color::White, Chess::Pos(6*cellSize,7*cellSize));
+             game->AddPiece(*Knight_White2) ;
+
+             Chess::Piece * Rook_White2 = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(7*cellSize,7*cellSize));
+              game->AddPiece(*Rook_White2) ;
+
+            Chess::Piece * Pawn_White1 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(0,6*cellSize));
+               game->AddPiece(*Pawn_White1) ;
+
+               Chess::Piece * Pawn_White2 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(cellSize,6*cellSize));
+                game->AddPiece(*Pawn_White2) ;
+
+                Chess::Piece * Pawn_White3 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(2*cellSize,6*cellSize));
+                game->AddPiece(*Pawn_White3) ;
+
+                 Chess::Piece * Pawn_White4 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(3*cellSize,6*cellSize));
+                 game->AddPiece(*Pawn_White4) ;
+
+                  Chess::Piece * Pawn_White5 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(4*cellSize,6*cellSize));
+                  game->AddPiece(*Pawn_White5) ;
+
+                   Chess::Piece * Pawn_White6 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(5*cellSize,6*cellSize));
+                   game->AddPiece(*Pawn_White6) ;
+
+                   Chess::Piece * Pawn_White7 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(6*cellSize,6*cellSize));
+                     game->AddPiece(*Pawn_White7) ;
+
+                    Chess::Piece * Pawn_White8 = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(7*cellSize,6*cellSize));
+                      game->AddPiece(*Pawn_White8);
+
+
+
+
+
+
+
+
+
 }
 
 

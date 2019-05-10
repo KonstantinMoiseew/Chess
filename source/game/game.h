@@ -21,8 +21,8 @@ namespace Chess
 
     protected:
 
-        Observers observers;
-        Pieces pieces;
+        Observers observers; //holding observers-PieceItem which on the scene
+        Pieces pieces; // holding logical figures which don't relate to PieceItem.     using PieceUnPtr = std::unique_ptr<Piece>; using Pieces = std::vector<PieceUnPtr>;
     };
 
 }

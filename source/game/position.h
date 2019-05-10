@@ -4,8 +4,11 @@ namespace Chess
 {
     struct Pos
     {
-        int x = 0;
-        int y = 0;
+        int x_ ;
+        int y_ ;
+        Pos();
+        Pos(int x, int y);
+
     };
 }
 

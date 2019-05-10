@@ -26,7 +26,8 @@ void Chess::Game::AddPiece(Piece& piece)
     if (std::find_if(pieces.begin(), pieces.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces.end())
     {
         pieces.emplace_back(&piece);
-        OBS_CALL(observers, OnPieceAdded(piece));
+        //OBS_CALL(observers, OnPieceAdded(piece));
+        observers[0]->OnPieceAdded(piece);
     }
 }
 

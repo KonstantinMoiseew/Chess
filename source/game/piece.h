@@ -4,6 +4,7 @@
 #include "position.h"
 #include <vector>
 #include <memory>
+#include "type.h"
 
 namespace Chess
 {
@@ -12,21 +13,33 @@ namespace Chess
     {
     public:
 
-        enum class Type
+
+          Piece(Type type, Color color, Pos position)
+          {
+              color_=color;
+              type_=type;
+              position_=position;
+
+          }
+
+        Color get_color()
         {
-            Pawn,
-            Knight,
-            Bishop,
-            Rook,
-            Queen,
-            King
-        };
+            return color_;
+        }
+        Type get_type()
+        {
+            return type_;
+        }
+        Pos get_pos()
+        {
+            return position_;
+        }
 
     protected:
 
-        Color color = Color::White;
-        Type type = Type::Pawn;
-        Pos position;
+        Color color_ = Color::White;
+        Type type_ = Type::Pawn;
+        Pos position_;
 
     };
 
