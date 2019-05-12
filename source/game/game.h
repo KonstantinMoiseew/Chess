@@ -13,6 +13,7 @@ namespace Chess
 
         void RegisterObserver(IObserver&);
         void UnregisterObserver(IObserver&);
+		void ArrangeFigures( );
 
         const Observers& GetObservers() const;
 
@@ -21,8 +22,8 @@ namespace Chess
 
     protected:
 
-        Observers observers; //holding observers-PieceItem which on the scene
-        Pieces pieces; // holding logical figures which don't relate to PieceItem.     using PieceUnPtr = std::unique_ptr<Piece>; using Pieces = std::vector<PieceUnPtr>;
+		Observers observers_; //holding observers-PieceItem which on the scene
+		Pieces pieces_; // holding logical figures which don't relate to PieceItem.     using PieceUnPtr = std::unique_ptr<Piece>; using Pieces = std::vector<PieceUnPtr>;
     };
 
 }

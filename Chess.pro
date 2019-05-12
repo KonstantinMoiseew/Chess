@@ -27,23 +27,27 @@ CONFIG += c++11
 SOURCES += \
     source/widgets/main.cpp \
     source/widgets/mainwindow.cpp \
+	source/widgets/pieceitem.cpp \
     source/game/piece.cpp \
     source/game/game.cpp \
-    source/game/position.cpp
+    source/game/position.cpp \
+
 
 HEADERS += \
     source/widgets/mainwindow.h \
+	source/widgets/pieceitem.h \
     source/game/piece.h \
     source/game/game.h \
     source/game/iobserver.h \
     source/game/gamecommon.h \
     source/game/position.h \
     source/game/defs.h \
-    source/game/pieceitem.h \
     source/game/type.h
 
 FORMS += \
     source/widgets/mainwindow.ui
+
+INCLUDEPATH += source
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
