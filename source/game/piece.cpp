@@ -9,16 +9,27 @@ Chess::Piece::Piece(Type type, Color color, Pos position)
 	position_ = position;
 }
 
-Chess:: Color Chess::Piece:: GetColor()
+Chess:: Color Chess::Piece:: GetColor() const
 {
 	return color_;
 }
 
-Chess::Type Chess::Piece:: GetType()
+Chess::Type Chess::Piece:: GetType() const
 {
 	return type_;
 }
-Chess::Pos Chess::Piece:: GetPos()
+
+Chess::Pos Chess::Piece:: GetPos() const
 {
 	return position_;
+}
+
+Chess::Game* Chess::Piece::GetGame() const
+{
+	return game_;
+}
+
+void Chess::Piece::SetGame(Game* game)
+{
+	game_ = game;
 }

@@ -9,4 +9,15 @@ namespace Chess
         Black
     };
 
+	enum class Type
+	{
+		Pawn,
+		Knight,
+		Bishop,
+		Rook,
+		Queen,
+		King
+	};
+
+	const int BoardSize = 8;
 }

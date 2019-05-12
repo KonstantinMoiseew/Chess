@@ -26,8 +26,8 @@ void Chess::Game::AddPiece(Piece& piece)
 	if (std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces_.end())
 	{
 		pieces_.emplace_back(&piece);
-		//OBS_CALL(observers_, OnPieceAdded(piece));
-		observers_[0]->OnPieceAdded(piece);
+		piece.SetGame(this);
+		OBS_CALL(observers_, OnPieceAdded(piece));
 	}
 }
 
@@ -41,8 +41,13 @@ void Chess::Game::RemovePiece(Piece& piece)
 
 void Chess::Game::ArrangeFigures()
 {
-	Piece * Knight_Black = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(1,0));
-	this->AddPiece(*Knight_Black) ;
+	Piece* piece;
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(4,4));
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(3,3));
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(5,2));
+	AddPiece(*piece) ;
 }
 
 

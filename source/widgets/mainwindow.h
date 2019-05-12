@@ -20,16 +20,20 @@ public:
 
     void OnPieceAdded(Chess::Piece&) override;
 
+	int GetCellSize() const;
+
+	QPoint PosToPixPos(const Chess::Pos& pos) const;
+
 private:
 
     void PaintBoard();
     void SetupFiguresWhite();
     void SetupFiguresBlack();
 
-    Ui::MainWindow* ui;
-    QGraphicsScene* boardScene; // Сцена для доски
-    int cellSize; // Размер клетки
-    Chess::Game * game;
+	Ui::MainWindow* ui_;
+	QGraphicsScene* boardScene_; // Сцена для доски
+	int cellSize_; // Размер клетки
+	Chess::Game * game_;
 };
 
 

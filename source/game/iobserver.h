@@ -4,7 +4,8 @@
 #include <vector>
 
 #define OBS_CALL(observers, event) \
-    for (auto& obs : observers) \
+	auto observers_copy = observers; \
+	for (auto& obs : observers_copy) \
         obs->event;
 
 namespace Chess
@@ -20,6 +21,6 @@ namespace Chess
         virtual void OnPieceRemoved(Piece&) {}
     };
 
-    using Observers = std::vector<IObserver*>;
+	using Observers = std::vector<IObserver*>;
 
 }

@@ -1,41 +1,18 @@
 #pragma once
-#include <QGraphicsItem>
-#include <QObject>
-#include <QPainter>
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QCursor>
+#include <QGraphicsPixmapItem>
 #include "game/iobserver.h"
-#include "game/game.h"
 
+class MainWindow;
 
-class PieceItem:   public Chess::IObserver, public QPixmap
+class PieceItem:   public Chess::IObserver, public QGraphicsPixmapItem
 {
 public:
-	PieceItem(Chess::Game * game, const QString& fileName, const char *format = nullptr, Qt::ImageConversionFlags flags = Qt::AutoColor): QPixmap(fileName, format, flags)
-	{
 
-		game-> RegisterObserver(*this); //registration
+	PieceItem(Chess::Piece& piece, MainWindow& window);
+	~PieceItem();
 
-		ptr_game=game;
+protected:
 
-	}
-	void OnPieceAdded(Chess::Piece&) override
-	{
-
-	}
-	void OnPieceRemoved(Chess::Piece&) override
-	{
-
-	}
-
-	~ PieceItem() override
-	{
-
-	}
-
-
-private:
-	Chess::Game * ptr_game;
-
+	Chess::Piece* piece_ = nullptr;
+	MainWindow* window_ = nullptr;
 };
