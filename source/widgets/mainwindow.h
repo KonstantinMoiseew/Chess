@@ -34,6 +34,7 @@ private:
 	QGraphicsScene* boardScene_; // Сцена для доски
 	int cellSize_; // Размер клетки
 	Chess::Game * game_;
+private slots:
 };
 
 

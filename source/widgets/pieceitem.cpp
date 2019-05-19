@@ -2,8 +2,9 @@
 #include "game/game.h"
 #include "mainwindow.h"
 
-PieceItem::PieceItem(Chess::Piece& piece, MainWindow& window)
-	: piece_(&piece)
+PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
+	  :QObject(parent)
+	, piece_(&piece)
 	, window_(&window)
 {
 	piece_->GetGame()-> RegisterObserver(*this);
@@ -37,3 +38,56 @@ PieceItem::~ PieceItem()
 {
 	piece_->GetGame()-> UnregisterObserver(*this);
 }
+
+
+
+
+	QRectF PieceItem:: boundingRect() const
+	{
+		int cell_size=window_->GetCellSize();
+		return QRectF(0,0,cell_size,cell_size);
+	}
+
+	/*void PieceItem:: paint(QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+	{
+		painter->setPen(Qt::black);
+		painter->setBrush(Qt::green);
+		painter->drawRect(-30,-30,60,60);
+		Q_UNUSED(option);
+		Q_UNUSED(widget);
+
+	}*/
+
+	//void PieceItem:: mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+	//{
+	//	this->setPos(mapToScene(event->pos()));
+	//}
+
+	/*void PieceItem:: mousePressEvent(QGraphicsSceneMouseEvent * event)
+	{
+		this->setCursor(QCursor(Qt::ClosedHandCursor));
+		Q_UNUSED(event);
+	}*/
+
+	/*void PieceItem:: mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+	{
+		this->setCursor(QCursor(Qt::ArrowCursor));
+		Q_UNUSED(event);
+	}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

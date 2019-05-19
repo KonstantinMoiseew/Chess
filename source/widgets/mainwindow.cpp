@@ -23,6 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui_->boardView->setFrameStyle(QFrame::NoFrame);
 
+	boardScene_->setItemIndexMethod(QGraphicsScene::NoIndex);
+	ui_->boardView->setRenderHint(QPainter::Antialiasing);
+	ui_->boardView->setCacheMode(QGraphicsView::CacheBackground);
+	ui_->boardView->setViewportUpdateMode((QGraphicsView::BoundingRectViewportUpdate));
+
 	// game_.reset(new Chess::Game);
 	game_ = new Chess::Game();
 	game_->RegisterObserver(*this);
@@ -47,7 +52,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::OnPieceAdded(Chess::Piece& piece)
 {
-	auto item = new PieceItem(piece, *this);
+	auto item = new PieceItem(this,piece, *this);
 	boardScene_->addItem(item);
 }
 
