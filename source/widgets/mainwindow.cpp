@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	boardScene_ = new QGraphicsScene(this); // Создаём сцену для доски. Привязываем её время жизни к окну (this)
 	ui_->boardView->setScene(boardScene_); // boardView (QGraphicsView) будет визуализировать эту сцену
+	ui_->boardView->SetWindow(*this);
 
 	// Выключаем прокрутку чтобы не мешала
 	ui_->boardView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setRenderHint(QPainter::Antialiasing);
 	ui_->boardView->setCacheMode(QGraphicsView::CacheBackground);
 	ui_->boardView->setViewportUpdateMode((QGraphicsView::BoundingRectViewportUpdate));
+	ui_->boardView->setMouseTracking(true);
 
 	// game_.reset(new Chess::Game);
 	game_ = new Chess::Game();
@@ -42,11 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
 	game_->UnregisterObserver(*this);
-	// Внимание, item-ы не работают с принятой в Qt древовидной системой управления памятью!
-	// Нужно удалить вручную!
-	for (auto& item : boardScene_->items())
-		delete item;
-
 	delete ui_;
 }
 
@@ -54,6 +51,7 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 {
 	auto item = new PieceItem(this,piece, *this);
 	boardScene_->addItem(item);
+	connect(item, &PieceItem::PieceMousePress, ui_->boardView, &GraphicsView::OnPieceMousePress);
 }
 
 int MainWindow::GetCellSize() const
@@ -64,6 +62,11 @@ int MainWindow::GetCellSize() const
 QPoint MainWindow::PosToPixPos(const Chess::Pos& pos) const
 {
 	return QPoint (pos.x_ * cellSize_, (Chess::BoardSize - pos.y_ - 1) * cellSize_);
+}
+
+Chess::Pos MainWindow::PixPosToPos(const QPoint& pos) const
+{
+	return Chess::Pos(pos.x() / cellSize_, Chess::BoardSize - 1 - pos.y() / cellSize_);
 }
 
 void MainWindow::PaintBoard()

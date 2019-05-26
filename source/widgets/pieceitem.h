@@ -10,7 +10,7 @@
 
 class MainWindow;
 
-class PieceItem:   public QObject, public Chess::IObserver, public QGraphicsPixmapItem
+class PieceItem:   public QObject, public QGraphicsPixmapItem, public Chess::IObserver
 {
 	Q_OBJECT
 public:
@@ -18,43 +18,38 @@ public:
 	explicit PieceItem(QObject *parent, Chess::Piece& piece, MainWindow& window);
 	~PieceItem() override;
 
+	Chess::Piece& GetPiece() const { return *piece_; }
+
+	void OnPieceMoved(Chess::Piece& piece) override;
+
+signals:
+	void PieceMousePress(PieceItem&);
 
 protected:
 
+	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
+	void UpdatePosition();
+
 	Chess::Piece* piece_ = nullptr;
 	MainWindow* window_ = nullptr;
-
-signals:
-
-private:
-
-
-	QRectF boundingRect() const override;
-
-	/*void paint(QPainter *painter, const QStyleOptionGraphicsItem * option, QWidget * widget) override
-	{
-		painter->setPen(Qt::black);
-		painter->setBrush(Qt::green);
-		painter->drawRect(-30,-30,60,60);
-		Q_UNUSED(option);
-		Q_UNUSED(widget);
-
-	}*/
-
-	void mouseMoveEvent(QGraphicsSceneMouseEvent * event) override
-	{
-		this->setPos(mapToScene(event->pos()));
-	}
-
-	void mousePressEvent(QGraphicsSceneMouseEvent * event) override
-	{
-		this->setCursor(QCursor(Qt::ClosedHandCursor));
-		Q_UNUSED(event);
-	}
-	void mouseReleaseEvent(QGraphicsSceneMouseEvent * event) override
-	{
-		this->setCursor(QCursor(Qt::ArrowCursor));
-		Q_UNUSED(event);
-	}
-public slots:
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

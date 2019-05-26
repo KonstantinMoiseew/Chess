@@ -31,6 +31,7 @@ SOURCES += \
     source/game/piece.cpp \
     source/game/game.cpp \
     source/game/position.cpp \
+    source/widgets/graphicsview.cpp
 
 
 HEADERS += \
@@ -41,7 +42,9 @@ HEADERS += \
     source/game/iobserver.h \
     source/game/gamecommon.h \
     source/game/position.h \
-    source/game/defs.h
+    source/game/defs.h \
+    source/game/rook.h \
+    source/widgets/graphicsview.h
 
 FORMS += \
     source/widgets/mainwindow.ui

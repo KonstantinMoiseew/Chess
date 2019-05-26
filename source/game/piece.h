@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "gamecommon.h"
+#include <QString>
 
 namespace Chess
 {
@@ -19,7 +20,10 @@ public:
 	Type GetType() const;
 	Pos GetPos() const;
 	Game* GetGame() const;
+	void SetPos(const Pos& position);
 	void SetGame(Game* game);
+
+	virtual ~Piece() {}
 
 protected:
 

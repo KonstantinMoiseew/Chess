@@ -23,6 +23,8 @@ public:
 	int GetCellSize() const;
 
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
+	Chess::Pos PixPosToPos(const QPoint& pos) const;
+	Chess::Game *  GetGame() const { return game_; }
 
 private:
 

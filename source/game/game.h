@@ -19,6 +19,7 @@ namespace Chess
 
         void AddPiece(Piece&);
         void RemovePiece(Piece&);
+		//Piece FindPiece(Pos pos_);
 
     protected:
 

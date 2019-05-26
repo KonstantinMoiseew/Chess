@@ -19,6 +19,7 @@ namespace Chess
 
         virtual void OnPieceAdded(Piece&) {}
         virtual void OnPieceRemoved(Piece&) {}
+		virtual void OnPieceMoved(Piece&) {}
     };
 
 	using Observers = std::vector<IObserver*>;

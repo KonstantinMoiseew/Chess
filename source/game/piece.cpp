@@ -1,6 +1,8 @@
 #include "piece.h"
 #include "defs.h"
 #include "gamecommon.h"
+#include "game.h"
+#include "iobserver.h"
 
 Chess::Piece::Piece(Type type, Color color, Pos position)
 {
@@ -32,4 +34,10 @@ Chess::Game* Chess::Piece::GetGame() const
 void Chess::Piece::SetGame(Game* game)
 {
 	game_ = game;
+}
+
+void Chess::Piece:: SetPos(const Pos& pos)
+{
+	position_ = pos;
+	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }
