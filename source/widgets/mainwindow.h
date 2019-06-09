@@ -26,11 +26,16 @@ public:
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
 	Chess::Game *  GetGame() const { return game_; }
 
+	public slots:
+	void on_pushButton_clicked()
+	{
+		game_->MovingPiece();
+	}
+
 private:
 
     void PaintBoard();
-    void SetupFiguresWhite();
-    void SetupFiguresBlack();
+
 
 	Ui::MainWindow* ui_;
 	QGraphicsScene* boardScene_; // Сцена для доски

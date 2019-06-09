@@ -24,11 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	ui_->boardView->setFrameStyle(QFrame::NoFrame);
 
-	boardScene_->setItemIndexMethod(QGraphicsScene::NoIndex);
+	boardScene_->setItemIndexMethod(QGraphicsScene::NoIndex); // настраиваем индексацию элементов
 	ui_->boardView->setRenderHint(QPainter::Antialiasing);
 	ui_->boardView->setCacheMode(QGraphicsView::CacheBackground);
 	ui_->boardView->setViewportUpdateMode((QGraphicsView::BoundingRectViewportUpdate));
-	ui_->boardView->setMouseTracking(true);
+	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 
 	// game_.reset(new Chess::Game);
 	game_ = new Chess::Game();
@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	//SetupFiguresWhite();
 	game_->ArrangeFigures();
+
+
 }
 
 MainWindow::~MainWindow()

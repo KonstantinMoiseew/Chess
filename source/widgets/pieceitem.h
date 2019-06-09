@@ -30,6 +30,7 @@ protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 	void UpdatePosition();
 
+
 	Chess::Piece* piece_ = nullptr;
 	MainWindow* window_ = nullptr;
 };

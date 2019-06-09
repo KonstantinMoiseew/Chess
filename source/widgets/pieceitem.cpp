@@ -7,7 +7,7 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 	, piece_(&piece)
 	, window_(&window)
 {
-	piece_->GetGame()-> RegisterObserver(*this);
+	piece_->GetGame()-> RegisterObserver(*this); // 'this' is a pointer to object of PieceItem class inherited from IObserver
 
 	QString image_name = ":/graphics/pieces/";
 	switch (piece.GetType())
@@ -46,13 +46,15 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece)
 		UpdatePosition();
 }
 
-void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*) //получается просто перегружаем эту функцию
+void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
+
 	emit PieceMousePress(*this);
 }
 
 void PieceItem::UpdatePosition()
 {
+
 	setPos(window_->PosToPixPos(piece_->GetPos()));
 }
 

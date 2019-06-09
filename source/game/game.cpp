@@ -39,18 +39,15 @@ void Chess::Game::RemovePiece(Piece& piece)
 	OBS_CALL(observers_, OnPieceRemoved(piece));
 }
 
-//Chess::Piece  Chess::Game:: FindPiece(Chess::Pos pos_)
-//{
 
-//}
 
 void Chess::Game::ArrangeFigures()
 {
 	Piece* piece;
-	//piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(4,4));
-	//AddPiece(*piece) ;
-	//piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(3,3));
-	//AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(4,4));
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(3,3));
+	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(5,2));
 	AddPiece(*piece) ;
 }

@@ -3,7 +3,12 @@
 #include "gamecommon.h"
 #include "iobserver.h"
 #include "piece.h"
-
+#include <iostream>
+#include <QDir>
+#include <QStringList>
+#include <QDebug>
+#include <QTimer>
+#include <QRandomGenerator>
 namespace Chess
 {
 
@@ -19,7 +24,17 @@ namespace Chess
 
         void AddPiece(Piece&);
         void RemovePiece(Piece&);
-		//Piece FindPiece(Pos pos_);
+
+
+		void MovingPiece()
+		{
+
+			int x_=(qrand() % ((7 + 1) - 0) + 0);
+			int y_=(qrand() % ((7 + 1) - 0) + 0);
+			Pos pos (x_,y_);
+			pieces_.at(1)->SetPos(pos);
+
+		}
 
     protected:
 
