@@ -48,15 +48,14 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece)
 
 void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
-
 	emit PieceMousePress(*this);
 }
 
 void PieceItem::UpdatePosition()
 {
-
 	setPos(window_->PosToPixPos(piece_->GetPos()));
 }
+
 
 
 

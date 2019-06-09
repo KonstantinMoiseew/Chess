@@ -1,14 +1,16 @@
 #pragma once
 #include <QMainWindow>
-#include "source/game/iobserver.h"
-#include "source/game/gamecommon.h"
-#include "source/game/game.h"
+#include "game/iobserver.h"
+#include "game/gamecommon.h"
+#include "game/game.h"
+#include "pieceitem.h"
 
 namespace Ui {
 class MainWindow;
 }
 
 class QGraphicsScene;
+class QGraphicsItem;
 
 class MainWindow : public QMainWindow, public Chess::IObserver
 {
@@ -26,22 +28,22 @@ public:
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
 	Chess::Game *  GetGame() const { return game_; }
 
-	public slots:
-	void on_pushButton_clicked()
-	{
-		game_->MovingPiece();
-	}
+public slots:
+	void OnPieceMousePress(PieceItem&);
+	void OnPieceMouseRelease(PieceItem&);
 
 private:
 
-    void PaintBoard();
-
+	void PaintBoard();
+	void CreateMovementBeacons();
+	void ShowMovementBeacons(const Chess::Positions&);
+	void HideMovementBeacons();
 
 	Ui::MainWindow* ui_;
 	QGraphicsScene* boardScene_; // Сцена для доски
 	int cellSize_; // Размер клетки
 	Chess::Game * game_;
-private slots:
+	std::vector<QGraphicsItem*> movementBeacons_;
 };
 
 

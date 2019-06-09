@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui_(new Ui::MainWindow)
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setCacheMode(QGraphicsView::CacheBackground);
 	ui_->boardView->setViewportUpdateMode((QGraphicsView::BoundingRectViewportUpdate));
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
+	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 
 	// game_.reset(new Chess::Game);
 	game_ = new Chess::Game();
@@ -37,10 +39,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	// Раскрашиваем доску
 	PaintBoard();
 
+	CreateMovementBeacons();
+	HideMovementBeacons();
+
 	//SetupFiguresWhite();
 	game_->ArrangeFigures();
-
-
 }
 
 MainWindow::~MainWindow()
@@ -54,6 +57,17 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 	auto item = new PieceItem(this,piece, *this);
 	boardScene_->addItem(item);
 	connect(item, &PieceItem::PieceMousePress, ui_->boardView, &GraphicsView::OnPieceMousePress);
+	connect(item, &PieceItem::PieceMousePress, this, &MainWindow::OnPieceMousePress);
+}
+
+void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
+{
+	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement());
+}
+
+void MainWindow::OnPieceMouseRelease(PieceItem&)
+{
+	HideMovementBeacons();
 }
 
 int MainWindow::GetCellSize() const
@@ -91,5 +105,42 @@ void MainWindow::PaintBoard()
 			QRectF rect(top_left, bottom_right);
 			boardScene_->addRect(rect, Qt::NoPen, QBrush(color)); // Добавляем квадраты на доску
 		}
+	}
+}
+
+void MainWindow::CreateMovementBeacons()
+{
+	for (int i = 0; i < Chess::BoardSize; i++)
+	{
+		for (int j = Chess::BoardSize - 1; j >= 0; j--)
+		{
+			int x = i * cellSize_;
+			int y = j * cellSize_;
+
+			QPointF top_left(x, y);
+			QPointF bottom_right(x + cellSize_, y + cellSize_);
+
+			const QColor color(128, 128, 128);
+
+			QRectF rect(top_left, bottom_right);
+			movementBeacons_.push_back(boardScene_->addEllipse(rect, Qt::NoPen, QBrush(color)));
+		}
+	}
+}
+
+void MainWindow::ShowMovementBeacons(const Chess::Positions& positions)
+{
+	for (auto& pos : positions)
+	{
+		unsigned int index = static_cast<unsigned int>(pos.x_ * Chess::BoardSize + pos.y_);
+		movementBeacons_[index]->show();
+	}
+}
+
+void MainWindow::HideMovementBeacons()
+{
+	for (auto& beacon : movementBeacons_)
+	{
+		beacon->hide();
 	}
 }

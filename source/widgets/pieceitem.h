@@ -33,6 +33,7 @@ protected:
 
 	Chess::Piece* piece_ = nullptr;
 	MainWindow* window_ = nullptr;
+
 };
 
 

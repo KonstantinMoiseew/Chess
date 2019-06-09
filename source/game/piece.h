@@ -2,10 +2,10 @@
 
 #include "defs.h"
 #include "position.h"
+#include "gamecommon.h"
+#include "ipiecemovement.h"
 #include <vector>
 #include <memory>
-#include "gamecommon.h"
-#include <QString>
 
 namespace Chess
 {
@@ -15,6 +15,7 @@ class Piece
 public:
 
 	Piece(Type type, Color color, Pos position);
+	virtual ~Piece() {}
 
 	Color GetColor() const;
 	Type GetType() const;
@@ -22,8 +23,7 @@ public:
 	Game* GetGame() const;
 	void SetPos(const Pos& position);
 	void SetGame(Game* game);
-
-	virtual ~Piece() {}
+	IPieceMovement& GetMovement();
 
 protected:
 
@@ -31,6 +31,7 @@ protected:
 	Type type_ = Type::Pawn;
 	Pos position_;
 	Game* game_ = nullptr;
+	std::unique_ptr<IPieceMovement> movement_;
 };
 
 using PieceUnPtr = std::unique_ptr<Piece>;

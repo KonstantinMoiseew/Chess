@@ -25,17 +25,6 @@ namespace Chess
         void AddPiece(Piece&);
         void RemovePiece(Piece&);
 
-
-		void MovingPiece()
-		{
-
-			int x_=(qrand() % ((7 + 1) - 0) + 0);
-			int y_=(qrand() % ((7 + 1) - 0) + 0);
-			Pos pos (x_,y_);
-			pieces_.at(1)->SetPos(pos);
-
-		}
-
     protected:
 
 		Observers observers_; //holding observers-PieceItem which on the scene

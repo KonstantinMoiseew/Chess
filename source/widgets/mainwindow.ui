@@ -30,7 +30,7 @@
      </sizepolicy>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="randomMoveButton">
     <property name="geometry">
      <rect>
       <x>570</x>

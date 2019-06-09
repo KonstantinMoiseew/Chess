@@ -1,11 +1,13 @@
 #pragma once
 
+#include <vector>
+
 namespace Chess
 {
     struct Pos
     {
-        int x_ ;
-        int y_ ;
+		int x_;
+		int y_;
         Pos();
         Pos(int x, int y);
 
@@ -15,5 +17,7 @@ namespace Chess
 			return x_ == other.x_ && y_ == other.y_;
 		}
     };
+
+	using Positions = std::vector<Pos>;
 }
 

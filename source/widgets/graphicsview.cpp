@@ -31,6 +31,7 @@ void GraphicsView:: mouseReleaseEvent(QMouseEvent* event)
 	assert(mainWindow_);
 	auto chess_pos = mainWindow_->PixPosToPos(event->pos());
 	currentlyDragging_->GetPiece().SetPos(chess_pos);
+	emit OnPieceMouseRelease(*currentlyDragging_);
 	currentlyDragging_ = nullptr;
 
 }
