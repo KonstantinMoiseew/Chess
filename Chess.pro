@@ -32,7 +32,8 @@ SOURCES += \
     source/game/game.cpp \
     source/game/position.cpp \
     source/widgets/graphicsview.cpp \
-    source/game/piecemovements.cpp
+    source/game/piecemovements.cpp \
+    source/game/iobserver.cpp
 
 
 HEADERS += \

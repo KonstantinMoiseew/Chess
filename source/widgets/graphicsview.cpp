@@ -17,7 +17,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent* event)
 	if (currentlyDragging_)
 	{
 		auto midsize = (currentlyDragging_->boundingRect().size() * 0.5).toSize();
-		currentlyDragging_->setPos(event->pos() - QPoint(midsize.width(), midsize.height())); // новое положение во время движения мыши
+		currentlyDragging_->setPos(event->pos() - QPoint(midsize.width(), midsize.height()));  // новое положение во время движения мыши
 	}
 }
 
@@ -41,3 +41,6 @@ void GraphicsView::OnPieceMousePress(PieceItem& item)
 	this->setCursor(QCursor(Qt::ClosedHandCursor));
 	currentlyDragging_ = &item;
 }
+
+
+

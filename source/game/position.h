@@ -6,16 +6,13 @@ namespace Chess
 {
     struct Pos
     {
-		int x_;
-		int y_;
-        Pos();
+		Pos() {}
         Pos(int x, int y);
+		bool operator == (const Pos& other) const;
+		bool IsValid() const;
 
-
-		bool operator == (const Pos& other) const
-		{
-			return x_ == other.x_ && y_ == other.y_;
-		}
+		int x_ = 0;
+		int y_ = 0;
     };
 
 	using Positions = std::vector<Pos>;

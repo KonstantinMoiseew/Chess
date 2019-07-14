@@ -15,11 +15,17 @@ namespace Chess
     {
     public:
 
-        virtual ~IObserver() {}
+		virtual ~IObserver();
 
+		virtual void OnRegistered(Game&);
+		virtual void OnUnregistered();
         virtual void OnPieceAdded(Piece&) {}
         virtual void OnPieceRemoved(Piece&) {}
 		virtual void OnPieceMoved(Piece&) {}
+
+	protected:
+
+		Game* game_ = nullptr;
     };
 
 	using Observers = std::vector<IObserver*>;

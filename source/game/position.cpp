@@ -1,12 +1,17 @@
 #include "position.h"
 
-Chess::Pos::Pos()
-{
-    x_=0;
-    y_=0;
-}
 Chess::Pos::Pos(int x, int y)
 {
     x_=x;
     y_=y;
+}
+
+bool Chess::Pos::operator == (const Pos& other) const
+{
+	return x_ == other.x_ && y_ == other.y_;
+}
+
+bool Chess::Pos::IsValid() const
+{
+	return x_ >= 0 && x_ < 8 && y_ >= 0 && y_ < 8;
 }

@@ -26,7 +26,7 @@ public:
 
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
-	Chess::Game *  GetGame() const { return game_; }
+	Chess::Game *  GetGame() const { return game_.get(); }
 
 public slots:
 	void OnPieceMousePress(PieceItem&);
@@ -42,7 +42,7 @@ private:
 	Ui::MainWindow* ui_;
 	QGraphicsScene* boardScene_; // Сцена для доски
 	int cellSize_; // Размер клетки
-	Chess::Game * game_;
+	std::unique_ptr<Chess::Game> game_;
 	std::vector<QGraphicsItem*> movementBeacons_;
 };
 

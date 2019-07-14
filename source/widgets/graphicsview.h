@@ -5,7 +5,7 @@
 class PieceItem;
 class MainWindow;
 
-class GraphicsView : public QGraphicsView // It is added to ui_Main_Window. All PieceItemes will be added here
+class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT
 public:

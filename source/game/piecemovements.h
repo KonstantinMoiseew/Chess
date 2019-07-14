@@ -48,4 +48,17 @@ namespace Chess
 	protected:
 		Piece& piece_;
 	};
+
+	class KnightMovement : public IPieceMovement
+	{
+	public:
+
+		KnightMovement(Piece& owner);
+		Positions GetAvailableMovement() const override;
+
+	protected:
+		Piece& piece_;
+	};
+
+
 }

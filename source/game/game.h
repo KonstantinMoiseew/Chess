@@ -16,6 +16,8 @@ namespace Chess
     {
     public:
 
+		virtual ~Game();
+
         void RegisterObserver(IObserver&);
         void UnregisterObserver(IObserver&);
 		void ArrangeFigures( );

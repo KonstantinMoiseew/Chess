@@ -4,8 +4,11 @@
 
 Chess::RookMovement::RookMovement(Piece& owner)
 	: piece_(owner)
-{
+{	
 }
+
+
+
 
 Chess::Positions Chess::RookMovement::GetAvailableMovement() const
 {
@@ -31,6 +34,60 @@ Chess::BishopMovement::BishopMovement(Piece& owner)
 Chess::Positions Chess::BishopMovement::GetAvailableMovement() const
 {
 	Positions result;
-	// TODO: Bishop's movement
+
+	for (int i =-BoardSize; i < BoardSize; i++)
+	{
+		Pos pos(piece_.GetPos().x_ + i, piece_.GetPos().y_ + i);
+		if (pos.IsValid())
+			result.push_back(pos);
+	}
+
+	for (int i =-BoardSize; i < BoardSize; i++)
+	{
+		Pos pos(piece_.GetPos().x_ - i, piece_.GetPos().y_ + i);
+		if (pos.IsValid())
+			result.push_back(pos);
+	}
+
 	return result;
 }
+
+
+
+
+Chess::KnightMovement::KnightMovement(Piece& owner)
+	:piece_(owner)
+{}
+
+Chess::Positions Chess::KnightMovement:: GetAvailableMovement() const
+{
+	Positions result;
+
+	for (int i =-BoardSize; i < BoardSize; i++)
+	{
+		Pos pos(piece_.GetPos().x_ + i, piece_.GetPos().y_ + i);
+		if (pos.IsValid())
+			result.push_back(pos);
+	}
+
+	for (int i =-BoardSize; i < BoardSize; i++)
+	{
+		Pos pos(piece_.GetPos().x_ - i, piece_.GetPos().y_ + i);
+		if (pos.IsValid())
+			result.push_back(pos);
+	}
+
+	return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+

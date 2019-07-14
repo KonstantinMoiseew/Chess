@@ -32,8 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 
-	// game_.reset(new Chess::Game);
-	game_ = new Chess::Game();
+
+	game_.reset(new Chess::Game());
 	game_->RegisterObserver(*this);
 
 	// Раскрашиваем доску
@@ -48,13 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-	game_->UnregisterObserver(*this);
 	delete ui_;
 }
 
 void MainWindow::OnPieceAdded(Chess::Piece& piece)
 {
-	auto item = new PieceItem(this,piece, *this);
+	auto item = new PieceItem(this, piece, *this);
 	boardScene_->addItem(item);
 	connect(item, &PieceItem::PieceMousePress, ui_->boardView, &GraphicsView::OnPieceMousePress);
 	connect(item, &PieceItem::PieceMousePress, this, &MainWindow::OnPieceMousePress);

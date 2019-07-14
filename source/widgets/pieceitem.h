@@ -16,7 +16,6 @@ class PieceItem:   public QObject, public QGraphicsPixmapItem, public Chess::IOb
 public:
 
 	explicit PieceItem(QObject *parent, Chess::Piece& piece, MainWindow& window);
-	~PieceItem() override;
 
 	Chess::Piece& GetPiece() const { return *piece_; }
 

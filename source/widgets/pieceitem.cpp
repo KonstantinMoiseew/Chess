@@ -32,12 +32,7 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 	setPixmap(pixmap);
 
 	UpdatePosition();
-	setAcceptHoverEvents(true);
-}
-
-PieceItem::~ PieceItem()
-{
-	piece_->GetGame()-> UnregisterObserver(*this);
+	//setAcceptHoverEvents(true);
 }
 
 void PieceItem::OnPieceMoved(Chess::Piece& piece)
@@ -46,9 +41,10 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece)
 		UpdatePosition();
 }
 
-void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*)
+void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* ) // при нажатии на item он будут захвачен курсором
 {
 	emit PieceMousePress(*this);
+
 }
 
 void PieceItem::UpdatePosition()
