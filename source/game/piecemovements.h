@@ -2,6 +2,7 @@
 
 #include "ipiecemovement.h"
 #include "gamecommon.h"
+#include <memory>
 
 namespace Chess
 {
@@ -35,7 +36,8 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
-		Piece& piece_;
+		std::unique_ptr<RookMovement> rookMovement_;
+		std::unique_ptr<BishopMovement> bishopMovement_;
 	};
 
 	class KingMovement : public IPieceMovement
@@ -47,6 +49,7 @@ namespace Chess
 
 	protected:
 		Piece& piece_;
+		std::unique_ptr<QueenMovement> queenMovement_;
 	};
 
 	class KnightMovement : public IPieceMovement

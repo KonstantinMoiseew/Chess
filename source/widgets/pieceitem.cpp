@@ -35,10 +35,10 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 	//setAcceptHoverEvents(true);
 }
 
-void PieceItem::OnPieceMoved(Chess::Piece& piece)
+void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный метод, который переопределен в классе pieceItem. Объект этого класса храниться в game (в векторе с наблюдателями).
 {
 	if (&piece == piece_)
-		UpdatePosition();
+		UpdatePosition();  // в самом piece устанавливаем новые (текущие) координаты
 }
 
 void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* ) // при нажатии на item он будут захвачен курсором
@@ -49,7 +49,7 @@ void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* ) // при нажат
 
 void PieceItem::UpdatePosition()
 {
-	setPos(window_->PosToPixPos(piece_->GetPos()));
+	setPos(window_->PosToPixPos(piece_->GetPos())); //библиотечная функция QGraphicsPixmapItem
 }
 
 

@@ -61,7 +61,7 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
 {
-	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement());
+	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement()); // Где устанавливается movement_ в каждом piece?
 }
 
 void MainWindow::OnPieceMouseRelease(PieceItem&)

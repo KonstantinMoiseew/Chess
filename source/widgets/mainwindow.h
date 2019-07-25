@@ -20,7 +20,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-    void OnPieceAdded(Chess::Piece&) override;
 
 	int GetCellSize() const;
 
@@ -31,6 +30,7 @@ public:
 public slots:
 	void OnPieceMousePress(PieceItem&);
 	void OnPieceMouseRelease(PieceItem&);
+	void MainWindow::OnPieceAdded(Chess::Piece& piece) override;
 
 private:
 

@@ -10,7 +10,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 }
 
-void GraphicsView::mouseMoveEvent(QMouseEvent* event)
+void GraphicsView::mouseMoveEvent(QMouseEvent* event)// что такое event?
 {
 	QGraphicsView::mouseMoveEvent(event);
 
@@ -30,7 +30,7 @@ void GraphicsView:: mouseReleaseEvent(QMouseEvent* event)
 
 	assert(mainWindow_);
 	auto chess_pos = mainWindow_->PixPosToPos(event->pos());
-	currentlyDragging_->GetPiece().SetPos(chess_pos);
+	currentlyDragging_->GetPiece().SetPos(chess_pos); //устанавливается новые координаты в piece, и из этого же piece вызывается функция OnPieceMoved, которая уже устанавливает item на view
 	emit OnPieceMouseRelease(*currentlyDragging_);
 	currentlyDragging_ = nullptr;
 

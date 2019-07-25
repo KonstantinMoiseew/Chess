@@ -16,6 +16,8 @@ Chess::Piece::Piece(Type type, Color color, Pos position)
 	case Type::Rook: movement_.reset(new RookMovement(*this)); break;
 	case Type::Bishop: movement_.reset(new BishopMovement(*this)); break;
 	case Type::Knight: movement_.reset(new KnightMovement(*this)); break;
+	case Type::Queen: movement_.reset(new QueenMovement(*this)); break;
+	case Type::King: movement_.reset(new KingMovement(*this)); break;
 	default: break;
 	}
 }

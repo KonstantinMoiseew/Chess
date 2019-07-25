@@ -61,6 +61,10 @@ void Chess::Game::ArrangeFigures()
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(5,2));
 	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Queen, Chess::Color::White, Chess::Pos(2,2));
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::King, Chess::Color::White, Chess::Pos(7,4));
+	AddPiece(*piece) ;
 }
 
 
