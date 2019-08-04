@@ -1,33 +1,65 @@
 #include "piecemovements.h"
-#include "source/game/defs.h"
+#include "game/defs.h"
 #include "piece.h"
+#include "game/game.h"
 #include <algorithm>
 
 Chess::RookMovement::RookMovement(Piece& owner)
 	: piece_(owner)
-{	
-}
+{}
 
 Chess::Positions Chess::RookMovement::GetAvailableMovement() const
 {
 	Positions result;
-	for (int i = 0; i < BoardSize; i++)
+
+	auto pos = piece_.GetPos();
+
+	for (int i = pos.y_; i < BoardSize; i++)
 	{
-		result.push_back(Pos(piece_.GetPos().x_, i));
+		if (!AddPos(Pos(pos.x_, i), result))
+			break;
 	}
 
-	for (int i = 0; i < BoardSize; i++)
+	for (int i = pos.y_; i >= 0; i--)
 	{
-		result.push_back(Pos(i, piece_.GetPos().y_));
+		if (!AddPos(Pos(pos.x_, i), result))
+			break;
+	}
+
+	for (int i = pos.x_; i < BoardSize; i++)
+	{
+		if (!AddPos(Pos(i, pos.y_), result))
+			break;
+	}
+
+	for (int i = pos.x_; i >= 0; i--)
+	{
+		if (!AddPos(Pos(i, pos.y_), result))
+			break;
 	}
 
 	return result;
 }
 
+bool Chess::RookMovement::AddPos(const Pos& pos, Positions& result) const
+{
+	auto& pieces = piece_.GetGame()->GetPieces();
+	auto it = std::find_if(pieces.begin(), pieces.end(), [this, pos](auto& piece){return piece.get() != &piece_ && piece->GetPos() == pos;});
+	if (it != pieces.end())
+	{
+		if ((*it)->GetColor() != piece_.GetColor())
+			result.push_back(pos);
+
+		return false;
+	}
+
+	result.push_back(pos);
+	return true;
+}
+
 Chess::BishopMovement::BishopMovement(Piece& owner)
 	: piece_(owner)
-{
-}
+{}
 
 Chess::Positions Chess::BishopMovement::GetAvailableMovement() const
 {
@@ -100,9 +132,7 @@ Chess::Positions Chess::KingMovement::GetAvailableMovement() const
 
 Chess::PawnMovement::PawnMovement(Piece& owner)
 	: piece_(owner)
-{
-
-}
+{}
 
 Chess::Positions Chess::PawnMovement::GetAvailableMovement() const
 {

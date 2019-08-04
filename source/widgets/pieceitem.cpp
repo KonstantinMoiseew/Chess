@@ -44,7 +44,6 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный ме�
 void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* event ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
 {
 	emit PieceMousePress(*this);
-	this->setCursor(QCursor(Qt::ClosedHandCursor));
 
 }
 

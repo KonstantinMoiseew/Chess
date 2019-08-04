@@ -20,13 +20,14 @@ namespace Chess
 
         void RegisterObserver(IObserver&);
         void UnregisterObserver(IObserver&);
-		void ArrangeFigures( );
-		bool CheckMoves(Piece&); //Проверка правильности хода
+		const Observers& GetObservers() const;
 
-        const Observers& GetObservers() const;
+		void ArrangeFigures( );
 
         void AddPiece(Piece&);
         void RemovePiece(Piece&);
+
+		const Pieces& GetPieces() const;
 
     protected:
 

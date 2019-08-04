@@ -27,12 +27,11 @@ signals:
 protected:
 
 	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
-	void UpdatePosition();
 
+	void UpdatePosition();
 
 	Chess::Piece* piece_ = nullptr;
 	MainWindow* window_ = nullptr;
-
 };
 
 

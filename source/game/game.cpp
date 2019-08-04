@@ -67,18 +67,12 @@ void Chess::Game::ArrangeFigures()
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(1,1));
 	AddPiece(*piece) ;
-
-
 }
 
-
-bool Chess::Game::CheckMoves(Piece& piece)
+const Chess::Pieces& Chess::Game::GetPieces() const
 {
-		return true;
+	return pieces_;
 }
-
-
-
 
 
 

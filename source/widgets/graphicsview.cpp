@@ -24,7 +24,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent* event)//  event - содержи�
 
 void GraphicsView:: mouseReleaseEvent(QMouseEvent* event)
 {
-	this->setCursor(QCursor(Qt::ArrowCursor));
+	setCursor(QCursor(Qt::ArrowCursor));
 	if (!currentlyDragging_)
 		return;
 
@@ -38,7 +38,7 @@ void GraphicsView:: mouseReleaseEvent(QMouseEvent* event)
 
 void GraphicsView::OnPieceMousePress(PieceItem& item)
 {
-	this->setCursor(QCursor(Qt::ClosedHandCursor));
+	setCursor(QCursor(Qt::ClosedHandCursor));
 	currentlyDragging_ = &item;
 }
 

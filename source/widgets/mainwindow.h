@@ -30,7 +30,7 @@ public:
 public slots:
 	void OnPieceMousePress(PieceItem&);
 	void OnPieceMouseRelease(PieceItem&);
-	void MainWindow::OnPieceAdded(Chess::Piece& piece) override;
+	void OnPieceAdded(Chess::Piece& piece) override;
 
 private:
 

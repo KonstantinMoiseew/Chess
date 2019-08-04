@@ -55,11 +55,14 @@ Chess::IPieceMovement& Chess::Piece::GetMovement()
 
 void Chess::Piece:: SetPos(const Pos& pos)
 {
-	if (position_!=pos)
+	auto available_movement = movement_->GetAvailableMovement();
+	if (std::find(available_movement.begin(), available_movement.end(), pos) != available_movement.end())
 	{
-		hasMoved_ = true;
+		if (position_!=pos)
+			hasMoved_ = true;
+
+		position_ = pos;
 	}
-	position_ = pos;
 	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }
 

@@ -14,6 +14,9 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
+		bool AddPos(const Pos& pos, Positions& positions) const;
+
 		Piece& piece_;
 	};
 
