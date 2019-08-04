@@ -38,18 +38,23 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный метод, который переопределен в классе pieceItem. Объект этого класса храниться в game (в векторе с наблюдателями).
 {
 	if (&piece == piece_)
-		UpdatePosition();  // в самом piece устанавливаем новые (текущие) координаты
+		UpdatePosition();  // на доске (на view) устанавливается фигура
 }
 
-void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* ) // при нажатии на item он будут захвачен курсором
+void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* event ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
 {
 	emit PieceMousePress(*this);
+	this->setCursor(QCursor(Qt::ClosedHandCursor));
 
 }
+
+
+
+
 
 void PieceItem::UpdatePosition()
 {
-	setPos(window_->PosToPixPos(piece_->GetPos())); //библиотечная функция QGraphicsPixmapItem
+	setPos(window_->PosToPixPos(piece_->GetPos())); //библиотечная функция QGraphicsPixmapItem - меняет визуальное положение item на доске
 }
 
 

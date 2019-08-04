@@ -18,6 +18,7 @@ Chess::Piece::Piece(Type type, Color color, Pos position)
 	case Type::Knight: movement_.reset(new KnightMovement(*this)); break;
 	case Type::Queen: movement_.reset(new QueenMovement(*this)); break;
 	case Type::King: movement_.reset(new KingMovement(*this)); break;
+	case Type::Pawn: movement_.reset(new PawnMovement(*this)); break;
 	default: break;
 	}
 }
@@ -54,6 +55,37 @@ Chess::IPieceMovement& Chess::Piece::GetMovement()
 
 void Chess::Piece:: SetPos(const Pos& pos)
 {
+	if(!(position_==pos))
+	{
+		MoveFirst();
+	}
 	position_ = pos;
 	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }
+
+bool Chess::Piece:: GetMoveFirst()
+{
+	return move_first_;
+}
+
+void Chess::Piece::MoveFirst()
+{
+	move_first_=true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

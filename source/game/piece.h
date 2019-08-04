@@ -24,6 +24,8 @@ public:
 	void SetPos(const Pos& position);
 	void SetGame(Game* game);
 	IPieceMovement& GetMovement();
+	bool GetMoveFirst();
+	void MoveFirst();
 
 protected:
 
@@ -32,6 +34,7 @@ protected:
 	Pos position_;
 	Game* game_ = nullptr;
 	std::unique_ptr<IPieceMovement> movement_;
+	bool move_first_=false;
 };
 
 using PieceUnPtr = std::unique_ptr<Piece>;

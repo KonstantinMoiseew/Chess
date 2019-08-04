@@ -10,7 +10,7 @@ GraphicsView::GraphicsView(QWidget *parent)
 
 }
 
-void GraphicsView::mouseMoveEvent(QMouseEvent* event)// что такое event?
+void GraphicsView::mouseMoveEvent(QMouseEvent* event)//  event - содержит в себе QPoint. Функция вызывается всякий раз при шевелении мыши.
 {
 	QGraphicsView::mouseMoveEvent(event);
 
@@ -18,7 +18,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent* event)// что такое event?
 	{
 		auto midsize = (currentlyDragging_->boundingRect().size() * 0.5).toSize();
 		currentlyDragging_->setPos(event->pos() - QPoint(midsize.width(), midsize.height()));  // новое положение во время движения мыши
-	}
+	}// setPos - библиотечная функция, устанавливает фигуру на доске, т.е на сцене.
 }
 
 

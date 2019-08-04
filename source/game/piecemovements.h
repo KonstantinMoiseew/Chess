@@ -63,5 +63,36 @@ namespace Chess
 		Piece& piece_;
 	};
 
+	class PawnMovement : public IPieceMovement
+	{
+	public:
+
+		PawnMovement(Piece& owner);
+		Positions GetAvailableMovement() const override;
+
+	protected:
+		Piece& piece_;
+	};
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

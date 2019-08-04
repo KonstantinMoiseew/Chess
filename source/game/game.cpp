@@ -65,10 +65,17 @@ void Chess::Game::ArrangeFigures()
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::King, Chess::Color::White, Chess::Pos(7,4));
 	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(1,1));
+	AddPiece(*piece) ;
+
+
 }
 
 
-
+bool Chess::Game::CheckMoves(Piece& piece)
+{
+		return true;
+}
 
 
 
