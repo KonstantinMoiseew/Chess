@@ -119,10 +119,11 @@ void MainWindow::CreateMovementBeacons()
 			QPointF top_left(x, y);
 			QPointF bottom_right(x + cellSize_, y + cellSize_);
 
-			const QColor color(128, 128, 128);
+			const QColor color_border(0, 255, 0);
+			const QColor color_inner(0, 255, 0, 64);
 
 			QRectF rect(top_left, bottom_right);
-			movementBeacons_.push_back(boardScene_->addEllipse(rect, Qt::NoPen, QBrush(color)));
+			movementBeacons_.push_back(boardScene_->addRect(rect, QPen(QBrush(color_border), 3, Qt::PenStyle::DashLine), QBrush(color_inner)));
 		}
 	}
 }
