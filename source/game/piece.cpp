@@ -55,32 +55,23 @@ Chess::IPieceMovement& Chess::Piece::GetMovement()
 
 void Chess::Piece:: SetPos(const Pos& pos)
 {
-	if(!(position_==pos))
+	if (position_!=pos)
 	{
-		MoveFirst();
+		hasMoved_ = true;
 	}
 	position_ = pos;
 	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }
 
-bool Chess::Piece:: GetMoveFirst()
+void Chess::Piece::ResetMovementFlag()
 {
-	return move_first_;
+	hasMoved_ = false;
 }
 
-void Chess::Piece::MoveFirst()
+bool Chess::Piece:: HasMoved() const
 {
-	move_first_=true;
+	return hasMoved_;
 }
-
-
-
-
-
-
-
-
-
 
 
 

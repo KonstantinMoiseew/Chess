@@ -11,6 +11,11 @@ bool Chess::Pos::operator == (const Pos& other) const
 	return x_ == other.x_ && y_ == other.y_;
 }
 
+bool Chess::Pos::operator != (const Pos& other) const
+{
+	return !(*this==other);
+}
+
 Chess::Pos Chess::Pos::operator - (const Pos& other) const
 {
 	return Pos(x_ - other.x_, y_ - other.y_);

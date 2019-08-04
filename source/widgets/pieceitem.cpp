@@ -48,10 +48,6 @@ void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* event ) // при на
 
 }
 
-
-
-
-
 void PieceItem::UpdatePosition()
 {
 	setPos(window_->PosToPixPos(piece_->GetPos())); //библиотечная функция QGraphicsPixmapItem - меняет визуальное положение item на доске

@@ -108,24 +108,16 @@ Chess::Positions Chess::PawnMovement::GetAvailableMovement() const
 {
 	Positions result;
 
-		if(!piece_.GetMoveFirst())
-		{
-			for (int i =0; i <3; i++)
-			{
-				Pos pos(piece_.GetPos().x_ , piece_.GetPos().y_ + i);
-				if (pos.IsValid())
-					result.push_back(pos);
-			}
+	int movement = piece_.HasMoved() ? 1 : 2;
+
+	for (int i =0; i <= movement; i++)
+	{
+		Pos pos(piece_.GetPos().x_ , piece_.GetPos().y_ + i);
+		if (pos.IsValid())
+			result.push_back(pos);
+	}
 
 	return result;
-		}
-		else
-		{
-			Pos pos(piece_.GetPos().x_ , piece_.GetPos().y_+1 );
-					if (pos.IsValid())
-						result.push_back(pos);
-						return result;
-		}
 }
 
 
