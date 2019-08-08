@@ -15,8 +15,6 @@ namespace Chess
 
 	protected:
 
-		bool AddPos(const Pos& pos, Positions& positions) const;
-
 		Piece& piece_;
 	};
 
@@ -28,6 +26,7 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
 		Piece& piece_;
 	};
 
@@ -39,6 +38,7 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
 		std::unique_ptr<RookMovement> rookMovement_;
 		std::unique_ptr<BishopMovement> bishopMovement_;
 	};
@@ -51,6 +51,7 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
 		Piece& piece_;
 		std::unique_ptr<QueenMovement> queenMovement_;
 	};
@@ -63,6 +64,7 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
 		Piece& piece_;
 	};
 
@@ -74,6 +76,7 @@ namespace Chess
 		Positions GetAvailableMovement() const override;
 
 	protected:
+
 		Piece& piece_;
 	};
 

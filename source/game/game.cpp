@@ -37,7 +37,7 @@ void Chess::Game::AddPiece(Piece& piece)  // Добавляет элемент P
 	if (std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces_.end()) //Проверяем нет ли в структуре pieces_ такого же элемента
 	{
 		pieces_.emplace_back(&piece); // Непосредственно добавление
-		piece.SetGame(this); // В каждом элементе piece будет храниться указатель на основной объект game_
+		piece.SetGame(this);
 		OBS_CALL(observers_, OnPieceAdded(piece)); // Проходимся по всем наблюдателям в структуре observers_ и в каждом наблюдателе вызываем функцию OnPieceAdded
 		// Для каждого наблюдателя это функция имеет свою реализацию. Причем MainWindow наследуется так же от класса наблюдателя
 		// и имеет свою реализацию  OnPieceAdded, а именно создание item (на базе нашего piece) и добавление его на сцену. (Указатель на сцену в объекте  MainWindow).
@@ -49,23 +49,33 @@ void Chess::Game::RemovePiece(Piece& piece)
 	auto it = std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;});
 	assert(it != pieces_.end());
 	pieces_.erase(std::remove_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}));
+	piece.SetGame(nullptr);
 	OBS_CALL(observers_, OnPieceRemoved(piece));
 }
 
 void Chess::Game::ArrangeFigures()
 {
 	Piece* piece;
-	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black, Chess::Pos(4,4));
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black);
+	piece->SetPos({4, 4});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White, Chess::Pos(3,3));
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White);
+	piece->SetPos({3, 3});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White, Chess::Pos(5,2));
+	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White);
+	piece->SetPos({5, 2});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Queen, Chess::Color::White, Chess::Pos(2,2));
+	piece = new Chess::Piece(Chess::Type::Queen, Chess::Color::White);
+	piece->SetPos({2, 2});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::King, Chess::Color::White, Chess::Pos(7,4));
+	piece = new Chess::Piece(Chess::Type::King, Chess::Color::White);
+	piece->SetPos({7, 4});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White, Chess::Pos(1,1));
+	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White);
+	piece->SetPos({1, 1});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black);
+	piece->SetPos({1, 4});
 	AddPiece(*piece) ;
 }
 

@@ -17,7 +17,7 @@ namespace Chess
 
 		virtual ~IObserver();
 
-		virtual void OnRegistered(Game&);
+		virtual void OnRegistered(Game&); //зачем эти две функции?
 		virtual void OnUnregistered();
         virtual void OnPieceAdded(Piece&) {}
         virtual void OnPieceRemoved(Piece&) {}

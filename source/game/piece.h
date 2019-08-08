@@ -14,7 +14,7 @@ class Piece
 {
 public:
 
-	Piece(Type type, Color color, Pos position);
+	Piece(Type type, Color color);
 	virtual ~Piece() {}
 
 	Color GetColor() const;
@@ -22,6 +22,7 @@ public:
 	Pos GetPos() const;
 	Game* GetGame() const;
 	void SetPos(const Pos& position);
+	void MoveToPos(const Pos& position);
 	void SetGame(Game* game);
 	IPieceMovement& GetMovement();
 	void ResetMovementFlag();

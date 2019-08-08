@@ -11,6 +11,7 @@ namespace Chess
 		bool operator == (const Pos& other) const;
 		bool operator != (const Pos& other) const;
 		Pos operator - (const Pos& other) const;
+		Pos operator + (const Pos& other) const;
 		bool IsValid() const;
 		int LengthSqr() const;
 

@@ -5,11 +5,10 @@
 #include "iobserver.h"
 #include "piecemovements.h"
 
-Chess::Piece::Piece(Type type, Color color, Pos position)
+Chess::Piece::Piece(Type type, Color color)
 {
 	color_ = color;
 	type_ = type;
-	position_ = position;
 
 	switch(type)
 	{
@@ -19,7 +18,6 @@ Chess::Piece::Piece(Type type, Color color, Pos position)
 	case Type::Queen: movement_.reset(new QueenMovement(*this)); break;
 	case Type::King: movement_.reset(new KingMovement(*this)); break;
 	case Type::Pawn: movement_.reset(new PawnMovement(*this)); break;
-	default: break;
 	}
 }
 
@@ -55,14 +53,23 @@ Chess::IPieceMovement& Chess::Piece::GetMovement()
 
 void Chess::Piece:: SetPos(const Pos& pos)
 {
-	auto available_movement = movement_->GetAvailableMovement();
-	if (std::find(available_movement.begin(), available_movement.end(), pos) != available_movement.end())
+	position_ = pos;
+	if (game_)
+	{
+		OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
+	}
+}
+
+void Chess::Piece:: MoveToPos(const Pos& pos)
+{
+	auto available_movement = movement_->GetAvailableMovement(); //еще раз зачем?
+	if (std::find(available_movement.begin(), available_movement.end(), pos) != available_movement.end())//find возращает либо иттератор на элемент равный pos, либо иттератор на end
 	{
 		if (position_!=pos)
 			hasMoved_ = true;
 
 		position_ = pos;
-	}
+	} // position_ меняется только для допустимых ходов
 	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }
 

@@ -41,10 +41,9 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный ме�
 		UpdatePosition();  // на доске (на view) устанавливается фигура
 }
 
-void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent* event ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
+void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*  ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
 {
 	emit PieceMousePress(*this);
-
 }
 
 void PieceItem::UpdatePosition()
