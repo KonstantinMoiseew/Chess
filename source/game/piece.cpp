@@ -62,20 +62,21 @@ void Chess::Piece:: SetPos(const Pos& pos)
 
 void Chess::Piece:: MoveToPos(const Pos& pos)
 {
-	auto& pieces = this->GetGame()->GetPieces();
-	auto it = std::find_if(pieces.begin(), pieces.end(), [pos](auto& other_piece){return other_piece->GetPos() == pos;});
-	if (it != pieces.end())
-	{
-		if ((*it)->GetColor() != this->GetColor())
-			this->GetGame()->RemovePiece(*(it->get()));
-	}
-
 	auto available_movement = movement_->GetAvailableMovement();
 	if (std::find(available_movement.begin(), available_movement.end(), pos) != available_movement.end())
 	{
 		if (position_!=pos)
-		{hasMoved_ = true;}
-		position_ = pos;
+		{
+			auto& pieces = this->GetGame()->GetPieces();
+			auto it = std::find_if(pieces.begin(), pieces.end(), [pos](auto& other_piece){return other_piece->GetPos() == pos;});
+			if (it != pieces.end())
+			{
+				if ((*it)->GetColor() != this->GetColor())
+					this->GetGame()->RemovePiece(*(it->get()));
+			}
+			hasMoved_ = true;
+			position_ = pos;
+		}
 	} // position_  is changed only for suitable moves
 	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 }

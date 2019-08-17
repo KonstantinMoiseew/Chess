@@ -55,27 +55,68 @@ void Chess::Game::RemovePiece(Piece& piece)
 void Chess::Game::ArrangeFigures()
 {
 	Piece* piece;
-	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black);
-	piece->SetPos({4, 4});
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::White);
+	piece->SetPos({1,0});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::White);
+	piece->SetPos({6, 0});
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White);
-	piece->SetPos({3, 3});
+	piece->SetPos({2, 0});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::White);
+	piece->SetPos({5, 0});
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White);
-	piece->SetPos({5, 2});
+	piece->SetPos({0, 0});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::White);
+	piece->SetPos({7, 0});
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::Queen, Chess::Color::White);
-	piece->SetPos({2, 2});
+	piece->SetPos({3, 0});
 	AddPiece(*piece) ;
 	piece = new Chess::Piece(Chess::Type::King, Chess::Color::White);
-	piece->SetPos({7, 4});
+	piece->SetPos({4, 0});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White);
-	piece->SetPos({1, 1});
+	for(int i=0; i<8; i++)
+	{
+		piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::White);
+		piece->SetPos({i, 1});
+		AddPiece(*piece) ;
+	  }
+
+
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black);
+	piece->SetPos({0, 7});
 	AddPiece(*piece) ;
-	piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black);
-	piece->SetPos({1, 4});
+	piece = new Chess::Piece(Chess::Type::Knight, Chess::Color::Black);
+	piece->SetPos({6, 7});
 	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::Black);
+	piece->SetPos({2, 7});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Bishop, Chess::Color::Black);
+	piece->SetPos({5, 7});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::Black);
+	piece->SetPos({1, 7});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Rook, Chess::Color::Black);
+	piece->SetPos({7, 7});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::Queen, Chess::Color::Black);
+	piece->SetPos({3, 7});
+	AddPiece(*piece) ;
+	piece = new Chess::Piece(Chess::Type::King, Chess::Color::Black);
+	piece->SetPos({4, 7});
+	AddPiece(*piece) ;
+	for(int i=0; i<8; i++)
+	{
+		piece = new Chess::Piece(Chess::Type::Pawn, Chess::Color::Black);
+		piece->SetPos({i, 6});
+		AddPiece(*piece) ;
+	  }
 }
 
 const Chess::Pieces& Chess::Game::GetPieces() const
