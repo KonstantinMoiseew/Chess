@@ -7,7 +7,7 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 	, piece_(&piece)
 	, window_(&window)
 {
-	piece_->GetGame()-> RegisterObserver(*this); // 'this' is a pointer to object of PieceItem class inherited from IObserver
+	piece_->GetGame()-> RegisterObserver(*this);
 
 	QString image_name = ":/graphics/pieces/";
 	switch (piece.GetType())
@@ -40,6 +40,17 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный ме�
 	if (&piece == piece_)
 		UpdatePosition();  // на доске (на view) устанавливается фигура
 }
+
+void PieceItem::OnPieceRemoved(Chess::Piece& piece)
+{
+	if (&piece == piece_)
+	{
+		//OnUnregistered();
+		 delete this;
+	}
+}
+
+
 
 void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*  ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
 {

@@ -5,7 +5,7 @@
 #include "source/widgets/pieceitem.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
+#include <QGraphicsView>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -59,14 +59,18 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 	connect(item, &PieceItem::PieceMousePress, this, &MainWindow::OnPieceMousePress);
 }
 
+
+
+
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
 {
-	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement()); // Где устанавливается movement_ в каждом piece?
+	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement());
 }
 
 void MainWindow::OnPieceMouseRelease(PieceItem&)
 {
 	HideMovementBeacons();
+
 }
 
 int MainWindow::GetCellSize() const

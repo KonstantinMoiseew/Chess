@@ -18,7 +18,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent* event)//  event - содержи�
 	{
 		auto midsize = (currentlyDragging_->boundingRect().size() * 0.5).toSize();
 		currentlyDragging_->setPos(event->pos() - QPoint(midsize.width(), midsize.height()));  // новое положение во время движения мыши
-	}// setPos - библиотечная функция, устанавливает фигуру на доске, т.е на сцене.
+	}
 }
 
 

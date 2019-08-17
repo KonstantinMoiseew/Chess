@@ -34,13 +34,12 @@ const Chess::Observers& Chess::Game::GetObservers() const
 
 void Chess::Game::AddPiece(Piece& piece)  // Добавляет элемент Piece
 {
-	if (std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces_.end()) //Проверяем нет ли в структуре pieces_ такого же элемента
+	if (std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces_.end())
 	{
-		pieces_.emplace_back(&piece); // Непосредственно добавление
+		pieces_.emplace_back(&piece);
 		piece.SetGame(this);
-		OBS_CALL(observers_, OnPieceAdded(piece)); // Проходимся по всем наблюдателям в структуре observers_ и в каждом наблюдателе вызываем функцию OnPieceAdded
-		// Для каждого наблюдателя это функция имеет свою реализацию. Причем MainWindow наследуется так же от класса наблюдателя
-		// и имеет свою реализацию  OnPieceAdded, а именно создание item (на базе нашего piece) и добавление его на сцену. (Указатель на сцену в объекте  MainWindow).
+		OBS_CALL(observers_, OnPieceAdded(piece));
+
 	}
 }
 

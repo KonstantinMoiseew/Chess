@@ -20,7 +20,7 @@ public:
 	Chess::Piece& GetPiece() const { return *piece_; }
 
 	void OnPieceMoved(Chess::Piece& piece) override;
-
+	void OnPieceRemoved(Chess::Piece& piece) override;
 signals:
 	void PieceMousePress(PieceItem&);
 

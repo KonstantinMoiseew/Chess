@@ -5,6 +5,8 @@
 #include "game/game.h"
 #include "pieceitem.h"
 
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,7 +28,7 @@ public:
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
 	Chess::Game *  GetGame() const { return game_.get(); }
-
+	QGraphicsScene* GetScene() {return boardScene_;}
 public slots:
 	void OnPieceMousePress(PieceItem&);
 	void OnPieceMouseRelease(PieceItem&);

@@ -9,7 +9,7 @@ static bool AddPos(const Chess::Piece& piece, const Chess::Pos& pos, Chess::Posi
 	if (piece.GetGame())
 	{
 		auto& pieces = piece.GetGame()->GetPieces();
-		auto it = std::find_if(pieces.begin(), pieces.end(), [&piece, pos](auto& other_piece){return other_piece.get() != &piece && other_piece->GetPos() == pos;});
+		auto it = std::find_if(pieces.begin(), pieces.end(), [&piece, pos](auto& other_piece){return other_piece.get() != &piece && other_piece->GetPos() == pos;}); //&piece - ссылка!!!
 		if (it != pieces.end())
 		{
 			if ((*it)->GetColor() != piece.GetColor() && allow_opposite_color)
