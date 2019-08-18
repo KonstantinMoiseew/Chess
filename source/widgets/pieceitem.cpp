@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 
 PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
-	:QObject(parent)
+	: QObject(parent)
 	, piece_(&piece)
 	, window_(&window)
 {
@@ -32,7 +32,6 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 	setPixmap(pixmap);
 
 	UpdatePosition();
-	//setAcceptHoverEvents(true);
 }
 
 void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный метод, который переопределен в классе pieceItem. Объект этого класса храниться в game (в векторе с наблюдателями).
@@ -41,16 +40,13 @@ void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный ме�
 		UpdatePosition();  // на доске (на view) устанавливается фигура
 }
 
-void PieceItem::OnPieceRemoved(Chess::Piece& piece)
+void PieceItem::OnPieceAboutToBeRemoved(Chess::Piece& piece)
 {
 	if (&piece == piece_)
 	{
-		//OnUnregistered();
 		 delete this;
 	}
 }
-
-
 
 void PieceItem::mousePressEvent(QGraphicsSceneMouseEvent*  ) // при нажатии на item он будут захвачен курсором, перегружаем библиотечную функцию
 {

@@ -39,17 +39,15 @@ void Chess::Game::AddPiece(Piece& piece)  // Добавляет элемент P
 		pieces_.emplace_back(&piece);
 		piece.SetGame(this);
 		OBS_CALL(observers_, OnPieceAdded(piece));
-
 	}
 }
 
 void Chess::Game::RemovePiece(Piece& piece)
 {
+	OBS_CALL(observers_, OnPieceAboutToBeRemoved(piece));
 	auto it = std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;});
 	assert(it != pieces_.end());
 	pieces_.erase(std::remove_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}));
-	piece.SetGame(nullptr);
-	OBS_CALL(observers_, OnPieceRemoved(piece));
 }
 
 void Chess::Game::ArrangeFigures()
@@ -124,22 +122,26 @@ const Chess::Pieces& Chess::Game::GetPieces() const
 	return pieces_;
 }
 
+Chess::Piece* Chess::Game::FindPieceAt(const Pos& pos) const
+{
+	auto it = std::find_if(pieces_.begin(), pieces_.end(), [pos](auto& other_piece) {return other_piece->GetPos() == pos;});
+	if (it != pieces_.end())
+		return it->get();
 
+	return nullptr;
+}
 
+void Chess::Game::SetPlayerTurn(Color color)
+{
+	activePlayer_ = color;
+}
 
+Chess::Color Chess::Game::GetPlayerTurn() const
+{
+	return activePlayer_;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void Chess::Game::NextPlayerTurn()
+{
+	activePlayer_ = activePlayer_ == Color::White ? Color::Black : Color::White;
+}

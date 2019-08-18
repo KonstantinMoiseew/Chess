@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	CreateMovementBeacons();
 	HideMovementBeacons();
 
-	//SetupFiguresWhite();
 	game_->ArrangeFigures();
 }
 
@@ -59,9 +58,6 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 	connect(item, &PieceItem::PieceMousePress, this, &MainWindow::OnPieceMousePress);
 }
 
-
-
-
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
 {
 	ShowMovementBeacons(pieceItem.GetPiece().GetMovement().GetAvailableMovement());
@@ -70,7 +66,6 @@ void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
 void MainWindow::OnPieceMouseRelease(PieceItem&)
 {
 	HideMovementBeacons();
-
 }
 
 int MainWindow::GetCellSize() const

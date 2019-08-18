@@ -20,7 +20,7 @@ namespace Chess
 		virtual void OnRegistered(Game&);
 		virtual void OnUnregistered();
         virtual void OnPieceAdded(Piece&) {}
-        virtual void OnPieceRemoved(Piece&) {}
+		virtual void OnPieceAboutToBeRemoved(Piece&) {}
 		virtual void OnPieceMoved(Piece&) {}
 
 	protected:
