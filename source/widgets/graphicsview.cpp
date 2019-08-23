@@ -1,4 +1,5 @@
 #include "graphicsview.h"
+#include "game/commands.h"
 #include "widgets/pieceitem.h"
 #include "widgets/mainwindow.h"
 #include <QMouseEvent>
@@ -30,7 +31,9 @@ void GraphicsView:: mouseReleaseEvent(QMouseEvent* event)
 
 	assert(mainWindow_);
 	auto chess_pos = mainWindow_->PixPosToPos(event->pos());
-	currentlyDragging_->GetPiece().MoveToPos(chess_pos); //устанавливается новые координаты в piece, и из этого же piece вызывается функция OnPieceMoved, которая уже устанавливает item на view
+	if (!mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos)))
+		currentlyDragging_->UpdatePosition();
+
 	emit OnPieceMouseRelease(*currentlyDragging_);
 	currentlyDragging_ = nullptr;
 }

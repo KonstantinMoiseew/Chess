@@ -21,14 +21,14 @@ public:
 
 	void OnPieceMoved(Chess::Piece& piece) override;
 	void OnPieceAboutToBeRemoved(Chess::Piece& piece) override;
+	void UpdatePosition();
+
 signals:
 	void PieceMousePress(PieceItem&);
 
 protected:
 
 	void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
-
-	void UpdatePosition();
 
 	Chess::Piece* piece_ = nullptr;
 	MainWindow* window_ = nullptr;

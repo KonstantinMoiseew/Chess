@@ -21,6 +21,12 @@ Chess::Piece::Piece(Type type, Color color)
 	}
 }
 
+Chess::Piece::Piece(const SerializedPiece& ser_piece)
+	: Piece(ser_piece.type_, ser_piece.color_)
+{
+	hasMoved_ = ser_piece.hasMoved_;
+}
+
 Chess:: Color Chess::Piece:: GetColor() const
 {
 	return color_;
@@ -60,47 +66,17 @@ void Chess::Piece:: SetPos(const Pos& pos)
 	}
 }
 
-void Chess::Piece:: MoveToPos(const Pos& pos)
+void Chess::Piece::SetHasMoved(bool value)
 {
-	if (GetGame()->GetPlayerTurn() != GetColor())
-	{
-		OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
-		return;
-	}
-
-	auto available_movement = movement_->GetAvailableMovement();
-	if (std::find(available_movement.begin(), available_movement.end(), pos) != available_movement.end())
-	{
-		if (position_!=pos)
-		{
-			auto piece = GetGame()->FindPieceAt(pos);
-			if (piece)
-			{
-				if (piece->GetColor() != GetColor())
-					GetGame()->RemovePiece(*piece);
-			}
-			hasMoved_ = true;
-			position_ = pos;
-			GetGame()->NextPlayerTurn();
-		}
-	} // position_  is changed only for suitable moves
-	OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
+	hasMoved_ = value;
 }
 
-void Chess::Piece::ResetMovementFlag()
+Chess::SerializedPiece Chess::Piece::Serialize() const
 {
-	hasMoved_ = false;
+	return Chess::SerializedPiece{GetType(), GetColor(), HasMoved()};
 }
 
 bool Chess::Piece:: HasMoved() const
 {
 	return hasMoved_;
 }
-
-
-
-
-
-
-
-

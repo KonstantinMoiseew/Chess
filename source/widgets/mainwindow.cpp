@@ -31,10 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setViewportUpdateMode((QGraphicsView::BoundingRectViewportUpdate));
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
+	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
 
-
-	game_.reset(new Chess::Game());
+	game_.reset(new Chess::Game);
 	game_->RegisterObserver(*this);
+	history_.reset(new Chess::History);
 
 	// Раскрашиваем доску
 	PaintBoard();
@@ -56,6 +57,11 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 	boardScene_->addItem(item);
 	connect(item, &PieceItem::PieceMousePress, ui_->boardView, &GraphicsView::OnPieceMousePress);
 	connect(item, &PieceItem::PieceMousePress, this, &MainWindow::OnPieceMousePress);
+}
+
+void MainWindow::OnRollbackClick()
+{
+	history_->RollbackLast(*GetGame());
 }
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)

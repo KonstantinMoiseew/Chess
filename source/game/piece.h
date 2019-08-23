@@ -10,11 +10,19 @@
 namespace Chess
 {
 
+struct SerializedPiece
+{
+	Type type_ = Type::Pawn;
+	Color color_ = Color::White;
+	bool hasMoved_ = false;
+};
+
 class Piece
 {
 public:
 
 	Piece(Type type, Color color);
+	Piece(const SerializedPiece&);
 	virtual ~Piece() {}
 
 	Color GetColor() const;
@@ -22,11 +30,11 @@ public:
 	Pos GetPos() const;
 	Game* GetGame() const;
 	void SetPos(const Pos& position);
-	void MoveToPos(const Pos& position);
 	void SetGame(Game* game);
 	IPieceMovement& GetMovement();
-	void ResetMovementFlag();
 	bool HasMoved() const;
+	void SetHasMoved(bool value);
+	SerializedPiece Serialize() const;
 
 protected:
 

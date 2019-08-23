@@ -3,6 +3,7 @@
 #include "game/iobserver.h"
 #include "game/gamecommon.h"
 #include "game/game.h"
+#include "game/history.h"
 #include "pieceitem.h"
 
 
@@ -28,11 +29,14 @@ public:
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
 	Chess::Game *  GetGame() const { return game_.get(); }
+	Chess::History *  GetHistory() const { return history_.get(); }
 	QGraphicsScene* GetScene() {return boardScene_;}
+
 public slots:
 	void OnPieceMousePress(PieceItem&);
 	void OnPieceMouseRelease(PieceItem&);
 	void OnPieceAdded(Chess::Piece& piece) override;
+	void OnRollbackClick();
 
 private:
 
@@ -45,6 +49,7 @@ private:
 	QGraphicsScene* boardScene_; // Сцена для доски
 	int cellSize_; // Размер клетки
 	std::unique_ptr<Chess::Game> game_;
+	std::unique_ptr<Chess::History> history_;
 	std::vector<QGraphicsItem*> movementBeacons_;
 };
 

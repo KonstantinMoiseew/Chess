@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>647</width>
+    <width>716</width>
     <height>645</height>
    </rect>
   </property>
@@ -30,13 +30,26 @@
      </sizepolicy>
     </property>
    </widget>
+   <widget class="QPushButton" name="rollbackButton">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>30</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rolback</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>647</width>
+     <width>716</width>
      <height>20</height>
     </rect>
    </property>
