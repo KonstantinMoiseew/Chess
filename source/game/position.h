@@ -14,6 +14,7 @@ namespace Chess
 		Pos operator + (const Pos& other) const;
 		bool IsValid() const;
 		int LengthSqr() const;
+		std::string ToString() const;
 
 		int x_ = 0;
 		int y_ = 0;

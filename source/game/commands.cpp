@@ -72,3 +72,8 @@ void Chess::MoveCommand::Undo(Game& game)
 		game.AddPiece(*enemy);
 	}
 }
+
+std::string Chess::MoveCommand::ToString() const
+{
+	return posFrom_.ToString() + "->" + posTo_.ToString();
+}

@@ -1,4 +1,5 @@
 #include "position.h"
+#include "stdio.h"
 
 Chess::Pos::Pos(int x, int y)
 {
@@ -35,3 +36,12 @@ int Chess::Pos::LengthSqr() const
 {
 	return x_*x_ + y_*y_;
 }
+
+std::string Chess::Pos::ToString() const
+{
+	char buf[16];
+	sprintf(buf, "%c%i", 'a' + x_, y_+1);
+
+	return buf;
+}
+

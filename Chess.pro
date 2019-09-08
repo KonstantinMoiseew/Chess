@@ -35,7 +35,8 @@ SOURCES += \
     source/game/piecemovements.cpp \
     source/game/iobserver.cpp \
     source/game/commands.cpp \
-    source/game/history.cpp
+    source/game/history.cpp \
+    source/widgets/historymodel.cpp
 
 
 HEADERS += \
@@ -51,7 +52,8 @@ HEADERS += \
     source/game/ipiecemovement.h \
     source/game/piecemovements.h \
     source/game/commands.h \
-    source/game/history.h
+    source/game/history.h \
+    source/widgets/historymodel.h
 
 FORMS += \
     source/widgets/mainwindow.ui

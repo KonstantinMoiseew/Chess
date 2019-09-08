@@ -10,4 +10,5 @@ namespace Chess
 	struct Pos;
 	class ICommand;
 	class MoveCommand;
+	class History;
 }

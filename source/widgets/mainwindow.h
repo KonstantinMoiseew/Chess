@@ -14,6 +14,7 @@ class MainWindow;
 
 class QGraphicsScene;
 class QGraphicsItem;
+class HistoryModel;
 
 class MainWindow : public QMainWindow, public Chess::IObserver
 {
@@ -45,12 +46,13 @@ private:
 	void ShowMovementBeacons(const Chess::Positions&);
 	void HideMovementBeacons();
 
-	Ui::MainWindow* ui_;
-	QGraphicsScene* boardScene_; // Сцена для доски
+	Ui::MainWindow* ui_ = nullptr;
+	QGraphicsScene* boardScene_ = nullptr; // Сцена для доски
 	int cellSize_; // Размер клетки
 	std::unique_ptr<Chess::Game> game_;
 	std::unique_ptr<Chess::History> history_;
 	std::vector<QGraphicsItem*> movementBeacons_;
+	HistoryModel* historyModel_ = nullptr;
 };
 
 

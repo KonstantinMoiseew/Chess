@@ -13,9 +13,12 @@ public:
 	bool Execute(Game& game, ICommand* command);
 	void RollbackLast(Game& game);
 
+	int GetSize() const;
+	ICommand* GetCommand(int index);
+
 protected:
 
-	std::vector<ICommandUnPtr> history;
+	std::vector<ICommandUnPtr> history_;
 };
 
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>716</width>
+    <width>875</width>
     <height>645</height>
    </rect>
   </property>
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>30</y>
+      <y>20</y>
       <width>80</width>
       <height>21</height>
      </rect>
@@ -43,13 +43,23 @@
      <string>Rolback</string>
     </property>
    </widget>
+   <widget class="QTableView" name="historyView">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>50</y>
+      <width>261</width>
+      <height>481</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>716</width>
+     <width>875</width>
      <height>20</height>
     </rect>
    </property>

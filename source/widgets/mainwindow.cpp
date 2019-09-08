@@ -1,8 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "game/piece.h"
+#include "widgets/pieceitem.h"
+#include "widgets/historymodel.h"
 #include <QGraphicsItem>
-#include "source/game/piece.h"
-#include "source/widgets/pieceitem.h"
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
@@ -33,9 +34,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
 
+	historyModel_ = new HistoryModel(this);
+	ui_->historyView->setModel(historyModel_);
+
 	game_.reset(new Chess::Game);
 	game_->RegisterObserver(*this);
 	history_.reset(new Chess::History);
+
+	historyModel_->SetHistory(history_.get());
 
 	// Раскрашиваем доску
 	PaintBoard();
@@ -61,7 +67,8 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 
 void MainWindow::OnRollbackClick()
 {
-	history_->RollbackLast(*GetGame());
+	//history_->RollbackLast(*GetGame());
+	historyModel_->SetHistory(history_.get());
 }
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)

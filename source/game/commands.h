@@ -16,6 +16,8 @@ public:
 	virtual bool Validate(Game& game) const = 0;
 	virtual void Do(Game& game) = 0;
 	virtual void Undo(Game& game) = 0;
+
+	virtual std::string ToString() const = 0;
 };
 
 
@@ -29,6 +31,8 @@ public:
 	bool Validate(Game& game) const override;
 	void Do(Game& game) override;
 	void Undo(Game& game) override;
+
+	std::string ToString() const override;
 
 protected:
 
