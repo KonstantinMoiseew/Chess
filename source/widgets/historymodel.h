@@ -18,6 +18,7 @@ public:
 	QModelIndex parent(const QModelIndex &index) const override;
 
 	void SetHistory(Chess::History* history);
+	void Refresh();
 
 protected:
 

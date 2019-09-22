@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
 
 	historyModel_ = new HistoryModel(this);
-	ui_->historyView->setModel(historyModel_);
+	ui_->historyView->setModel(historyModel_);// во view устанавливаем указатель на модель
 
 	game_.reset(new Chess::Game);
 	game_->RegisterObserver(*this);
@@ -67,8 +67,7 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 
 void MainWindow::OnRollbackClick()
 {
-	//history_->RollbackLast(*GetGame());
-	historyModel_->SetHistory(history_.get());
+	history_->RollbackLast(*GetGame());
 }
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
@@ -155,4 +154,9 @@ void MainWindow::HideMovementBeacons()
 	{
 		beacon->hide();
 	}
+}
+
+void MainWindow::OnPieceMoved(Chess::Piece&)
+{
+	historyModel_->Refresh();
 }

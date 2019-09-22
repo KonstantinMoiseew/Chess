@@ -36,10 +36,12 @@ namespace Chess
 		Color GetPlayerTurn() const;
 		void NextPlayerTurn();
 
+		bool IsKingAttacked(Color color) const;
+
     protected:
 
 		Observers observers_; //holding observers-PieceItem which on the scene
-		Pieces pieces_; // holding logical figures which don't relate to PieceItem.     using PieceUnPtr = std::unique_ptr<Piece>; using Pieces = std::vector<PieceUnPtr>;
+		Pieces pieces_;
 		Color activePlayer_ = Color::White;
     };
 

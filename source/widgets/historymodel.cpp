@@ -40,7 +40,12 @@ QModelIndex HistoryModel::parent(const QModelIndex&) const
 
 void HistoryModel::SetHistory(Chess::History* history)
 {
-	beginResetModel();
 	history_ = history;
+	Refresh();
+}
+
+void HistoryModel::Refresh()
+{
+	beginResetModel();
 	endResetModel();
 }

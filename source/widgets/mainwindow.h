@@ -37,6 +37,7 @@ public slots:
 	void OnPieceMousePress(PieceItem&);
 	void OnPieceMouseRelease(PieceItem&);
 	void OnPieceAdded(Chess::Piece& piece) override;
+	void OnPieceMoved(Chess::Piece& piece) override;
 	void OnRollbackClick();
 
 private:

@@ -3,15 +3,21 @@
 
 bool Chess::History::Execute(Game& game, ICommand* command)
 {
-	if (command->Validate(game))
+	if (!command->Validate(game))
+		return false;
+
+	command->Do(game);
+	if (!game.IsKingAttacked(game.GetPlayerTurn()))
 	{
 		history_.emplace_back(command);
-		command->Do(game);
 		game.NextPlayerTurn();
 		return true;
 	}
-
-	return false;
+	else
+	{
+		command->Undo(game)	;
+		return false;
+	}
 }
 
 void Chess::History::RollbackLast(Game& game)

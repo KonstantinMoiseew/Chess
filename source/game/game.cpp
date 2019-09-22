@@ -145,3 +145,22 @@ void Chess::Game::NextPlayerTurn()
 {
 	activePlayer_ = activePlayer_ == Color::White ? Color::Black : Color::White;
 }
+
+bool Chess::Game::IsKingAttacked(Color color) const
+{
+	auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() == color && piece-> GetType() == Type::King;});
+	if (it_king == pieces_.end())
+		return false;
+
+	for (auto& piece :  pieces_)
+	{
+		if(piece->GetColor()!=color)
+		{
+			auto movement = piece->GetMovement().GetAvailableMovement();
+			auto it = std::find_if(movement.begin(), movement.end(), [it_king](auto& pos) {return pos == (*it_king)->GetPos();});
+			if (it != movement.end())
+				return true;
+		}
+	}
+	return false;
+}
