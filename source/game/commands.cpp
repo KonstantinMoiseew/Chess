@@ -67,7 +67,7 @@ void Chess::MoveCommand::Undo(Game& game)
 
 	if (enemyPiece_)
 	{
-		auto enemy = new Piece(enemyPiece_.value());
+		auto enemy = new Piece(*enemyPiece_);
 		enemy->SetPos(posTo_);
 		game.AddPiece(*enemy);
 	}

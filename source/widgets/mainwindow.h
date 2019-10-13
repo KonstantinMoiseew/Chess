@@ -24,9 +24,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-
 	int GetCellSize() const;
-
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
 	Chess::Game *  GetGame() const { return game_.get(); }
@@ -38,6 +36,7 @@ public slots:
 	void OnPieceMouseRelease(PieceItem&);
 	void OnPieceAdded(Chess::Piece& piece) override;
 	void OnPieceMoved(Chess::Piece& piece) override;
+	void OnGameOver(Chess::Color color) override;
 	void OnRollbackClick();
 
 private:

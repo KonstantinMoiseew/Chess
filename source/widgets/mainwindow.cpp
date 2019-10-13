@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	CreateMovementBeacons();
 	HideMovementBeacons();
+	ui_->checkmateLabel->hide();
 
 	game_->ArrangeFigures();
 }
@@ -159,4 +160,9 @@ void MainWindow::HideMovementBeacons()
 void MainWindow::OnPieceMoved(Chess::Piece&)
 {
 	historyModel_->Refresh();
+}
+
+void MainWindow::OnGameOver(Chess::Color)
+{
+	ui_->checkmateLabel->show();
 }

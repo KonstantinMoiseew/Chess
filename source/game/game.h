@@ -37,6 +37,7 @@ namespace Chess
 		void NextPlayerTurn();
 
 		bool IsKingAttacked(Color color) const;
+		bool IsCheckMate(Color color) const;
 
     protected:
 

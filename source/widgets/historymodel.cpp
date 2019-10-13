@@ -14,7 +14,7 @@ int HistoryModel::columnCount(const QModelIndex&) const
 int HistoryModel::rowCount(const QModelIndex&) const
 {
 	if (!history_)
-		return 0;
+		return 1;
 
 	return history_->GetSize();
 }

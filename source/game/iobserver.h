@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gamecommon.h"
+#include "defs.h"
 #include <vector>
 
 #define OBS_CALL(observers, event) \
@@ -22,6 +23,7 @@ namespace Chess
         virtual void OnPieceAdded(Piece&) {}
 		virtual void OnPieceAboutToBeRemoved(Piece&) {}
 		virtual void OnPieceMoved(Piece&) {}
+		virtual void OnGameOver(Color) {}
 
 	protected:
 

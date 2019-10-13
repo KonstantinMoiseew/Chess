@@ -1,5 +1,6 @@
 #include "game.h"
 #include "iobserver.h"
+#include "commands.h"
 #include <algorithm>
 #include <assert.h>
 
@@ -143,7 +144,14 @@ Chess::Color Chess::Game::GetPlayerTurn() const
 
 void Chess::Game::NextPlayerTurn()
 {
+
 	activePlayer_ = activePlayer_ == Color::White ? Color::Black : Color::White;
+	if (IsCheckMate(activePlayer_))
+	{
+		OBS_CALL(observers_, OnGameOver(activePlayer_ == Color::White ? Color::Black : Color::White));
+	}
+	//Color::Black ? Color::White : Color::Black
+
 }
 
 bool Chess::Game::IsKingAttacked(Color color) const
@@ -164,3 +172,37 @@ bool Chess::Game::IsKingAttacked(Color color) const
 	}
 	return false;
 }
+
+bool Chess::Game::IsCheckMate(Color color) const
+{
+	if(!IsKingAttacked(color))
+		return false;
+
+	for (auto& piece :  pieces_)
+	{
+		if(piece->GetColor()==color)
+		{
+			auto movement = piece->GetMovement().GetAvailableMovement();
+
+			for (auto& pos :  movement)
+			{
+				MoveCommand move(*piece, pos);
+				auto& game = *const_cast<Game*>(this);
+				move.Do(game);
+				bool king_attacked = IsKingAttacked(color);
+				move.Undo(game);
+
+				if (king_attacked)
+				return true;
+			}
+
+		}
+
+	}
+	return true;
+}
+
+
+
+
+

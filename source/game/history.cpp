@@ -16,6 +16,7 @@ bool Chess::History::Execute(Game& game, ICommand* command)
 	else
 	{
 		command->Undo(game)	;
+		delete command;
 		return false;
 	}
 }
