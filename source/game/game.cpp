@@ -175,6 +175,7 @@ bool Chess::Game::IsKingAttacked(Color color) const
 
 bool Chess::Game::IsCheckMate(Color color) const
 {
+	std::vector<bool> king_attacked_massive;
 	if(!IsKingAttacked(color))
 		return false;
 
@@ -193,14 +194,23 @@ bool Chess::Game::IsCheckMate(Color color) const
 				move.Undo(game);
 
 				if (king_attacked)
-				return true;
+					king_attacked_massive.push_back(true);
+				else
+					king_attacked_massive.push_back(false);
 			}
 
 		}
 
 	}
-	return true;
+	auto it = std::find_if(king_attacked_massive.begin(), king_attacked_massive.end(), [](auto elem) {return elem == false;});
+	if (it != king_attacked_massive.end())
+		return false;
+
+	else return true;
+
+
 }
+
 
 
 

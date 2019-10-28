@@ -41,7 +41,7 @@ namespace Chess
 
     protected:
 
-		Observers observers_; //holding observers-PieceItem which on the scene
+		Observers observers_; //holding observers-PieceItem which are  on the scene
 		Pieces pieces_;
 		Color activePlayer_ = Color::White;
     };
