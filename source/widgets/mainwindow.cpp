@@ -36,6 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	historyModel_ = new HistoryModel(this);
 	ui_->historyView->setModel(historyModel_);// во view устанавливаем указатель на модель
+	ui_->historyView->horizontalHeader()->setStretchLastSection(true);
+	ui_->historyView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+	ui_->historyView->setColumnWidth(0, ui_->historyView->width() / 2);
 
 	game_.reset(new Chess::Game);
 	game_->RegisterObserver(*this);
