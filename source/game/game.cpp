@@ -192,23 +192,14 @@ bool Chess::Game::IsCheckMate(Color color) const
 				move.Do(game);
 				bool king_attacked = IsKingAttacked(color);
 				move.Undo(game);
+				if (!king_attacked)
+					return false;
 
-				if (king_attacked)
-					king_attacked_massive.push_back(true);
-				else
-					king_attacked_massive.push_back(false);
 			}
-
 		}
-
 	}
-	auto it = std::find_if(king_attacked_massive.begin(), king_attacked_massive.end(), [](auto elem) {return elem == false;});
-	if (it != king_attacked_massive.end())
-		return false;
 
-	else return true;
-
-
+	 return true;
 }
 
 
