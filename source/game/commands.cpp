@@ -13,7 +13,7 @@ Chess::MoveCommand::MoveCommand(const Pos& pos_from, const Pos& pos_to)
 	posTo_ = pos_to;
 }
 
-bool Chess::MoveCommand::Validate(Game& game) const
+bool Chess::MoveCommand::Validate(const Game& game) const
 {
 	auto piece = game.FindPieceAt(posFrom_);
 	assert(piece);
@@ -49,7 +49,7 @@ void Chess::MoveCommand::Do(Game& game)
 		enemyPiece_ = enemy->Serialize();
 		game.RemovePiece(*enemy);
 	}
-
+	pieceType_= piece->GetType();
 	piece->SetPos(posTo_);
 	pieceHasMovedBefore_ = piece->HasMoved();
 	piece->SetHasMoved(true);
@@ -75,5 +75,8 @@ void Chess::MoveCommand::Undo(Game& game)
 
 std::string Chess::MoveCommand::ToString() const
 {
-	return posFrom_.ToString() + "->" + posTo_.ToString();
+	if (pieceType_ == Type::Pawn)
+		return posFrom_.ToString() + "->" + posTo_.ToString();
+
+	return "";
 }
