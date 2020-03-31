@@ -76,7 +76,17 @@ void Chess::MoveCommand::Undo(Game& game)
 std::string Chess::MoveCommand::ToString() const
 {
 	if (pieceType_ == Type::Pawn)
-		return posFrom_.ToString() + "->" + posTo_.ToString();
+		return posTo_.ToString();
+	else if (pieceType_ ==Type::Knight)
+		return "N" + posTo_.ToString();
+	else if (pieceType_ ==Type::Bishop)
+		return "B" + posTo_.ToString();
+	else if (pieceType_ ==Type::Rook)
+		return "R" +  posTo_.ToString();
+	else if (pieceType_ ==Type::Queen)
+		return "Q" + posTo_.ToString();
+	else if (pieceType_ ==Type::King)
+		return "K" + posTo_.ToString();
 
 	return "";
 }
