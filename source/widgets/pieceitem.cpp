@@ -29,15 +29,15 @@ PieceItem::PieceItem( QObject *parent, Chess::Piece& piece, MainWindow& window)
 
 	QPixmap pixmap(image_name);
 	pixmap = pixmap.scaled(window_->GetCellSize(), window_->GetCellSize());
-	setPixmap(pixmap);
+	setPixmap(pixmap); //
 
 	UpdatePosition();
 }
 
-void PieceItem::OnPieceMoved(Chess::Piece& piece) //виртуальный метод, который переопределен в классе pieceItem. Объект этого класса храниться в game (в векторе с наблюдателями).
+void PieceItem::OnPieceMoved(Chess::Piece& piece)
 {
 	if (&piece == piece_)
-		UpdatePosition();  // на доске (на view) устанавливается фигура
+		UpdatePosition();
 }
 
 void PieceItem::OnPieceAboutToBeRemoved(Chess::Piece& piece)

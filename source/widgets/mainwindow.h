@@ -27,8 +27,8 @@ public:
 	int GetCellSize() const;
 	QPoint PosToPixPos(const Chess::Pos& pos) const;
 	Chess::Pos PixPosToPos(const QPoint& pos) const;
-	Chess::Game *  GetGame() const { return game_.get(); }
-	Chess::History *  GetHistory() const { return history_.get(); }
+	Chess::Game*  GetGame() const { return game_.get(); }
+	Chess::History*  GetHistory() const { return history_.get(); }
 	QGraphicsScene* GetScene() {return boardScene_;}
 
 public slots:
@@ -50,9 +50,9 @@ private:
 	QGraphicsScene* boardScene_ = nullptr; // Сцена для доски
 	int cellSize_; // Размер клетки
 	std::unique_ptr<Chess::Game> game_;
-	std::unique_ptr<Chess::History> history_;
+	std::unique_ptr<Chess::History> history_;  //
 	std::vector<QGraphicsItem*> movementBeacons_;
-	HistoryModel* historyModel_ = nullptr;
+	HistoryModel* historyModel_ = nullptr;  //
 };
 
 

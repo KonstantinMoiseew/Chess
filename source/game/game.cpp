@@ -33,7 +33,7 @@ const Chess::Observers& Chess::Game::GetObservers() const
 	return observers_;
 }
 
-void Chess::Game::AddPiece(Piece& piece)  // Добавляет элемент Piece
+void Chess::Game::AddPiece(Piece& piece)
 {
 	if (std::find_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}) == pieces_.end())
 	{
