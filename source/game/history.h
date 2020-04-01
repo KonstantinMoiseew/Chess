@@ -12,6 +12,7 @@ public:
 
 	bool Execute(Game& game, ICommand* command);
 	void RollbackLast(Game& game);
+	void ClearHistory();
 
 	int GetSize() const;
 	ICommand* GetCommand(int index);

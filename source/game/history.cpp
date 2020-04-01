@@ -31,6 +31,11 @@ void Chess::History::RollbackLast(Game& game)
 	}
 }
 
+void Chess::History:: ClearHistory()
+{
+	history_.clear();
+}
+
 int Chess::History::GetSize() const
 {
 	return static_cast<int>(history_.size());

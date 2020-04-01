@@ -51,6 +51,17 @@ void Chess::Game::RemovePiece(Piece& piece)
 	pieces_.erase(std::remove_if(pieces_.begin(), pieces_.end(), [&piece](const PieceUnPtr& ptr){return ptr.get() == &piece;}));
 }
 
+void Chess::Game:: RemoveAllPieces()
+{
+	for ( const auto & elem : pieces_ )
+	   {
+		   OBS_CALL(observers_, OnPieceAboutToBeRemoved(*(elem.get())));
+	   }
+	pieces_.clear();
+	activePlayer_ = Color::White;
+
+}
+
 void Chess::Game::ArrangeFigures()
 {
 	auto add_piece = [this](Type type, Color color, Pos pos)

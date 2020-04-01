@@ -27,6 +27,7 @@ namespace Chess
 
         void AddPiece(Piece&);
         void RemovePiece(Piece&);
+		void RemoveAllPieces();
 
 		const Pieces& GetPieces() const;
 

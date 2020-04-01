@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
+	connect(ui_->newgameButton, &QPushButton::clicked, this, &MainWindow::OnnewgameClick);
 
 	historyModel_ = new HistoryModel(this);
 	ui_->historyView->setModel(historyModel_);// во view устанавливаем указатель на модель
@@ -72,6 +73,16 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 void MainWindow::OnRollbackClick()
 {
 	history_->RollbackLast(*GetGame());
+}
+
+void  MainWindow::OnnewgameClick()
+{
+
+	game_->RemoveAllPieces();
+	history_->ClearHistory();
+	historyModel_->Refresh();
+	game_->ArrangeFigures();
+
 }
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)
@@ -120,6 +131,8 @@ void MainWindow::PaintBoard()
 			boardScene_->addRect(rect, Qt::NoPen, QBrush(color)); // Добавляем квадраты на доску
 		}
 	}
+
+
 }
 
 void MainWindow::CreateMovementBeacons()

@@ -1,5 +1,6 @@
 #include "historymodel.h"
 #include "game/history.h"
+#include <QPixmap>
 
 HistoryModel::HistoryModel(QObject* parent)
 	: QAbstractItemModel (parent)
@@ -27,6 +28,9 @@ QVariant HistoryModel::data(const QModelIndex& index, int role) const
 	switch(role)
 	{
 	case Qt::DisplayRole: return reinterpret_cast<Chess::ICommand*>(index.internalPointer())->ToString().c_str();
+	case Qt::DecorationRole: return reinterpret_cast<Chess::ICommand*>(index.internalPointer())->ToPix();
+
+
 	default: return QVariant();
 	}
 }

@@ -38,6 +38,7 @@ public slots:
 	void OnPieceMoved(Chess::Piece& piece) override;
 	void OnGameOver(Chess::Color color) override;
 	void OnRollbackClick();
+	void OnnewgameClick();
 
 private:
 

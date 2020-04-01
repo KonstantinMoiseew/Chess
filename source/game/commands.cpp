@@ -50,6 +50,7 @@ void Chess::MoveCommand::Do(Game& game)
 		game.RemovePiece(*enemy);
 	}
 	pieceType_= piece->GetType();
+	pieceColore_=piece->GetColor();
 	piece->SetPos(posTo_);
 	pieceHasMovedBefore_ = piece->HasMoved();
 	piece->SetHasMoved(true);
@@ -76,17 +77,70 @@ void Chess::MoveCommand::Undo(Game& game)
 std::string Chess::MoveCommand::ToString() const
 {
 	if (pieceType_ == Type::Pawn)
-		return posTo_.ToString();
+		return posFrom_.ToString() + "->" + posTo_.ToString();
 	else if (pieceType_ ==Type::Knight)
-		return "N" + posTo_.ToString();
+		return "N" + posFrom_.ToString() + "->" + posTo_.ToString();
 	else if (pieceType_ ==Type::Bishop)
-		return "B" + posTo_.ToString();
+		return "B" +posFrom_.ToString() + "->" + posTo_.ToString();
 	else if (pieceType_ ==Type::Rook)
-		return "R" +  posTo_.ToString();
+		return "R" +  posFrom_.ToString() + "->" +posTo_.ToString();
 	else if (pieceType_ ==Type::Queen)
-		return "Q" + posTo_.ToString();
+		return "Q" + posFrom_.ToString() + "->" +posTo_.ToString();
 	else if (pieceType_ ==Type::King)
-		return "K" + posTo_.ToString();
+		return "K" + posFrom_.ToString() + "->" +posTo_.ToString();
 
 	return "";
 }
+
+
+QPixmap Chess::MoveCommand::ToPix() const
+{
+		if(pieceColore_==Color::Black){
+	if (pieceType_ == Type::Pawn){
+		return QPixmap (":/graphics/pieces/pawn_black.png").scaledToWidth(30,  Qt::FastTransformation);
+	}
+	else if (pieceType_ ==Type::Knight)
+		return QPixmap (":/graphics/pieces/knight_black.png").scaledToWidth(30,  Qt::FastTransformation);
+	else if (pieceType_ ==Type::Bishop)
+		return QPixmap (":/graphics/pieces/bishop_black.png").scaledToWidth(30,  Qt::FastTransformation);
+	else if (pieceType_ ==Type::Rook)
+		return QPixmap (":/graphics/pieces/rook_black.png").scaledToWidth(30,  Qt::FastTransformation);
+	else if (pieceType_ ==Type::Queen)
+		return QPixmap (":/graphics/pieces/queen_black.png").scaledToWidth(30,  Qt::FastTransformation);
+	else if (pieceType_ ==Type::King)
+		return QPixmap (":/graphics/pieces/king_black.png").scaledToWidth(30,  Qt::FastTransformation);
+		}
+		else {
+			if (pieceType_ == Type::Pawn)
+				return QPixmap (":/graphics/pieces/pawn_white.png").scaledToWidth(30,  Qt::FastTransformation);
+			else if (pieceType_ ==Type::Knight)
+				return QPixmap (":/graphics/pieces/knight_white.png").scaledToWidth(30,  Qt::FastTransformation);
+			else if (pieceType_ ==Type::Bishop)
+				return QPixmap (":/graphics/pieces/bishop_white.png").scaledToWidth(30,  Qt::FastTransformation);
+			else if (pieceType_ ==Type::Rook)
+				return QPixmap (":/graphics/pieces/rook_white.png").scaledToWidth(30,  Qt::FastTransformation);
+			else if (pieceType_ ==Type::Queen)
+				return QPixmap (":/graphics/pieces/queen_white.png").scaledToWidth(30,  Qt::FastTransformation);
+			else if (pieceType_ ==Type::King)
+				return QPixmap (":/graphics/pieces/king_white.png").scaledToWidth(30,  Qt::FastTransformation);
+		}
+
+	return QPixmap ("").scaledToWidth(30,  Qt::FastTransformation);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
