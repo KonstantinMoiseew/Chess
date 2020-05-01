@@ -2,7 +2,8 @@
 
 #include <QAbstractItemModel>
 #include "game/gamecommon.h"
-
+#include "historymodel.h"
+#include "game/history.h"
 class HistoryModel : public QAbstractItemModel
 {
 Q_OBJECT

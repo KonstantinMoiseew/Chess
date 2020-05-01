@@ -54,9 +54,9 @@ void Chess::Game::RemovePiece(Piece& piece)
 void Chess::Game:: RemoveAllPieces()
 {
 	for ( const auto & elem : pieces_ )
-	   {
-		   OBS_CALL(observers_, OnPieceAboutToBeRemoved(*(elem.get())));
-	   }
+   {
+	   OBS_CALL(observers_, OnPieceAboutToBeRemoved(*(elem.get())));
+   }
 	pieces_.clear();
 	activePlayer_ = Color::White;
 

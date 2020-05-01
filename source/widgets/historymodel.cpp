@@ -22,17 +22,7 @@ int HistoryModel::rowCount(const QModelIndex&) const
 
 QVariant HistoryModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.internalPointer())
 		return QVariant();
-
-	switch(role)
-	{
-	case Qt::DisplayRole: return reinterpret_cast<Chess::ICommand*>(index.internalPointer())->ToString().c_str();
-	case Qt::DecorationRole: return reinterpret_cast<Chess::ICommand*>(index.internalPointer())->ToPix();
-
-
-	default: return QVariant();
-	}
 }
 
 QModelIndex HistoryModel::index(int row, int column, const QModelIndex&) const
@@ -53,6 +43,7 @@ void HistoryModel::SetHistory(Chess::History* history)
 
 void HistoryModel::Refresh()
 {
-	beginResetModel();
+	beginResetModel(); //When a model is reset it means that any previous data reported from the model is now invalid and has to be queried for again.
+										 // This also means that the current item and any selected items will become invalid.
 	endResetModel();
 }

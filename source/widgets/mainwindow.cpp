@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
+#include"historydelegate.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	boardScene_ = new QGraphicsScene(this); // Создаём сцену для доски. Привязываем её время жизни к окну (this)
 	ui_->boardView->setScene(boardScene_); // boardView (QGraphicsView) будет визуализировать эту сцену
 	ui_->boardView->SetWindow(*this);
+
 
 	// Выключаем прокрутку чтобы не мешала
 	ui_->boardView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -33,10 +35,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
-	connect(ui_->newgameButton, &QPushButton::clicked, this, &MainWindow::OnnewgameClick);
+	connect(ui_->newgameButton, &QPushButton::clicked, this, &MainWindow::OnNewgameClick);
+	connect(ui_->savegameButton, &QPushButton::clicked, this, &MainWindow::OnSavegameClick);
 
 	historyModel_ = new HistoryModel(this);
+	HistoryDelegate * historedelegate_ = new HistoryDelegate;
 	ui_->historyView->setModel(historyModel_);// во view устанавливаем указатель на модель
+	ui_->historyView->setItemDelegate(historedelegate_);
 	ui_->historyView->horizontalHeader()->setStretchLastSection(true);
 	ui_->historyView->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 	ui_->historyView->setColumnWidth(0, ui_->historyView->width() / 2);
@@ -75,13 +80,19 @@ void MainWindow::OnRollbackClick()
 	history_->RollbackLast(*GetGame());
 }
 
-void  MainWindow::OnnewgameClick()
+void  MainWindow::OnNewgameClick()
 {
 
 	game_->RemoveAllPieces();
 	history_->ClearHistory();
 	historyModel_->Refresh();
 	game_->ArrangeFigures();
+
+}
+
+
+void MainWindow::OnSavegameClick()
+{
 
 }
 

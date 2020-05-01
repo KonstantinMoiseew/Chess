@@ -50,7 +50,7 @@ void Chess::MoveCommand::Do(Game& game)
 		game.RemovePiece(*enemy);
 	}
 	pieceType_= piece->GetType();
-	pieceColore_=piece->GetColor();
+	pieceColor_=piece->GetColor();
 	piece->SetPos(posTo_);
 	pieceHasMovedBefore_ = piece->HasMoved();
 	piece->SetHasMoved(true);
@@ -92,46 +92,30 @@ std::string Chess::MoveCommand::ToString() const
 	return "";
 }
 
-
-QPixmap Chess::MoveCommand::ToPix() const
+Chess::Type Chess::MoveCommand::GetPieceType() const
 {
-		if(pieceColore_==Color::Black){
-	if (pieceType_ == Type::Pawn){
-		return QPixmap (":/graphics/pieces/pawn_black.png").scaledToWidth(30,  Qt::FastTransformation);
-	}
-	else if (pieceType_ ==Type::Knight)
-		return QPixmap (":/graphics/pieces/knight_black.png").scaledToWidth(30,  Qt::FastTransformation);
-	else if (pieceType_ ==Type::Bishop)
-		return QPixmap (":/graphics/pieces/bishop_black.png").scaledToWidth(30,  Qt::FastTransformation);
-	else if (pieceType_ ==Type::Rook)
-		return QPixmap (":/graphics/pieces/rook_black.png").scaledToWidth(30,  Qt::FastTransformation);
-	else if (pieceType_ ==Type::Queen)
-		return QPixmap (":/graphics/pieces/queen_black.png").scaledToWidth(30,  Qt::FastTransformation);
-	else if (pieceType_ ==Type::King)
-		return QPixmap (":/graphics/pieces/king_black.png").scaledToWidth(30,  Qt::FastTransformation);
-		}
-		else {
-			if (pieceType_ == Type::Pawn)
-				return QPixmap (":/graphics/pieces/pawn_white.png").scaledToWidth(30,  Qt::FastTransformation);
-			else if (pieceType_ ==Type::Knight)
-				return QPixmap (":/graphics/pieces/knight_white.png").scaledToWidth(30,  Qt::FastTransformation);
-			else if (pieceType_ ==Type::Bishop)
-				return QPixmap (":/graphics/pieces/bishop_white.png").scaledToWidth(30,  Qt::FastTransformation);
-			else if (pieceType_ ==Type::Rook)
-				return QPixmap (":/graphics/pieces/rook_white.png").scaledToWidth(30,  Qt::FastTransformation);
-			else if (pieceType_ ==Type::Queen)
-				return QPixmap (":/graphics/pieces/queen_white.png").scaledToWidth(30,  Qt::FastTransformation);
-			else if (pieceType_ ==Type::King)
-				return QPixmap (":/graphics/pieces/king_white.png").scaledToWidth(30,  Qt::FastTransformation);
-		}
-
-	return QPixmap ("").scaledToWidth(30,  Qt::FastTransformation);
+	return pieceType_;
 }
 
+Chess::Color Chess::MoveCommand::GetPieceColor() const
+{
+	return pieceColor_;
+}
 
+bool Chess::MoveCommand::DidCapture() const
+{
+	return enemyPiece_.has_value();
+}
 
+Chess::Type Chess::MoveCommand::GetCapturedPieceType() const
+{
+	return enemyPiece_ ? enemyPiece_.value().type_ : Type::Pawn;
+}
 
-
+Chess::Color Chess::MoveCommand::GetCapturedPieceColor() const
+{
+	return enemyPiece_ ? enemyPiece_.value().color_ : Color::White;
+}
 
 
 

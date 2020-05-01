@@ -19,7 +19,11 @@ public:
 	virtual void Undo(Game& game) = 0;
 
 	virtual std::string ToString() const = 0;
-	virtual QPixmap ToPix() const = 0;
+	virtual Type GetPieceType() const = 0;
+	virtual Color GetPieceColor() const = 0;
+	virtual bool DidCapture() const = 0;
+	virtual Type GetCapturedPieceType() const = 0;
+	virtual Color GetCapturedPieceColor() const = 0;
 };
 
 
@@ -35,13 +39,18 @@ public:
 	void Undo(Game& game) override;
 
 	std::string ToString() const override;
-	 QPixmap ToPix() const override;
+	Type GetPieceType() const override;
+	Color GetPieceColor() const override;
+	bool DidCapture() const override;
+	Type GetCapturedPieceType() const override;
+	Color  GetCapturedPieceColor() const override;
+
 protected:
 
 	Pos posFrom_;
 	Pos posTo_;
 	Type pieceType_ = Type::Pawn;
-	Color pieceColore_=Color::White;
+	Color pieceColor_=Color::White;
 	bool pieceHasMovedBefore_ = false;
 	std::optional<SerializedPiece> enemyPiece_;
 };
