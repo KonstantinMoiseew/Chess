@@ -64,6 +64,11 @@ void Chess::Piece:: SetPos(const Pos& pos)
 	{
 		OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 	}
+
+	if((position_.y_==0||position_.y_==7)&&this->type_==Chess::Type::Pawn)
+	{
+		OBS_CALL(game_->GetObservers(), OnShowChose(*this));
+	}
 }
 
 void Chess::Piece::SetHasMoved(bool value)

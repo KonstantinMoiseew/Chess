@@ -10,16 +10,19 @@ class History
 {
 public:
 
-	bool Execute(Game& game, ICommand* command);
+	bool Execute(Game& game, ICommand* command, bool flag_changable=false);
 	void RollbackLast(Game& game);
 	void ClearHistory();
 
 	int GetSize() const;
 	ICommand* GetCommand(int index);
+	bool king_ = false;
+	Piece *piece_changed_;
 
 protected:
 
 	std::vector<ICommandUnPtr> history_;
+
 };
 
 }

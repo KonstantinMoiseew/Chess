@@ -138,7 +138,9 @@ bool Chess::Game::IsKingAttacked(Color color) const
 		{
 			for (auto mov : piece->GetMovement().GetAvailableMovement())
 				if ((*it_king)->GetPos() == mov)
+				{
 					return true;
+				}
 		}
 	}
 	return false;
@@ -166,8 +168,27 @@ bool Chess::Game::IsCheckMate(Color color) const
 			}
 		}
 	}
-
 	 return true;
+}
+
+bool Chess::Game:: HasKingAttackedAfterMove(Color color) const
+{
+	auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() != color && piece-> GetType() == Type::King;});
+	if (it_king == pieces_.end())
+		return false;
+
+	for (auto& piece :  pieces_)
+	{
+		if(piece->GetColor()==color)
+		{
+			for (auto mov : piece->GetMovement().GetAvailableMovement())
+				if ((*it_king)->GetPos() == mov)
+				{
+					return true;
+				}
+		}
+	}
+	return false;
 }
 
 

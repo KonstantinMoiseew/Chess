@@ -7,7 +7,9 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
-#include"historydelegate.h"
+#include "historydelegate.h"
+#include "labelbotton.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -21,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setScene(boardScene_); // boardView (QGraphicsView) будет визуализировать эту сцену
 	ui_->boardView->SetWindow(*this);
 
+
+	CreateChoseWindow();
+	HideChoseWindow();
 
 	// Выключаем прокрутку чтобы не мешала
 	ui_->boardView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -60,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->checkmateLabel->hide();
 
 	game_->ArrangeFigures();
+	//ShowChoseWindow();
 }
 
 MainWindow::~MainWindow()
@@ -78,6 +84,7 @@ void MainWindow::OnPieceAdded(Chess::Piece& piece)
 void MainWindow::OnRollbackClick()
 {
 	history_->RollbackLast(*GetGame());
+	HideChoseWindow();
 }
 
 void  MainWindow::OnNewgameClick()
@@ -86,7 +93,9 @@ void  MainWindow::OnNewgameClick()
 	game_->RemoveAllPieces();
 	history_->ClearHistory();
 	historyModel_->Refresh();
+	ui_->checkmateLabel->hide();
 	game_->ArrangeFigures();
+	HideChoseWindow();
 
 }
 
@@ -193,3 +202,77 @@ void MainWindow::OnGameOver(Chess::Color)
 {
 	ui_->checkmateLabel->show();
 }
+
+void MainWindow:: CreateChoseWindow()
+{
+	QString image_name = ":/graphics/pieces/queen_black.png";
+	QPixmap pixmap(image_name);
+	pixmap = pixmap.scaled(cellSize_, cellSize_,Qt::KeepAspectRatio);
+	ui_->label->setPixmap(pixmap);
+	connect(ui_->label, &LabelBotton::clicked, this, &MainWindow::OnCangeFigure);
+
+	QString image_name2 = ":/graphics/pieces/bishop_black.png";
+	QPixmap pixmap2(image_name2);
+	pixmap2 = pixmap2.scaled(cellSize_, cellSize_,Qt::KeepAspectRatio);
+	ui_->label_2->setPixmap(pixmap2);
+
+	QString image_name3 = ":/graphics/pieces/knight_black.png";
+	QPixmap pixmap3(image_name3);
+	pixmap3 = pixmap3.scaled(cellSize_, cellSize_,Qt::KeepAspectRatio);
+	ui_->label_3->setPixmap(pixmap3);
+
+	QString image_name4 = ":/graphics/pieces/rook_black.png";
+	QPixmap pixmap4(image_name4);
+	pixmap4 = pixmap4.scaled(cellSize_, cellSize_,Qt::KeepAspectRatio);
+	ui_->label_4->setPixmap(pixmap4);
+}
+
+void MainWindow:: HideChoseWindow()
+{
+		ui_->label->hide();
+		ui_->label_2->hide();
+		ui_->label_3->hide();
+		ui_->label_4->hide();
+}
+
+void MainWindow:: ShowChoseWindow()
+{
+		ui_->label->show();
+		ui_->label_2->show();
+		ui_->label_3->show();
+		ui_->label_4->show();
+}
+
+
+void MainWindow:: OnShowChose(Chess::Piece& piece)
+{
+		ShowChoseWindow();
+		history_->piece_changed_=&piece;
+}
+
+void MainWindow:: OnCangeFigure()
+{
+
+
+	if(history_->Execute(*game_.get(), new Chess::MoveCommand(*history_->piece_changed_, history_->piece_changed_->GetPos()), true))
+	HideChoseWindow();
+
+	//if (!mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos)));
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

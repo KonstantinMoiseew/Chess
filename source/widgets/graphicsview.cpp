@@ -4,6 +4,7 @@
 #include "widgets/mainwindow.h"
 #include <QMouseEvent>
 #include <QDebug>
+#include"labelbotton.h"
 
 GraphicsView::GraphicsView(QWidget *parent)
 	: QGraphicsView(parent)

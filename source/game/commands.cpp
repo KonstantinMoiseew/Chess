@@ -13,14 +13,16 @@ Chess::MoveCommand::MoveCommand(const Pos& pos_from, const Pos& pos_to)
 	posTo_ = pos_to;
 }
 
-bool Chess::MoveCommand::Validate(const Game& game) const
+bool Chess::MoveCommand::Validate(const Game& game, bool flag_changable) const
 {
+	if(!flag_changable)
+	{
 	auto piece = game.FindPieceAt(posFrom_);
 	assert(piece);
 	if (!piece)
 		return false;
 
-	if (game.GetPlayerTurn() != piece->GetColor())
+	if ((game.GetPlayerTurn() != piece->GetColor()))
 		return false;
 
 	auto available_movement = piece->GetMovement().GetAvailableMovement();
@@ -34,11 +36,17 @@ bool Chess::MoveCommand::Validate(const Game& game) const
 	if (piece_enemy && piece_enemy->GetColor() == piece->GetColor())
 		return false;
 
+	if (std::find_if(game.GetPieces().begin(), game.GetPieces().end(), [](const PieceUnPtr& ptr){return (ptr.get()->GetType() == Chess::Type::Pawn&&(ptr.get()->GetPos().y_==0||ptr.get()->GetPos().y_==7));}) != game.GetPieces().end())
+		return false;
+	}
+
 	return true;
 }
 
-void Chess::MoveCommand::Do(Game& game)
+void Chess::MoveCommand::Do(Game& game, bool flag_changable)
 {
+	if(!flag_changable)
+	{
 	auto piece = game.FindPieceAt(posFrom_);
 	assert(piece);
 	if (!piece)
@@ -56,8 +64,30 @@ void Chess::MoveCommand::Do(Game& game)
 	piece->SetHasMoved(true);
 }
 
-void Chess::MoveCommand::Undo(Game& game)
+		else
+	{
+		auto piece2 = game.FindPieceAt(posTo_);
+			assert(piece2);
+			if (!piece2)
+			return;
+
+			enemyPiece_ = piece2->Serialize();//сохраняем пешку как врага
+			game.RemovePiece(*piece2);//удаляем пешку
+
+
+		auto changedPiece = new Piece(Chess::Type::Queen, Chess::Color::White);
+		changedPiece->SetPos(posTo_);
+		pieceHasMovedBefore_ = changedPiece->HasMoved();
+		game.AddPiece(*changedPiece);
+		pieceType_= changedPiece->GetType();//записываем
+		pieceColor_=changedPiece->GetColor();
+	}
+}
+
+void Chess::MoveCommand::Undo(Game& game, bool flag_changable)
 {
+	if(!flag_changable)
+	{
 	auto piece = game.FindPieceAt(posTo_);
 	assert(piece);
 	if (!piece)
@@ -72,6 +102,21 @@ void Chess::MoveCommand::Undo(Game& game)
 		enemy->SetPos(posTo_);
 		game.AddPiece(*enemy);
 	}
+		}
+
+		else {
+			{
+				auto piece = game.FindPieceAt(posTo_);
+				game.RemovePiece(*piece);
+				if (enemyPiece_)
+				{
+					auto enemy = new Piece(*enemyPiece_);
+					enemy->SetPos(posTo_);
+					game.AddPiece(*enemy);
+					enemy->SetHasMoved(pieceHasMovedBefore_);
+				}
+			}
+		}
 }
 
 std::string Chess::MoveCommand::ToString() const
@@ -116,6 +161,18 @@ Chess::Color Chess::MoveCommand::GetCapturedPieceColor() const
 {
 	return enemyPiece_ ? enemyPiece_.value().color_ : Color::White;
 }
+
+bool Chess::MoveCommand::CheckEmptyEnemy() const
+{
+
+	return enemyPiece_.has_value();
+}
+
+bool Chess::MoveCommand::KingUnderAttak() const
+{
+	return kingUnderAtak_;
+}
+
 
 
 

@@ -1,24 +1,35 @@
 #include "history.h"
 #include "game.h"
 
-bool Chess::History::Execute(Game& game, ICommand* command)
+bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 {
-	if (!command->Validate(game))
+
+	if (!command->Validate(game,flag_changable))
 		return false;
 
-	command->Do(game);
+	command->Do(game,flag_changable);
 	if (!game.IsKingAttacked(game.GetPlayerTurn()))
 	{
+		if(game.HasKingAttackedAfterMove(game.GetPlayerTurn()))
+		{
+		king_=true;
+		}
+		else king_=false;
+		command->SetKingUnderAttak(king_);
 		history_.emplace_back(command);
 		game.NextPlayerTurn();
+
 		return true;
 	}
 	else
 	{
+
 		command->Undo(game)	;
 		delete command;
 		return false;
 	}
+
+
 }
 
 void Chess::History::RollbackLast(Game& game)
@@ -48,3 +59,18 @@ Chess::ICommand* Chess::History::GetCommand(int index)
 	else
 		return nullptr;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

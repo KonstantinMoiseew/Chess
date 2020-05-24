@@ -39,12 +39,14 @@ namespace Chess
 
 		bool IsKingAttacked(Color color) const;
 		bool IsCheckMate(Color color) const;
+		bool HasKingAttackedAfterMove(Color color) const;
 
     protected:
 
 		Observers observers_;
 		Pieces pieces_;
 		Color activePlayer_ = Color::White;
+
     };
 
 }

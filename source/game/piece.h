@@ -30,6 +30,7 @@ public:
 	Pos GetPos() const;
 	Game* GetGame() const;
 	void SetPos(const Pos& position);
+	void SetType(const Type &type) { type_=type; }
 	void SetGame(Game* game);
 	IPieceMovement& GetMovement();
 	bool HasMoved() const;
