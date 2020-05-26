@@ -25,10 +25,13 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 	}
 	else
 	{
-
-		command->Undo(game)	;
+		if(!flag_changable)
+		{command->Undo(game)	;
 		delete command;
-		return false;
+		return false;}
+		history_.emplace_back(command);
+		return true;
+
 	}
 }
 
