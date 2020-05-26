@@ -27,6 +27,7 @@ public:
 	virtual bool CheckEmptyEnemy() const = 0;
 	virtual bool KingUnderAttak() const = 0;
 	virtual void SetKingUnderAttak(bool king) = 0;
+	virtual bool GetFlagChangable()=0;
 };
 
 
@@ -54,6 +55,9 @@ public:
 		kingUnderAtak_=king;
 	}
 
+	bool GetFlagChangable() override {return flagChangable;}
+	void SetFlagChangable(bool flag_Changable)  {flagChangable=flag_Changable;}
+
 protected:
 
 	Pos posFrom_;
@@ -62,6 +66,7 @@ protected:
 	Color pieceColor_=Color::White;
 	bool pieceHasMovedBefore_ = false;
 	bool kingUnderAtak_=true;
+	bool flagChangable=false;
 	std::optional<SerializedPiece> enemyPiece_;
 };
 

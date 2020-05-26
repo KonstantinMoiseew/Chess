@@ -8,6 +8,7 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 		return false;
 
 	command->Do(game,flag_changable);
+
 	if (!game.IsKingAttacked(game.GetPlayerTurn()))
 	{
 		if(game.HasKingAttackedAfterMove(game.GetPlayerTurn()))
@@ -17,6 +18,7 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 		else king_=false;
 		command->SetKingUnderAttak(king_);
 		history_.emplace_back(command);
+		if(!flag_changable)
 		game.NextPlayerTurn();
 
 		return true;
@@ -28,15 +30,17 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 		delete command;
 		return false;
 	}
-
-
 }
+
+
+
 
 void Chess::History::RollbackLast(Game& game)
 {
 	if (!history_.empty())
 	{
-		history_.back()->Undo(game);
+
+		history_.back()->Undo(game,history_.back()->GetFlagChangable());
 		history_.pop_back();
 		game.NextPlayerTurn();
 	}

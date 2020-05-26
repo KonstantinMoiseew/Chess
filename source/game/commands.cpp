@@ -45,6 +45,7 @@ bool Chess::MoveCommand::Validate(const Game& game, bool flag_changable) const
 
 void Chess::MoveCommand::Do(Game& game, bool flag_changable)
 {
+	flagChangable=flag_changable;
 	if(!flag_changable)
 	{
 	auto piece = game.FindPieceAt(posFrom_);
@@ -71,16 +72,18 @@ void Chess::MoveCommand::Do(Game& game, bool flag_changable)
 			if (!piece2)
 			return;
 
+			pieceHasMovedBefore_ =piece2->HasMoved();
 			enemyPiece_ = piece2->Serialize();//сохраняем пешку как врага
 			game.RemovePiece(*piece2);//удаляем пешку
 
 
 		auto changedPiece = new Piece(Chess::Type::Queen, Chess::Color::White);
-		changedPiece->SetPos(posTo_);
-		pieceHasMovedBefore_ = changedPiece->HasMoved();
-		game.AddPiece(*changedPiece);
-		pieceType_= changedPiece->GetType();//записываем
-		pieceColor_=changedPiece->GetColor();
+			game.AddPiece(*changedPiece);
+			pieceType_= changedPiece->GetType();//записываем
+			pieceColor_=changedPiece->GetColor();
+			changedPiece->SetHasMoved(true);
+			changedPiece->SetPos(posTo_);
+
 	}
 }
 
@@ -98,80 +101,85 @@ void Chess::MoveCommand::Undo(Game& game, bool flag_changable)
 
 	if (enemyPiece_)
 	{
+
 		auto enemy = new Piece(*enemyPiece_);
-		enemy->SetPos(posTo_);
 		game.AddPiece(*enemy);
+		enemy->SetPos(posTo_);
 	}
 		}
 
-		else {
+		else
+	{
 			{
-				auto piece = game.FindPieceAt(posTo_);
+				auto piece = game.FindPieceAt(posFrom_);
 				game.RemovePiece(*piece);
 				if (enemyPiece_)
 				{
 					auto enemy = new Piece(*enemyPiece_);
-					enemy->SetPos(posTo_);
-					game.AddPiece(*enemy);
 					enemy->SetHasMoved(pieceHasMovedBefore_);
-				}
-			}
-		}
-}
 
-std::string Chess::MoveCommand::ToString() const
-{
-	if (pieceType_ == Type::Pawn)
-		return posFrom_.ToString() + "->" + posTo_.ToString();
-	else if (pieceType_ ==Type::Knight)
-		return "N" + posFrom_.ToString() + "->" + posTo_.ToString();
-	else if (pieceType_ ==Type::Bishop)
-		return "B" +posFrom_.ToString() + "->" + posTo_.ToString();
-	else if (pieceType_ ==Type::Rook)
-		return "R" +  posFrom_.ToString() + "->" +posTo_.ToString();
-	else if (pieceType_ ==Type::Queen)
-		return "Q" + posFrom_.ToString() + "->" +posTo_.ToString();
-	else if (pieceType_ ==Type::King)
-		return "K" + posFrom_.ToString() + "->" +posTo_.ToString();
+					game.AddPiece(*enemy);
+					enemy->SetPos(posTo_);
+									}
 
-	return "";
-}
+								}
+							}
+					}
 
-Chess::Type Chess::MoveCommand::GetPieceType() const
-{
-	return pieceType_;
-}
 
-Chess::Color Chess::MoveCommand::GetPieceColor() const
-{
-	return pieceColor_;
-}
+					std::string Chess::MoveCommand::ToString() const
+					{
+						if (pieceType_ == Type::Pawn)
+							return posFrom_.ToString() + "->" + posTo_.ToString();
+						else if (pieceType_ ==Type::Knight)
+							return "N" + posFrom_.ToString() + "->" + posTo_.ToString();
+						else if (pieceType_ ==Type::Bishop)
+							return "B" +posFrom_.ToString() + "->" + posTo_.ToString();
+						else if (pieceType_ ==Type::Rook)
+							return "R" +  posFrom_.ToString() + "->" +posTo_.ToString();
+						else if (pieceType_ ==Type::Queen)
+							return "Q" + posFrom_.ToString() + "->" +posTo_.ToString();
+						else if (pieceType_ ==Type::King)
+							return "K" + posFrom_.ToString() + "->" +posTo_.ToString();
 
-bool Chess::MoveCommand::DidCapture() const
-{
-	return enemyPiece_.has_value();
-}
+						return "";
+					}
 
-Chess::Type Chess::MoveCommand::GetCapturedPieceType() const
-{
-	return enemyPiece_ ? enemyPiece_.value().type_ : Type::Pawn;
-}
+					Chess::Type Chess::MoveCommand::GetPieceType() const
+					{
+						return pieceType_;
+					}
 
-Chess::Color Chess::MoveCommand::GetCapturedPieceColor() const
-{
-	return enemyPiece_ ? enemyPiece_.value().color_ : Color::White;
-}
+					Chess::Color Chess::MoveCommand::GetPieceColor() const
+					{
+						return pieceColor_;
+					}
 
-bool Chess::MoveCommand::CheckEmptyEnemy() const
-{
+					bool Chess::MoveCommand::DidCapture() const
+					{
+						return enemyPiece_.has_value();
+					}
 
-	return enemyPiece_.has_value();
-}
+					Chess::Type Chess::MoveCommand::GetCapturedPieceType() const
+					{
+						return enemyPiece_ ? enemyPiece_.value().type_ : Type::Pawn;
+					}
 
-bool Chess::MoveCommand::KingUnderAttak() const
-{
-	return kingUnderAtak_;
-}
+					Chess::Color Chess::MoveCommand::GetCapturedPieceColor() const
+					{
+						return enemyPiece_ ? enemyPiece_.value().color_ : Color::White;
+					}
+
+					bool Chess::MoveCommand::CheckEmptyEnemy() const
+					{
+
+						return enemyPiece_.has_value();
+					}
+
+					bool Chess::MoveCommand::KingUnderAttak() const
+					{
+						return kingUnderAtak_;
+					}
 
 
 

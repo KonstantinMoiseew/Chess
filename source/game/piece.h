@@ -15,6 +15,7 @@ struct SerializedPiece
 	Type type_ = Type::Pawn;
 	Color color_ = Color::White;
 	bool hasMoved_ = false;
+
 };
 
 class Piece
