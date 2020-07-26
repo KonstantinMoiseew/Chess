@@ -19,7 +19,9 @@ void HistoryDelegate:: paint(QPainter *painter, const QStyleOptionViewItem &opti
 	painter->translate(option.rect.topLeft()+QPoint(0,0));
 	painter->drawPixmap(QPoint(0,-5),pixmap.scaledToWidth(30,  Qt::FastTransformation));
 
-	painter->drawText(35,15, command->ToString().c_str());
+	if(!command->GetFlagChangable())
+	{painter->drawText(35,15, command->ToString().c_str());}
+	else  painter->drawLine(35,15,70,15);
 
 	if(command->CheckEmptyEnemy())
 	{
@@ -45,6 +47,8 @@ void HistoryDelegate:: paint(QPainter *painter, const QStyleOptionViewItem &opti
 		QBrush brush(color,  Qt::Dense5Pattern );
 		painter->fillRect(0, 0, 30, 30, brush);
 	}
+
+
 
 	painter->restore();
 }

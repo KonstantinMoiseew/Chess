@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
+#include <QTcpServer>
 #include "historydelegate.h"
 #include "labelbotton.h"
 
@@ -66,6 +67,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	game_->ArrangeFigures();
 	//ShowChoseWindow();
+
+	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
+	connect(ui_->actionConnect, &QAction::triggered, this, &MainWindow::OnConnectToGame);
 }
 
 MainWindow::~MainWindow()
@@ -89,14 +93,12 @@ void MainWindow::OnRollbackClick()
 
 void  MainWindow::OnNewgameClick()
 {
-
 	game_->RemoveAllPieces();
 	history_->ClearHistory();
 	historyModel_->Refresh();
 	ui_->checkmateLabel->hide();
 	game_->ArrangeFigures();
 	HideChoseWindow();
-
 }
 
 
@@ -252,27 +254,53 @@ void MainWindow:: OnShowChose(Chess::Piece& piece)
 
 void MainWindow:: OnCangeFigure()
 {
-
-
 	if(history_->Execute(*game_.get(), new Chess::MoveCommand(*history_->piece_changed_, history_->piece_changed_->GetPos()), true))
-	HideChoseWindow();
-
-	//if (!mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos)));
-
+		HideChoseWindow();
 }
 
+void MainWindow::OnHostGame()
+{
+	OnNewgameClick();
+	if (!server_)
+	{
+		server_ = new QTcpServer(this);
+		connect(server_, &QTcpServer::newConnection, this, &MainWindow::OnNewConnection);
+		server_->listen(QHostAddress::Any, port);
+	}
+}
 
+void MainWindow::OnConnectToGame()
+{
+	OnNewgameClick();
+	if (!socket_)
+	{
+		socket_ = new QTcpSocket(this);
+		connect(socket_, &QTcpSocket::connected, this, &MainWindow::OnConnected);
+		connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &MainWindow::OnNetworkError);
+	}
 
+	socket_->connectToHost("localhost", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
+	socket_->waitForConnected(1000);
+}
 
+void MainWindow::OnNewConnection()
+{
+	socket_ = server_->nextPendingConnection();
+	connect(socket_, &QTcpSocket::readyRead, this, &MainWindow::OnNetworkRead);
+	connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &MainWindow::OnNetworkError);
+}
 
+void MainWindow::OnConnected()
+{
+	socket_->write("Hello world");
+}
 
+void MainWindow::OnNetworkRead()
+{
+	ui_->label_5->setText(socket_->readAll());
+}
 
-
-
-
-
-
-
-
-
-
+void MainWindow::OnNetworkError(QAbstractSocket::SocketError error)
+{
+	ui_->label_5->setText(std::to_string(error).c_str());
+}

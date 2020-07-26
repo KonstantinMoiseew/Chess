@@ -1,5 +1,6 @@
 #pragma once
 #include <QMainWindow>
+#include <QTcpSocket>
 #include "game/iobserver.h"
 #include "game/gamecommon.h"
 #include "game/game.h"
@@ -14,6 +15,8 @@ class MainWindow;
 
 class QGraphicsScene;
 class QGraphicsItem;
+class QTcpServer;
+class QTcpSocket;
 class HistoryModel;
 
 class MainWindow : public QMainWindow, public Chess::IObserver
@@ -42,6 +45,12 @@ public slots:
 	void OnNewgameClick();
 	void OnSavegameClick();
 	void OnCangeFigure();
+	void OnHostGame();
+	void OnConnectToGame();
+	void OnNewConnection();
+	void OnConnected();
+	void OnNetworkRead();
+	void OnNetworkError(QAbstractSocket::SocketError error);
 
 private:
 
@@ -61,6 +70,10 @@ private:
 	std::unique_ptr<Chess::History> history_;  //
 	std::vector<QGraphicsItem*> movementBeacons_;
 	HistoryModel* historyModel_ = nullptr;  //
+	QTcpServer* server_ = nullptr;
+	QTcpSocket* socket_ = nullptr;
+
+	const quint16 port = 15678;
 };
 
 
