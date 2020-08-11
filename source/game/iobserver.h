@@ -26,6 +26,8 @@ namespace Chess
 		virtual void OnGameOver(Color) {}
 		virtual void OnShowChose(Piece&){}
 
+		virtual void OnCommandExecuted(ICommand&) {}
+
 	protected:
 
 		Game* game_ = nullptr;

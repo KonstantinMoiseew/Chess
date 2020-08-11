@@ -3,13 +3,15 @@
 #include "game/piece.h"
 #include "widgets/pieceitem.h"
 #include "widgets/historymodel.h"
+#include "widgets/historydelegate.h"
+#include "widgets/labelbotton.h"
+#include "widgets/network.h"
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsView>
-#include <QTcpServer>
-#include "historydelegate.h"
-#include "labelbotton.h"
+#include <QMessageBox>
+#include <QMetaEnum>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -67,6 +69,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	game_->ArrangeFigures();
 	//ShowChoseWindow();
+
+	network_ = new Network(this);
+	connect(network_, &Network::NetworkError, this, &MainWindow::OnNetworkError);
 
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
 	connect(ui_->actionConnect, &QAction::triggered, this, &MainWindow::OnConnectToGame);
@@ -153,8 +158,6 @@ void MainWindow::PaintBoard()
 			boardScene_->addRect(rect, Qt::NoPen, QBrush(color)); // Добавляем квадраты на доску
 		}
 	}
-
-
 }
 
 void MainWindow::CreateMovementBeacons()
@@ -261,46 +264,18 @@ void MainWindow:: OnCangeFigure()
 void MainWindow::OnHostGame()
 {
 	OnNewgameClick();
-	if (!server_)
-	{
-		server_ = new QTcpServer(this);
-		connect(server_, &QTcpServer::newConnection, this, &MainWindow::OnNewConnection);
-		server_->listen(QHostAddress::Any, port);
-	}
+	network_->HostGame();
 }
 
 void MainWindow::OnConnectToGame()
 {
 	OnNewgameClick();
-	if (!socket_)
-	{
-		socket_ = new QTcpSocket(this);
-		connect(socket_, &QTcpSocket::connected, this, &MainWindow::OnConnected);
-		connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &MainWindow::OnNetworkError);
-	}
-
-	socket_->connectToHost("localhost", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
-	socket_->waitForConnected(1000);
-}
-
-void MainWindow::OnNewConnection()
-{
-	socket_ = server_->nextPendingConnection();
-	connect(socket_, &QTcpSocket::readyRead, this, &MainWindow::OnNetworkRead);
-	connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &MainWindow::OnNetworkError);
-}
-
-void MainWindow::OnConnected()
-{
-	socket_->write("Hello world");
-}
-
-void MainWindow::OnNetworkRead()
-{
-	ui_->label_5->setText(socket_->readAll());
+	network_->ConnectToGame();
 }
 
 void MainWindow::OnNetworkError(QAbstractSocket::SocketError error)
 {
-	ui_->label_5->setText(std::to_string(error).c_str());
+	QMessageBox message_box;
+	message_box.setText("Network error:" + QString(QMetaEnum::fromType<QAbstractSocket::SocketError>().valueToKey(error)));
+	message_box.exec();
 }

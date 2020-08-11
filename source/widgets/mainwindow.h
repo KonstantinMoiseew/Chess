@@ -7,17 +7,14 @@
 #include "game/history.h"
 #include "pieceitem.h"
 
-
-
 namespace Ui {
 class MainWindow;
 }
 
 class QGraphicsScene;
 class QGraphicsItem;
-class QTcpServer;
-class QTcpSocket;
 class HistoryModel;
+class Network;
 
 class MainWindow : public QMainWindow, public Chess::IObserver
 {
@@ -47,9 +44,6 @@ public slots:
 	void OnCangeFigure();
 	void OnHostGame();
 	void OnConnectToGame();
-	void OnNewConnection();
-	void OnConnected();
-	void OnNetworkRead();
 	void OnNetworkError(QAbstractSocket::SocketError error);
 
 private:
@@ -67,13 +61,10 @@ private:
 	QGraphicsScene* boardScene_ = nullptr; // Сцена для доски
 	int cellSize_; // Размер клетки
 	std::unique_ptr<Chess::Game> game_;
-	std::unique_ptr<Chess::History> history_;  //
+	std::unique_ptr<Chess::History> history_;
 	std::vector<QGraphicsItem*> movementBeacons_;
-	HistoryModel* historyModel_ = nullptr;  //
-	QTcpServer* server_ = nullptr;
-	QTcpSocket* socket_ = nullptr;
-
-	const quint16 port = 15678;
+	HistoryModel* historyModel_ = nullptr;
+	Network* network_ = nullptr;
 };
 
 

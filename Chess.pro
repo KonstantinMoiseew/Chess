@@ -38,7 +38,8 @@ SOURCES += \
     source/game/history.cpp \
     source/widgets/historymodel.cpp \
     source/widgets/historydelegate.cpp \
-    source/widgets/labelbotton.cpp
+    source/widgets/labelbotton.cpp \
+    source/widgets/network.cpp
 
 
 HEADERS += \
@@ -58,7 +59,8 @@ HEADERS += \
     source/widgets/historymodel.h \
     source/widgets/historydelegate.h \
     source/widgets/widgettools.h \
-    source/widgets/labelbotton.h
+    source/widgets/labelbotton.h \
+    source/widgets/network.h
 
 FORMS += \
     source/widgets/mainwindow.ui
