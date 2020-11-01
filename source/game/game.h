@@ -3,12 +3,6 @@
 #include "gamecommon.h"
 #include "iobserver.h"
 #include "piece.h"
-#include <iostream>
-#include <QDir>
-#include <QStringList>
-#include <QDebug>
-#include <QTimer>
-#include <QRandomGenerator>
 
 namespace Chess
 {

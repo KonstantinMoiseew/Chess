@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <optional>
+#include <cassert>
+#include "kernel/bytestream.h"
 
 namespace Chess
 {

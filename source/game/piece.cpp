@@ -5,19 +5,19 @@
 #include "iobserver.h"
 #include "piecemovements.h"
 
-Chess::Piece::Piece(Type type, Color color)
+Chess::Piece::Piece(PieceType type, Color color)
 {
 	color_ = color;
 	type_ = type;
 
 	switch(type)
 	{
-	case Type::Rook: movement_.reset(new RookMovement(*this)); break;
-	case Type::Bishop: movement_.reset(new BishopMovement(*this)); break;
-	case Type::Knight: movement_.reset(new KnightMovement(*this)); break;
-	case Type::Queen: movement_.reset(new QueenMovement(*this)); break;
-	case Type::King: movement_.reset(new KingMovement(*this)); break;
-	case Type::Pawn: movement_.reset(new PawnMovement(*this)); break;
+    case PieceType::Rook: movement_.reset(new RookMovement(*this)); break;
+    case PieceType::Bishop: movement_.reset(new BishopMovement(*this)); break;
+    case PieceType::Knight: movement_.reset(new KnightMovement(*this)); break;
+    case PieceType::Queen: movement_.reset(new QueenMovement(*this)); break;
+    case PieceType::King: movement_.reset(new KingMovement(*this)); break;
+    case PieceType::Pawn: movement_.reset(new PawnMovement(*this)); break;
 	}
 }
 
@@ -32,7 +32,7 @@ Chess:: Color Chess::Piece:: GetColor() const
 	return color_;
 }
 
-Chess::Type Chess::Piece:: GetType() const
+Chess::PieceType Chess::Piece:: GetType() const
 {
 	return type_;
 }
@@ -65,7 +65,7 @@ void Chess::Piece:: SetPos(const Pos& pos)
 		OBS_CALL(game_->GetObservers(), OnPieceMoved(*this));
 	}
 
-	if((position_.y_==0||position_.y_==7)&&this->type_==Chess::Type::Pawn)
+    if((position_.y_==0||position_.y_==7)&&this->type_==Chess::PieceType::Pawn)
 	{
 		OBS_CALL(game_->GetObservers(), OnShowChose(*this));
 	}

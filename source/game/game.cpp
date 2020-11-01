@@ -64,30 +64,30 @@ void Chess::Game:: RemoveAllPieces()
 
 void Chess::Game::ArrangeFigures()
 {
-	auto add_piece = [this](Type type, Color color, Pos pos)
+    auto add_piece = [this](PieceType type, Color color, Pos pos)
 	{
 		auto piece = new Chess::Piece(type, color);
 		piece->SetPos(pos);
 		AddPiece(*piece) ;
 	};
 
-	auto add_black_white = [&add_piece](Type type, Pos pos)
+    auto add_black_white = [&add_piece](PieceType type, Pos pos)
 	{
 		add_piece(type, Color::White, pos);
 		add_piece(type, Color::Black, {pos.x_ , 7 - pos.y_});
 	};
 
-	add_black_white(Type::Knight, {6, 0});
-	add_black_white(Type::Knight, {1, 0});
-	add_black_white(Type::Bishop, {5, 0});
-	add_black_white(Type::Bishop, {2, 0});
-	add_black_white(Type::Rook, {7, 0});
-	add_black_white(Type::Rook, {0, 0});
-	add_black_white(Type::King, {4, 0});
-	add_black_white(Type::Queen, {3, 0});
+    add_black_white(PieceType::Knight, {6, 0});
+    add_black_white(PieceType::Knight, {1, 0});
+    add_black_white(PieceType::Bishop, {5, 0});
+    add_black_white(PieceType::Bishop, {2, 0});
+    add_black_white(PieceType::Rook, {7, 0});
+    add_black_white(PieceType::Rook, {0, 0});
+    add_black_white(PieceType::King, {4, 0});
+    add_black_white(PieceType::Queen, {3, 0});
 
 	for (int i = 0; i < 8; i++)
-		add_black_white(Type::Pawn, {i, 1});
+        add_black_white(PieceType::Pawn, {i, 1});
 }
 
 const Chess::Pieces& Chess::Game::GetPieces() const
@@ -128,7 +128,7 @@ void Chess::Game::NextPlayerTurn()
 
 bool Chess::Game::IsKingAttacked(Color color) const
 {
-	auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() == color && piece-> GetType() == Type::King;});
+    auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() == color && piece-> GetType() == PieceType::King;});
 	if (it_king == pieces_.end())
 		return false;
 
@@ -173,7 +173,7 @@ bool Chess::Game::IsCheckMate(Color color) const
 
 bool Chess::Game:: HasKingAttackedAfterMove(Color color) const
 {
-	auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() != color && piece-> GetType() == Type::King;});
+    auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece->GetColor() != color && piece-> GetType() == PieceType::King;});
 	if (it_king == pieces_.end())
 		return false;
 

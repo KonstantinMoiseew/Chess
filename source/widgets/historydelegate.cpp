@@ -2,7 +2,7 @@
 #include "widgettools.h"
 #include<QBrush>
 
-void HistoryDelegate:: paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void HistoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	if (!index.internalPointer())
 	{

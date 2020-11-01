@@ -9,7 +9,7 @@ namespace Chess
         Black
     };
 
-	enum class Type
+    enum class PieceType
 	{
 		Pawn,
 		Knight,

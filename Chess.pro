@@ -36,6 +36,7 @@ SOURCES += \
     source/game/iobserver.cpp \
     source/game/commands.cpp \
     source/game/history.cpp \
+    source/game/kernel/bytestream.cpp \
     source/widgets/historymodel.cpp \
     source/widgets/historydelegate.cpp \
     source/widgets/labelbotton.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     source/game/piecemovements.h \
     source/game/commands.h \
     source/game/history.h \
+    source/game/kernel/bytestream.h \
     source/widgets/historymodel.h \
     source/widgets/historydelegate.h \
     source/widgets/widgettools.h \

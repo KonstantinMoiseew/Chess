@@ -12,7 +12,7 @@ namespace Chess
 
 struct SerializedPiece
 {
-	Type type_ = Type::Pawn;
+    PieceType type_ = PieceType::Pawn;
 	Color color_ = Color::White;
 	bool hasMoved_ = false;
 
@@ -22,16 +22,16 @@ class Piece
 {
 public:
 
-	Piece(Type type, Color color);
+    Piece(PieceType type, Color color);
 	Piece(const SerializedPiece&);
 	virtual ~Piece() {}
 
 	Color GetColor() const;
-	Type GetType() const;
-	Pos GetPos() const;
+    PieceType GetType() const;
+    Pos GetPos() const;
 	Game* GetGame() const;
 	void SetPos(const Pos& position);
-	void SetType(const Type &type) { type_=type; }
+    void SetType(const PieceType &type) { type_=type; }
 	void SetGame(Game* game);
 	IPieceMovement& GetMovement();
 	bool HasMoved() const;
@@ -41,7 +41,7 @@ public:
 protected:
 
 	Color color_ = Color::White;
-	Type type_ = Type::Pawn;
+    PieceType type_ = PieceType::Pawn;
 	Pos position_;
 	Game* game_ = nullptr;
 	std::unique_ptr<IPieceMovement> movement_;

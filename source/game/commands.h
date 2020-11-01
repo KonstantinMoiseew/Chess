@@ -2,8 +2,6 @@
 #include "gamecommon.h"
 #include "position.h"
 #include "piece.h"
-#include <optional>
-#include <QPixmap>
 
 namespace Chess
 {
@@ -25,14 +23,15 @@ public:
 	virtual void Do(Game& game, bool flag_changable=false) = 0;
 	virtual void Undo(Game& game, bool flag_changable=false) = 0;
 
-	static std::vector<char> Serialize(ICommand* command);
-	static ICommand* Deserialize(const std::vector<char>& data);
+    static void Serialize(obytestream& stream, ICommand* command);
+    static ICommand* Deserialize(ibytestream& stream);
 
+    virtual Type GetType() const = 0;
 	virtual std::string ToString() const = 0;
-	virtual Type GetPieceType() const = 0;
+    virtual PieceType GetPieceType() const = 0;
 	virtual Color GetPieceColor() const = 0;
 	virtual bool DidCapture() const = 0;
-	virtual Type GetCapturedPieceType() const = 0;
+    virtual PieceType GetCapturedPieceType() const = 0;
 	virtual Color GetCapturedPieceColor() const = 0;
 	virtual bool CheckEmptyEnemy() const = 0;
 	virtual bool KingUnderAttak() const = 0;
@@ -41,8 +40,8 @@ public:
 
 protected:
 
-	virtual std::vector<char> Write() const = 0;
-	virtual void Read(const std::vector<char>& data) = 0;
+    virtual void Write(obytestream& stream) const = 0;
+    virtual bool Read(ibytestream& stream) = 0;
 };
 
 
@@ -59,11 +58,12 @@ public:
 	void Do(Game& game, bool flag_changable=false) override;
 	void Undo(Game& game, bool flag_changable=false) override;
 
+    Type GetType() const override;
 	std::string ToString() const override;
-	Type GetPieceType() const override;
+    PieceType GetPieceType() const override;
 	Color GetPieceColor() const override;
 	bool DidCapture() const override;
-	Type GetCapturedPieceType() const override;
+    PieceType GetCapturedPieceType() const override;
 	Color  GetCapturedPieceColor() const override;
 	bool CheckEmptyEnemy() const override;
 	bool KingUnderAttak() const override;
@@ -77,13 +77,13 @@ public:
 
 protected:
 
-	std::vector<char> Write() const override;
-	void Read(const std::vector<char>& data) override;
+    void Write(obytestream& stream) const override;
+    bool Read(ibytestream& stream) override;
 
 	Pos posFrom_;
 	Pos posTo_;
-	Type pieceType_ = Type::Pawn;
-	Color pieceColor_=Color::White;
+    PieceType pieceType_ = Chess::PieceType::Pawn;
+    Color pieceColor_= Color::White;
 	bool pieceHasMovedBefore_ = false;
 	bool kingUnderAtak_=true;
 	bool flagChangable=false;

@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	game_->ArrangeFigures();
 	//ShowChoseWindow();
 
-	network_ = new Network(this);
+    network_ = new Network(this, game_.get(), history_.get());
 	connect(network_, &Network::NetworkError, this, &MainWindow::OnNetworkError);
 
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
