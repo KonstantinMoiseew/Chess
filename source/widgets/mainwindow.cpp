@@ -70,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     network_ = new Network(this, game_.get(), history_.get());
 	connect(network_, &Network::NetworkError, this, &MainWindow::OnNetworkError);
+    game_->RegisterObserver(*network_);
 
     connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::OnNewgameClick);
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);

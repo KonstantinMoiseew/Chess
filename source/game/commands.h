@@ -36,7 +36,9 @@ public:
 	virtual bool CheckEmptyEnemy() const = 0;
 	virtual bool KingUnderAttak() const = 0;
 	virtual void SetKingUnderAttak(bool king) = 0;
-	virtual bool GetFlagChangable()=0;
+    virtual bool GetFlagChangable() const = 0;
+    virtual bool IsFromReplication() const = 0;
+    virtual void MarkFromReplication() = 0;
 
 protected:
 
@@ -72,8 +74,11 @@ public:
 		kingUnderAtak_=king;
 	}
 
-	bool GetFlagChangable() override {return flagChangable;}
-	void SetFlagChangable(bool flag_Changable)  {flagChangable=flag_Changable;}
+    bool GetFlagChangable() const override {return flagChangable;}
+    void SetFlagChangable(bool flag_Changable)  {flagChangable=flag_Changable;}
+
+    bool IsFromReplication() const override;
+    void MarkFromReplication() override;
 
 protected:
 
@@ -83,11 +88,12 @@ protected:
 	Pos posFrom_;
 	Pos posTo_;
     PieceType pieceType_ = Chess::PieceType::Pawn;
-    Color pieceColor_= Color::White;
+    Color pieceColor_ = Color::White;
 	bool pieceHasMovedBefore_ = false;
-	bool kingUnderAtak_=true;
-	bool flagChangable=false;
+    bool kingUnderAtak_ = true;
+    bool flagChangable = false;
 	std::optional<SerializedPiece> enemyPiece_;
+    bool fromReplication_ = false;
 };
 
 using ICommandUnPtr = std::unique_ptr<ICommand>;

@@ -210,8 +210,19 @@ bool Chess::MoveCommand::KingUnderAttak() const
     return kingUnderAtak_;
 }
 
+bool Chess::MoveCommand::IsFromReplication() const
+{
+    return fromReplication_;
+}
+
+void Chess::MoveCommand::MarkFromReplication()
+{
+    fromReplication_ = true;
+}
+
 void Chess::MoveCommand::Write(obytestream& stream) const
 {
+    stream << posFrom_;
     stream << posTo_;
     stream << pieceType_;
     stream << pieceColor_;
@@ -223,6 +234,8 @@ void Chess::MoveCommand::Write(obytestream& stream) const
 
 bool Chess::MoveCommand::Read(ibytestream& stream)
 {
+    if (!(stream >> posFrom_))
+        return false;
     if (!(stream >> posTo_))
         return false;
     if (!(stream >> pieceType_))

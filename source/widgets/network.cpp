@@ -28,6 +28,7 @@ void Network::ConnectToGame()
 	{
 		socket_ = new QTcpSocket(this);
 		connect(socket_, &QTcpSocket::connected, this, &Network::OnConnected);
+        connect(socket_, &QTcpSocket::readyRead, this, &Network::OnNetworkRead);
         connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred), this, &Network::OnNetworkError);
 	}
 
@@ -53,6 +54,7 @@ void Network::OnNetworkRead()
     ibytestream stream(std::vector<char>(buffer.begin(), buffer.end()));
     while (auto command = Chess::ICommand::Deserialize(stream))
     {
+        command->MarkFromReplication();
         history_->Execute(*game_, command);
     }
 }
@@ -64,6 +66,9 @@ void Network::OnNetworkError(QAbstractSocket::SocketError error)
 
 void Network::OnCommandExecuted(Chess::ICommand& command)
 {
+    if (command.IsFromReplication())
+        return;
+
     obytestream stream;
     Chess::ICommand::Serialize(stream, &command);
     socket_->write(stream.GetBuffer().data(), stream.GetBuffer().size());

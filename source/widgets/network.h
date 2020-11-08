@@ -10,7 +10,7 @@ namespace Chess
     class History;
 }
 
-class Network : public QObject, Chess::IObserver
+class Network : public QObject, public Chess::IObserver
 {
     Q_OBJECT
 public:
