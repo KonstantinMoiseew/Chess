@@ -83,32 +83,6 @@
      <string>CHECKMATE</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="newgameButton">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>new game</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="savegameButton">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>0</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>save game</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -188,14 +162,6 @@
     <addaction name="actionConnect"/>
    </widget>
    <addaction name="menuGame"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>LeftToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">

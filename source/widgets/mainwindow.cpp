@@ -43,8 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui_->boardView->setMouseTracking(true); //switch on tracking of the mouse without pressing
 	connect(ui_->boardView, &GraphicsView::OnPieceMouseRelease, this, &MainWindow::OnPieceMouseRelease);
 	connect(ui_->rollbackButton, &QPushButton::clicked, this, &MainWindow::OnRollbackClick);
-	connect(ui_->newgameButton, &QPushButton::clicked, this, &MainWindow::OnNewgameClick);
-	connect(ui_->savegameButton, &QPushButton::clicked, this, &MainWindow::OnSavegameClick);
 
 	historyModel_ = new HistoryModel(this);
 	HistoryDelegate * historedelegate_ = new HistoryDelegate;
@@ -73,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     network_ = new Network(this, game_.get(), history_.get());
 	connect(network_, &Network::NetworkError, this, &MainWindow::OnNetworkError);
 
+    connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::OnNewgameClick);
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
 	connect(ui_->actionConnect, &QAction::triggered, this, &MainWindow::OnConnectToGame);
 }
