@@ -10,14 +10,6 @@ bool Chess::History::Execute(Game& game, ICommand* command)
 
 	if (!game.IsKingAttacked(game.GetPlayerTurn()))
 	{
-		if (game.HasKingAttackedAfterMove(game.GetPlayerTurn()))
-		{
-			king_=true;
-		}
-		else
-			king_=false;
-
-		command->SetKingUnderAttak(king_);
 		history_.emplace_back(command);
         game.NextPlayerTurn();
 

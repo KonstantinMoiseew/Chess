@@ -168,7 +168,7 @@ bool Chess::Game::IsCheckMate(Color color) const
 	 return true;
 }
 
-bool Chess::Game:: HasKingAttackedAfterMove(Color color) const
+bool Chess::Game::HasKingAttackedAfterMove(Color color) const
 {
     auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece->GetColor() != color && piece-> GetType() == PieceType::King;});
 	if (it_king == pieces_.end())

@@ -45,7 +45,7 @@ void Network::OnNewConnection()
 
 void Network::OnConnected()
 {
-    //socket_->write("Hello world");
+
 }
 
 void Network::OnNetworkRead()

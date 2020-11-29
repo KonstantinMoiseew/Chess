@@ -16,7 +16,6 @@ public:
 
 	int GetSize() const;
 	ICommand* GetCommand(int index);
-	bool king_ = false;
 	Piece *piece_changed_;
 
 protected:

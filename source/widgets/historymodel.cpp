@@ -20,9 +20,9 @@ int HistoryModel::rowCount(const QModelIndex&) const
 	return (history_->GetSize() + 1) / 2;
 }
 
-QVariant HistoryModel::data(const QModelIndex& index, int role) const
+QVariant HistoryModel::data(const QModelIndex&, int) const
 {
-		return QVariant();
+    return QVariant();
 }
 
 QModelIndex HistoryModel::index(int row, int column, const QModelIndex&) const
