@@ -35,10 +35,13 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent* event)
     if ((char)mainWindow_->GetPlayer() & (char)mainWindow_->GetGame()->GetPlayerTurn())
     {
         auto chess_pos = mainWindow_->PixPosToPos(event->pos());
-        mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos));
+        if (!mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos)))
+            currentlyDragging_->UpdatePosition();
     }
+    else
+        currentlyDragging_->UpdatePosition();
 
-    currentlyDragging_->UpdatePosition();
+
 
 	emit OnPieceMouseRelease(*currentlyDragging_);
 
