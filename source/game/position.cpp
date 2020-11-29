@@ -1,4 +1,5 @@
 #include "position.h"
+#include "defs.h"
 #include "stdio.h"
 
 Chess::Pos::Pos(int x, int y)
@@ -29,7 +30,7 @@ Chess::Pos Chess::Pos::operator + (const Pos& other) const
 
 bool Chess::Pos::IsValid() const
 {
-	return x_ >= 0 && x_ < 8 && y_ >= 0 && y_ < 8;
+    return x_ >= 0 && x_ < BoardSize && y_ >= 0 && y_ < BoardSize;
 }
 
 int Chess::Pos::LengthSqr() const

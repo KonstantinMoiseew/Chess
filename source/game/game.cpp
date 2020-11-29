@@ -86,7 +86,7 @@ void Chess::Game::ArrangeFigures()
     add_black_white(PieceType::King, {4, 0});
     add_black_white(PieceType::Queen, {3, 0});
 
-	for (int i = 0; i < 8; i++)
+    for (int i = 0; i < Chess::BoardSize; i++)
         add_black_white(PieceType::Pawn, {i, 1});
 }
 

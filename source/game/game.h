@@ -40,7 +40,6 @@ namespace Chess
 		Observers observers_;
 		Pieces pieces_;
 		Color activePlayer_ = Color::White;
-
     };
 
 }

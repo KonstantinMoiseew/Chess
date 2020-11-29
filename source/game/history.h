@@ -10,7 +10,7 @@ class History
 {
 public:
 
-	bool Execute(Game& game, ICommand* command, bool flag_changable=false);
+    bool Execute(Game& game, ICommand* command);
 	void RollbackLast(Game& game);
 	void ClearHistory();
 

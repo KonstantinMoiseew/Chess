@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	ui_->setupUi(this);
 
-	cellSize_ = ui_->boardView->width() / 8; // Размер клетки в 8 раз меньше размера доски
+    cellSize_ = ui_->boardView->width() / Chess::BoardSize; // Размер клетки в 8 раз меньше размера доски
 
 	boardScene_ = new QGraphicsScene(this); // Создаём сцену для доски. Привязываем её время жизни к окну (this)
 	ui_->boardView->setScene(boardScene_); // boardView (QGraphicsView) будет визуализировать эту сцену
@@ -208,7 +208,7 @@ void MainWindow::OnGameOver(Chess::Color)
 	ui_->checkmateLabel->show();
 }
 
-void MainWindow:: CreateChoseWindow()
+void MainWindow::CreateChoseWindow()
 {
 	QString image_name = ":/graphics/pieces/queen_black.png";
 	QPixmap pixmap(image_name);
@@ -232,7 +232,7 @@ void MainWindow:: CreateChoseWindow()
 	ui_->label_4->setPixmap(pixmap4);
 }
 
-void MainWindow:: HideChoseWindow()
+void MainWindow::HideChoseWindow()
 {
 		ui_->label->hide();
 		ui_->label_2->hide();
@@ -240,7 +240,7 @@ void MainWindow:: HideChoseWindow()
 		ui_->label_4->hide();
 }
 
-void MainWindow:: ShowChoseWindow()
+void MainWindow::ShowChoseWindow()
 {
 		ui_->label->show();
 		ui_->label_2->show();
@@ -249,15 +249,15 @@ void MainWindow:: ShowChoseWindow()
 }
 
 
-void MainWindow:: OnShowChose(Chess::Piece& piece)
+void MainWindow::OnShowChose(Chess::Piece& piece)
 {
 		ShowChoseWindow();
 		history_->piece_changed_=&piece;
 }
 
-void MainWindow:: OnCangeFigure()
+void MainWindow::OnCangeFigure()
 {
-	if(history_->Execute(*game_.get(), new Chess::MoveCommand(*history_->piece_changed_, history_->piece_changed_->GetPos()), true))
+    if(history_->Execute(*game_.get(), new Chess::MoveCommand(*history_->piece_changed_, history_->piece_changed_->GetPos())))
 		HideChoseWindow();
 }
 

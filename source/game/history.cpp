@@ -1,12 +1,12 @@
 #include "history.h"
 #include "game.h"
 
-bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
+bool Chess::History::Execute(Game& game, ICommand* command)
 {
-	if (!command->Validate(game,flag_changable))
+    if (!command->Validate(game))
 		return false;
 
-	command->Do(game,flag_changable);
+    command->Do(game);
 
 	if (!game.IsKingAttacked(game.GetPlayerTurn()))
 	{
@@ -19,8 +19,7 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 
 		command->SetKingUnderAttak(king_);
 		history_.emplace_back(command);
-		if (!flag_changable)
-			game.NextPlayerTurn();
+        game.NextPlayerTurn();
 
 		OBS_CALL(game.GetObservers(), OnCommandExecuted(*command));
 
@@ -28,26 +27,18 @@ bool Chess::History::Execute(Game& game, ICommand* command, bool flag_changable)
 	}
 	else
 	{
-		if(!flag_changable)
-		{
-			command->Undo(game)	;
-			delete command;
-			return false;
-		}
-		history_.emplace_back(command);
-		return true;
+        command->Undo(game);
+        delete command;
+        return false;
 	}
 }
-
-
-
 
 void Chess::History::RollbackLast(Game& game)
 {
 	if (!history_.empty())
 	{
 
-		history_.back()->Undo(game,history_.back()->GetFlagChangable());
+        history_.back()->Undo(game);
 		history_.pop_back();
 		game.NextPlayerTurn();
 	}
@@ -70,18 +61,3 @@ Chess::ICommand* Chess::History::GetCommand(int index)
 	else
 		return nullptr;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
