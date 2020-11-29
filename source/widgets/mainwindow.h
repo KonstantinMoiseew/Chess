@@ -30,6 +30,7 @@ public:
 	Chess::Game*  GetGame() const { return game_.get(); }
 	Chess::History*  GetHistory() const { return history_.get(); }
 	QGraphicsScene* GetScene() {return boardScene_;}
+    Chess::Color GetPlayer() const {return player_;}
 
 public slots:
 	void OnPieceMousePress(PieceItem&);
@@ -65,6 +66,7 @@ private:
 	std::vector<QGraphicsItem*> movementBeacons_;
 	HistoryModel* historyModel_ = nullptr;
 	Network* network_ = nullptr;
+    Chess::Color player_ = (Chess::Color)((char)Chess::Color::Black | (char)Chess::Color::White);
 };
 
 

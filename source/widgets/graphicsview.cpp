@@ -31,11 +31,17 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent* event)
 		return;
 
 	assert(mainWindow_);
-	auto chess_pos = mainWindow_->PixPosToPos(event->pos());
-    if (!mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos)))// выполнение команды, т.е. происходит изменение в веторе pieces_!
-		currentlyDragging_->UpdatePosition();
+
+    if ((char)mainWindow_->GetPlayer() & (char)mainWindow_->GetGame()->GetPlayerTurn())
+    {
+        auto chess_pos = mainWindow_->PixPosToPos(event->pos());
+        mainWindow_->GetHistory()->Execute(*mainWindow_->GetGame(), new Chess::MoveCommand(currentlyDragging_->GetPiece(), chess_pos));
+    }
+
+    currentlyDragging_->UpdatePosition();
 
 	emit OnPieceMouseRelease(*currentlyDragging_);
+
 	currentlyDragging_ = nullptr;
 }
 

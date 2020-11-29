@@ -3,13 +3,13 @@
 namespace Chess
 {
 
-    enum class Color
+    enum class Color : char
     {
-        White,
-        Black
+        White = 1,
+        Black = 2
     };
 
-    enum class PieceType
+    enum class PieceType : char
 	{
 		Pawn,
 		Knight,

@@ -116,14 +116,11 @@ Chess::Color Chess::Game::GetPlayerTurn() const
 
 void Chess::Game::NextPlayerTurn()
 {
-
 	activePlayer_ = activePlayer_ == Color::White ? Color::Black : Color::White;
 	if (IsCheckMate(activePlayer_))
 	{
 		OBS_CALL(observers_, OnGameOver(activePlayer_ == Color::White ? Color::Black : Color::White));
 	}
-	//Color::Black ? Color::White : Color::Black
-
 }
 
 bool Chess::Game::IsKingAttacked(Color color) const

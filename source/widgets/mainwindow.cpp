@@ -265,12 +265,14 @@ void MainWindow::OnHostGame()
 {
 	OnNewgameClick();
 	network_->HostGame();
+    player_ = Chess::Color::White;
 }
 
 void MainWindow::OnConnectToGame()
 {
 	OnNewgameClick();
 	network_->ConnectToGame();
+    player_ = Chess::Color::Black;
 }
 
 void MainWindow::OnNetworkError(QAbstractSocket::SocketError error)

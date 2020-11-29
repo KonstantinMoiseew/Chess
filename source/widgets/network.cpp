@@ -71,5 +71,6 @@ void Network::OnCommandExecuted(Chess::ICommand& command)
 
     obytestream stream;
     Chess::ICommand::Serialize(stream, &command);
-    socket_->write(stream.GetBuffer().data(), stream.GetBuffer().size());
+    if (socket_)
+        socket_->write(stream.GetBuffer().data(), stream.GetBuffer().size());
 }
