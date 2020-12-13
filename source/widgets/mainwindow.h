@@ -38,12 +38,10 @@ public slots:
 	void OnPieceAdded(Chess::Piece& piece) override;
 	void OnPieceMoved(Chess::Piece& piece) override;
 	void OnGameOver(Chess::Color color) override;
-	void OnShowChose(Chess::Piece& piece) override;
 	void OnRollbackClick();
 	void OnNewgameClick();
 	void OnSavegameClick();
     void OnLoadgameClick();
-	void OnCangeFigure();
 	void OnHostGame();
 	void OnConnectToGame();
 	void OnNetworkError(QAbstractSocket::SocketError error);
@@ -54,10 +52,6 @@ private:
 	void CreateMovementBeacons();
 	void ShowMovementBeacons(const Chess::Positions&);
 	void HideMovementBeacons();
-	void CreateChoseWindow();
-	void HideChoseWindow();
-	void ShowChoseWindow();
-
 
 	Ui::MainWindow* ui_ = nullptr;
 	QGraphicsScene* boardScene_ = nullptr; // Сцена для доски

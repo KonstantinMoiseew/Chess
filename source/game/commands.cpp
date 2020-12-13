@@ -67,9 +67,6 @@ bool Chess::MoveCommand::Validate(const Game& game) const
     if (piece_enemy && piece_enemy->GetColor() == piece->GetColor())
         return false;
 
-    if (std::find_if(game.GetPieces().begin(), game.GetPieces().end(), [](const PieceUnPtr& ptr){return (ptr.get()->GetType() == Chess::PieceType::Pawn&&(ptr.get()->GetPos().y_==0||ptr.get()->GetPos().y_==7));}) != game.GetPieces().end())
-        return false;
-
     return true;
 }
 
@@ -94,25 +91,21 @@ void Chess::MoveCommand::Do(Game& game)
 
 void Chess::MoveCommand::Undo(Game& game)
 {
+    auto piece = game.FindPieceAt(posTo_);
+    assert(piece);
+    if (!piece)
+        return;
 
-        auto piece = game.FindPieceAt(posTo_);
-        assert(piece);
-        if (!piece)
-            return;
+    piece->SetPos(posFrom_);
+    piece->SetHasMoved(pieceHasMovedBefore_);
 
-        piece->SetPos(posFrom_);
-        piece->SetHasMoved(pieceHasMovedBefore_);
-
-        if (enemyPiece_)
-        {
-
-            auto enemy = new Piece(*enemyPiece_);
-            game.AddPiece(*enemy);
-            enemy->SetPos(posTo_);
-        }
-
+    if (enemyPiece_)
+    {
+        auto enemy = new Piece(*enemyPiece_);
+        game.AddPiece(*enemy);
+        enemy->SetPos(posTo_);
+    }
 }
-
 
 Chess::ICommand::Type Chess::MoveCommand::GetType() const
 {

@@ -16,12 +16,10 @@ public:
 
 	int GetSize() const;
 	ICommand* GetCommand(int index);
-	Piece *piece_changed_;
 
 protected:
 
 	std::vector<ICommandUnPtr> history_;
-
 };
 
 }

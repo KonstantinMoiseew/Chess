@@ -24,7 +24,6 @@ namespace Chess
 		virtual void OnPieceAboutToBeRemoved(Piece&) {}
 		virtual void OnPieceMoved(Piece&) {}
 		virtual void OnGameOver(Color) {}
-		virtual void OnShowChose(Piece&){}
 
 		virtual void OnCommandExecuted(ICommand&) {}
 
