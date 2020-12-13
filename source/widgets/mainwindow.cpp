@@ -6,6 +6,7 @@
 #include "widgets/historydelegate.h"
 #include "widgets/labelbotton.h"
 #include "widgets/network.h"
+#include <fstream>
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -73,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent) :
     game_->RegisterObserver(*network_);
 
     connect(ui_->actionNew, &QAction::triggered, this, &MainWindow::OnNewgameClick);
+    connect(ui_->actionSave, &QAction::triggered, this, &MainWindow::OnSavegameClick);
+    connect(ui_->actionLoad, &QAction::triggered, this, &MainWindow::OnLoadgameClick);
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
 	connect(ui_->actionConnect, &QAction::triggered, this, &MainWindow::OnConnectToGame);
 }
@@ -106,10 +109,39 @@ void  MainWindow::OnNewgameClick()
 	HideChoseWindow();
 }
 
-
 void MainWindow::OnSavegameClick()
-{
+{    
+    obytestream obs;
+    for (int i = 0; i < history_->GetSize(); i++)
+    {
+        auto command = history_->GetCommand(i);
+        Chess::ICommand::Serialize(obs, command);
+    }
 
+    std::ofstream f("savegame.chess", std::ios::out | std::ios::binary);
+    f.write(obs.GetBuffer().data(), obs.GetBuffer().size());
+}
+
+void MainWindow::OnLoadgameClick()
+{
+    std::vector<char> buffer;
+    std::ifstream f("savegame.chess", std::ios::out | std::ios::binary);
+    while(true)
+    {
+        int ch = f.get();
+        if (ch==EOF)
+            break;
+        buffer.push_back((char)ch);
+    }
+    while(history_->GetSize())
+    {
+        history_->RollbackLast(*game_);
+    }
+    ibytestream stream(std::move(buffer));
+    while (auto command = Chess::ICommand::Deserialize(stream))
+    {
+        history_->Execute(*game_, command);
+    }
 }
 
 void MainWindow::OnPieceMousePress(PieceItem& pieceItem)

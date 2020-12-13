@@ -42,6 +42,7 @@ public slots:
 	void OnRollbackClick();
 	void OnNewgameClick();
 	void OnSavegameClick();
+    void OnLoadgameClick();
 	void OnCangeFigure();
 	void OnHostGame();
 	void OnConnectToGame();
