@@ -28,14 +28,6 @@ public:
 
     virtual Type GetType() const = 0;
 	virtual std::string ToString() const = 0;
-    virtual PieceType GetPieceType() const = 0;
-	virtual Color GetPieceColor() const = 0;
-	virtual bool DidCapture() const = 0;
-    virtual PieceType GetCapturedPieceType() const = 0;
-	virtual Color GetCapturedPieceColor() const = 0;
-	virtual bool CheckEmptyEnemy() const = 0;
-	virtual bool KingUnderAttak() const = 0;
-	virtual void SetKingUnderAttak(bool king) = 0;
     virtual bool IsFromReplication() const = 0;
     virtual void MarkFromReplication() = 0;
 
@@ -61,17 +53,6 @@ public:
 
     Type GetType() const override;
 	std::string ToString() const override;
-    PieceType GetPieceType() const override;
-	Color GetPieceColor() const override;
-	bool DidCapture() const override;
-    PieceType GetCapturedPieceType() const override;
-    Color GetCapturedPieceColor() const override;
-	bool CheckEmptyEnemy() const override;
-	bool KingUnderAttak() const override;
-	void SetKingUnderAttak(bool king) override
-	{
-		kingUnderAtak_=king;
-	}
 
     bool IsFromReplication() const override;
     void MarkFromReplication() override;

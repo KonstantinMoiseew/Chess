@@ -129,41 +129,6 @@ std::string Chess::MoveCommand::ToString() const
     return "";
 }
 
-Chess::PieceType Chess::MoveCommand::GetPieceType() const
-{
-    return pieceType_;
-}
-
-Chess::Color Chess::MoveCommand::GetPieceColor() const
-{
-    return pieceColor_;
-}
-
-bool Chess::MoveCommand::DidCapture() const
-{
-    return enemyPiece_.has_value();
-}
-
-Chess::PieceType Chess::MoveCommand::GetCapturedPieceType() const
-{
-    return enemyPiece_ ? enemyPiece_.value().type_ : PieceType::Pawn;
-}
-
-Chess::Color Chess::MoveCommand::GetCapturedPieceColor() const
-{
-    return enemyPiece_ ? enemyPiece_.value().color_ : Color::White;
-}
-
-bool Chess::MoveCommand::CheckEmptyEnemy() const
-{
-    return enemyPiece_.has_value();
-}
-
-bool Chess::MoveCommand::KingUnderAttak() const
-{
-    return kingUnderAtak_;
-}
-
 bool Chess::MoveCommand::IsFromReplication() const
 {
     return fromReplication_;
