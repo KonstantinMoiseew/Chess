@@ -170,3 +170,76 @@ bool Chess::MoveCommand::Read(ibytestream& stream)
     return true;
 }
 
+//////////////////////CompoundCommand/////////////////////////////
+
+Chess::CompoundCommand::CompoundCommand(std::vector<ICommandUnPtr>&& commands)
+{
+    commands_ = std::move(commands);
+}
+
+bool Chess::CompoundCommand::Validate(const Game& game) const
+{
+    /*for (auto& command : commands_)
+        if (!command->Validate(game))
+            return false;*/
+
+    return true;
+}
+
+void Chess::CompoundCommand::Do(Game& game)
+{
+    for (auto& command : commands_)
+        command->Do(game);
+}
+
+void Chess::CompoundCommand::Undo(Game& game)
+{
+    for (auto it = commands_.rbegin(); it != commands_.rend(); ++it)
+        (*it)->Undo(game);
+}
+
+Chess::ICommand::Type Chess::CompoundCommand::GetType() const
+{
+    return Type::Compound;
+}
+
+std::string Chess::CompoundCommand::ToString() const
+{
+    return "";
+}
+
+bool Chess::CompoundCommand::IsFromReplication() const
+{
+    return fromReplication_;
+}
+
+void Chess::CompoundCommand::MarkFromReplication()
+{
+    fromReplication_ = true;
+}
+
+void Chess::CompoundCommand::Write(obytestream& stream) const
+{
+    stream << (int)commands_.size();
+    for (auto& command : commands_)
+        ICommand::Serialize(stream, command.get());
+}
+
+bool Chess::CompoundCommand::Read(ibytestream& stream)
+{
+    int num_commands = 0;
+    if (!(stream >> num_commands))
+        return false;
+
+    for (int i = 0; i < num_commands; i++)
+    {
+        auto command = ICommand::Deserialize(stream);
+        if (!command)
+            return false;
+
+        commands_.push_back(std::unique_ptr<ICommand>(command));
+    }
+
+    return true;
+}
+

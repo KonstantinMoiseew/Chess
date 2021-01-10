@@ -37,6 +37,7 @@ protected:
     virtual bool Read(ibytestream& stream) = 0;
 };
 
+using ICommandUnPtr = std::unique_ptr<ICommand>;
 
 class MoveCommand : public ICommand
 {
@@ -72,6 +73,32 @@ protected:
     bool fromReplication_ = false;
 };
 
-using ICommandUnPtr = std::unique_ptr<ICommand>;
+
+class CompoundCommand : public ICommand
+{
+public:
+
+    CompoundCommand(std::vector<ICommandUnPtr>&& commands);
+
+    virtual bool Validate(const Game& game) const override;
+    virtual void Do(Game& game) override;
+    virtual void Undo(Game& game) override;
+
+    virtual Type GetType() const override;
+    virtual std::string ToString() const override;
+    virtual bool IsFromReplication() const override;
+    virtual void MarkFromReplication() override;
+
+protected:
+
+    virtual void Write(obytestream& stream) const override;
+    virtual bool Read(ibytestream& stream) override;
+
+    std::vector<ICommandUnPtr> commands_;
+    bool fromReplication_ = false;
+};
+
+
+
 
 }
