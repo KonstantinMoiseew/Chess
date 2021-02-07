@@ -10,6 +10,6 @@ namespace Chess
 
 		virtual ~IPieceMovement() {}
 
-		virtual Positions GetAvailableMovement() const = 0;
+        virtual Positions GetAvailableMovement(bool attack_only = false) const = 0;
 	};
 }

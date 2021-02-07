@@ -35,7 +35,7 @@ Chess::RookMovement::RookMovement(Piece& owner)
 	: piece_(owner)
 {}
 
-Chess::Positions Chess::RookMovement::GetAvailableMovement() const
+Chess::Positions Chess::RookMovement::GetAvailableMovement(bool attack_only) const
 {
 	Positions result;
 	auto pos = piece_.GetPos();
@@ -71,7 +71,7 @@ Chess::BishopMovement::BishopMovement(Piece& owner)
 	: piece_(owner)
 {}
 
-Chess::Positions Chess::BishopMovement::GetAvailableMovement() const
+Chess::Positions Chess::BishopMovement::GetAvailableMovement(bool attack_only) const
 {
 	auto pos = piece_.GetPos();
 	Positions result;
@@ -123,7 +123,7 @@ Chess::KnightMovement::KnightMovement(Piece& owner)
 	:piece_(owner)
 {}
 
-Chess::Positions Chess::KnightMovement:: GetAvailableMovement() const
+Chess::Positions Chess::KnightMovement:: GetAvailableMovement(bool attack_only) const
 {
 	Positions result;
 	AddPos(piece_, piece_.GetPos() + Pos(+1,+2), result);
@@ -145,7 +145,7 @@ Chess::QueenMovement::QueenMovement(Piece& owner)
 	bishopMovement_.reset(new BishopMovement(owner));
 }
 
-Chess::Positions Chess::QueenMovement::GetAvailableMovement() const
+Chess::Positions Chess::QueenMovement::GetAvailableMovement(bool attack_only) const
 {
 	Positions resultR = rookMovement_->GetAvailableMovement();
 	Positions resultB = bishopMovement_->GetAvailableMovement();
@@ -159,10 +159,43 @@ Chess::KingMovement::KingMovement(Piece& owner)
 	queenMovement_.reset(new QueenMovement(owner));
 }
 
-Chess::Positions Chess::KingMovement::GetAvailableMovement() const
+Chess::Positions Chess::KingMovement::GetAvailableMovement(bool attack_only) const
 {
 	Positions result  = queenMovement_->GetAvailableMovement();
 	result.erase(std::remove_if(result.begin(), result.end(), [this](auto& p) {return (p - piece_.GetPos()).LengthSqr() >= 4;} ), result.end());
+    if (!piece_.HasMoved())
+    {
+        auto kingpos = piece_.GetPos();
+        auto game = piece_.GetGame();
+
+        auto AddCastling = [&](int deltax)
+        {
+            int rookx = deltax < 0 ? 0 : 7;
+            int kingx = kingpos.x_;
+            auto figure = game->FindPieceAt({rookx, kingpos.y_});
+            if (!figure || figure->HasMoved())
+                return;
+
+            int a = min(rookx, kingx);
+            int b = min(rookx, kingx);
+            for (int i = a + 1; i < b; i++)
+                if (game->FindPieceAt({i, kingpos.y_}))
+                    return;
+
+            a = min(kingx, kingx + deltax);
+            b = max(kingx, kingx + deltax);
+            for (int i = a; i <= b; i++)
+                if (game->IsCellAttacked({i, kingpos.y_}, GetOppositeColor(piece_.GetColor())))
+                    return;
+            AddPos(piece_, piece_.GetPos() + Pos(deltax, 0), result, false);
+        };
+
+        if (!attack_only)
+        {
+            AddCastling(-2);
+            AddCastling(+2);
+        }
+    }
 	return result;
 }
 
@@ -171,7 +204,7 @@ Chess::PawnMovement::PawnMovement(Piece& owner)
 	: piece_(owner)
 {}
 
-Chess::Positions Chess::PawnMovement::GetAvailableMovement() const
+Chess::Positions Chess::PawnMovement::GetAvailableMovement(bool attack_only) const
 {
 	Positions result;
 
@@ -179,13 +212,16 @@ Chess::Positions Chess::PawnMovement::GetAvailableMovement() const
 
 	int color_factor = piece_.GetColor() == Color::White ? 1 : -1;
 
-	for (int i =0; i <= movement; i++)
-	{
-		auto pos = piece_.GetPos() + Pos(0, i * color_factor);
-		if (pos.IsValid())
-			if (!AddPos(piece_, pos, result, false))
-				break;
-	}
+    if (!attack_only)
+    {
+        for (int i =0; i <= movement; i++)
+        {
+            auto pos = piece_.GetPos() + Pos(0, i * color_factor);
+            if (pos.IsValid())
+                if (!AddPos(piece_, pos, result, false))
+                    break;
+        }
+    }
 
 	{
 		auto pos = piece_.GetPos() + Pos(1, color_factor);

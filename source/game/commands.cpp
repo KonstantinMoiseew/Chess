@@ -179,9 +179,9 @@ Chess::CompoundCommand::CompoundCommand(std::vector<ICommandUnPtr>&& commands)
 
 bool Chess::CompoundCommand::Validate(const Game& game) const
 {
-    /*for (auto& command : commands_)
+    for (auto& command : commands_)
         if (!command->Validate(game))
-            return false;*/
+            return false;
 
     return true;
 }

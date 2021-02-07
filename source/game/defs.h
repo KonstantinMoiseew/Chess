@@ -9,6 +9,9 @@ namespace Chess
         Black = 2
     };
 
+
+    Color GetOppositeColor(Color color);
+
     enum class PieceType : char
 	{
 		Pawn,

@@ -123,24 +123,27 @@ void Chess::Game::NextPlayerTurn()
 	}
 }
 
+bool Chess::Game::IsCellAttacked(Pos pos, Color attackers_color) const
+{
+    for (auto& piece :  pieces_)
+    {
+        if(piece->GetColor() == attackers_color)
+        {
+            for (auto mov : piece->GetMovement().GetAvailableMovement(true))
+                if (pos == mov)
+                    return true;
+        }
+    }
+    return false;
+}
+
 bool Chess::Game::IsKingAttacked(Color color) const
 {
     auto it_king = std::find_if(pieces_.begin(), pieces_.end(), [color](auto& piece) {return piece-> GetColor() == color && piece-> GetType() == PieceType::King;});
 	if (it_king == pieces_.end())
 		return false;
 
-	for (auto& piece :  pieces_)
-	{
-		if(piece->GetColor()!=color)
-		{
-			for (auto mov : piece->GetMovement().GetAvailableMovement())
-				if ((*it_king)->GetPos() == mov)
-				{
-					return true;
-				}
-		}
-	}
-	return false;
+    return IsCellAttacked((*it_king)->GetPos(), GetOppositeColor(color));
 }
 
 bool Chess::Game::IsCheckMate(Color color) const
@@ -188,8 +191,26 @@ bool Chess::Game::HasKingAttackedAfterMove(Color color) const
 	return false;
 }
 
+Chess::ICommand* Chess::Game::CreateCommand(Piece& piece, Pos pos) const
+{
+    auto move_delta = pos - piece.GetPos();
+    if (piece.GetType() == Chess::PieceType::King &&
+        abs(move_delta.x_) == 2)
+    {
+        std::vector<Chess::ICommandUnPtr> commands;
+        commands.push_back(Chess::ICommandUnPtr(new Chess::MoveCommand(piece, pos)));
+        Piece* rook = nullptr;
+        if (move_delta.x_ > 0)
+            rook = FindPieceAt({7, pos.y_});
+        else
+            rook = FindPieceAt({0, pos.y_});
 
+        if (!rook)
+            return nullptr;
 
+        commands.push_back(Chess::ICommandUnPtr(new Chess::MoveCommand(*rook, pos - Chess::Pos(1, 0) * sgn(move_delta.x_))));
+        return new Chess::CompoundCommand(std::move(commands));
+    }
 
-
-
+    return new Chess::MoveCommand(piece, pos);
+}

@@ -31,9 +31,12 @@ namespace Chess
 		Color GetPlayerTurn() const;
 		void NextPlayerTurn();
 
+        bool IsCellAttacked(Pos pos, Color attackers_color) const;
 		bool IsKingAttacked(Color color) const;
 		bool IsCheckMate(Color color) const;
 		bool HasKingAttackedAfterMove(Color color) const;
+
+        ICommand* CreateCommand(Piece& piece, Pos pos) const;
 
     protected:
 

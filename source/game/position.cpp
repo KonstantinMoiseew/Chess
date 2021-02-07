@@ -28,6 +28,11 @@ Chess::Pos Chess::Pos::operator + (const Pos& other) const
 	return Pos(x_ + other.x_, y_ + other.y_);
 }
 
+Chess::Pos Chess::Pos::operator*(int value) const
+{
+    return Pos(x_ * value, y_ * value);
+}
+
 bool Chess::Pos::IsValid() const
 {
     return x_ >= 0 && x_ < BoardSize && y_ >= 0 && y_ < BoardSize;

@@ -11,7 +11,7 @@ namespace Chess
 	public:
 
 		RookMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 
@@ -23,7 +23,7 @@ namespace Chess
 	public:
 
 		BishopMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 
@@ -35,7 +35,7 @@ namespace Chess
 	public:
 
 		QueenMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 
@@ -48,7 +48,7 @@ namespace Chess
 	public:
 
 		KingMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 
@@ -61,7 +61,7 @@ namespace Chess
 	public:
 
 		KnightMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 
@@ -73,7 +73,7 @@ namespace Chess
 	public:
 
 		PawnMovement(Piece& owner);
-		Positions GetAvailableMovement() const override;
+        Positions GetAvailableMovement(bool attack_only = false) const override;
 
 	protected:
 

@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++17
 
 SOURCES += \
+    source/game/defs.cpp \
     source/widgets/main.cpp \
     source/widgets/mainwindow.cpp \
 	source/widgets/pieceitem.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
 
 
 HEADERS += \
+    source/game/kernel/math.h \
     source/widgets/mainwindow.h \
 	source/widgets/pieceitem.h \
     source/game/piece.h \

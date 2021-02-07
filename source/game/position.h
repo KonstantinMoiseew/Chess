@@ -13,6 +13,7 @@ namespace Chess
 		bool operator != (const Pos& other) const;
 		Pos operator - (const Pos& other) const;
 		Pos operator + (const Pos& other) const;
+        Pos operator * (int value) const;
 		bool IsValid() const;
 		int LengthSqr() const;
 		std::string ToString() const;
