@@ -45,9 +45,13 @@ int Chess::Pos::LengthSqr() const
 
 std::string Chess::Pos::ToString() const
 {
-	char buf[16];
-	sprintf(buf, "%c%i", 'a' + x_, y_+1);
+    char buf[3];
+    sprintf(buf, "%c%i", XToChar(), y_+1);
 
 	return buf;
 }
 
+char Chess::Pos::XToChar() const
+{
+    return 'a' + x_;
+}

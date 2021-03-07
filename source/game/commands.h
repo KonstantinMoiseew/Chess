@@ -68,7 +68,6 @@ protected:
     PieceType pieceType_ = Chess::PieceType::Pawn;
     Color pieceColor_ = Color::White;
 	bool pieceHasMovedBefore_ = false;
-    bool kingUnderAtak_ = true;
 	std::optional<SerializedPiece> enemyPiece_;
     bool fromReplication_ = false;
 };

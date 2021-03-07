@@ -12,6 +12,6 @@ void HistoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
 
 	auto command = reinterpret_cast<Chess::ICommand*>(index.internalPointer());
 
-    painter->drawText(35,15, command->ToString().c_str());
+    painter->drawText(option.rect.topLeft() + QPoint(35,15), command->ToString().c_str());
 	painter->restore();
 }

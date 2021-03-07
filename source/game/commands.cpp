@@ -114,19 +114,29 @@ Chess::ICommand::Type Chess::MoveCommand::GetType() const
 
 std::string Chess::MoveCommand::ToString() const
 {
-    if (pieceType_ == PieceType::Pawn)
-        return posFrom_.ToString() + "->" + posTo_.ToString();
-    else if (pieceType_ ==PieceType::Knight)
-        return "N" + posFrom_.ToString() + "->" + posTo_.ToString();
+    std::string text;
+
+    if (pieceType_ == PieceType::Knight)
+        text += 'N';
     else if (pieceType_ ==PieceType::Bishop)
-        return "B" +posFrom_.ToString() + "->" + posTo_.ToString();
+        text += 'B';
     else if (pieceType_ ==PieceType::Rook)
-        return "R" +  posFrom_.ToString() + "->" +posTo_.ToString();
+        text += 'R';
     else if (pieceType_ ==PieceType::Queen)
-        return "Q" + posFrom_.ToString() + "->" +posTo_.ToString();
+        text += 'Q';
     else if (pieceType_ ==PieceType::King)
-        return "K" + posFrom_.ToString() + "->" +posTo_.ToString();
-    return "";
+        text += 'K';
+
+    if (enemyPiece_)
+    {
+        if (pieceType_ == PieceType::Pawn)
+            text += posFrom_.XToChar();
+        text += 'x';
+    }
+
+    text += posTo_.ToString();
+
+    return text;
 }
 
 bool Chess::MoveCommand::IsFromReplication() const
@@ -146,7 +156,6 @@ void Chess::MoveCommand::Write(obytestream& stream) const
     stream << pieceType_;
     stream << pieceColor_;
     stream << pieceHasMovedBefore_;
-    stream << kingUnderAtak_;
     stream << enemyPiece_;
 }
 
@@ -161,8 +170,6 @@ bool Chess::MoveCommand::Read(ibytestream& stream)
     if (!(stream >> pieceColor_))
         return false;
     if (!(stream >> pieceHasMovedBefore_))
-        return false;
-    if (!(stream >> kingUnderAtak_))
         return false;
     if (!(stream >> enemyPiece_))
         return false;

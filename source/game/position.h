@@ -17,6 +17,7 @@ namespace Chess
 		bool IsValid() const;
 		int LengthSqr() const;
 		std::string ToString() const;
+        char XToChar() const;
 
 		int x_ = 0;
 		int y_ = 0;

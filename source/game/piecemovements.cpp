@@ -35,7 +35,7 @@ Chess::RookMovement::RookMovement(Piece& owner)
 	: piece_(owner)
 {}
 
-Chess::Positions Chess::RookMovement::GetAvailableMovement(bool attack_only) const
+Chess::Positions Chess::RookMovement::GetAvailableMovement(bool) const
 {
 	Positions result;
 	auto pos = piece_.GetPos();
@@ -71,7 +71,7 @@ Chess::BishopMovement::BishopMovement(Piece& owner)
 	: piece_(owner)
 {}
 
-Chess::Positions Chess::BishopMovement::GetAvailableMovement(bool attack_only) const
+Chess::Positions Chess::BishopMovement::GetAvailableMovement(bool) const
 {
 	auto pos = piece_.GetPos();
 	Positions result;
@@ -123,7 +123,7 @@ Chess::KnightMovement::KnightMovement(Piece& owner)
 	:piece_(owner)
 {}
 
-Chess::Positions Chess::KnightMovement:: GetAvailableMovement(bool attack_only) const
+Chess::Positions Chess::KnightMovement:: GetAvailableMovement(bool) const
 {
 	Positions result;
 	AddPos(piece_, piece_.GetPos() + Pos(+1,+2), result);
@@ -145,7 +145,7 @@ Chess::QueenMovement::QueenMovement(Piece& owner)
 	bishopMovement_.reset(new BishopMovement(owner));
 }
 
-Chess::Positions Chess::QueenMovement::GetAvailableMovement(bool attack_only) const
+Chess::Positions Chess::QueenMovement::GetAvailableMovement(bool) const
 {
 	Positions resultR = rookMovement_->GetAvailableMovement();
 	Positions resultB = bishopMovement_->GetAvailableMovement();
