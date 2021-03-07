@@ -37,7 +37,15 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent* event)
         auto chess_pos = mainWindow_->PixPosToPos(event->pos());
         auto& piece =  currentlyDragging_->GetPiece();
         auto game = mainWindow_->GetGame();
-        auto command = game->CreateCommand(piece, chess_pos);
+
+        Chess::PieceType promotion_type = Chess::PieceType::Queen;
+        if (game->IsPromotionMove(piece, chess_pos))
+        {
+            // TODO: Dialog window
+            // promotion_type = ...
+        }
+
+        auto command = game->CreateCommand(piece, chess_pos, promotion_type);
 
         if (command)
         {

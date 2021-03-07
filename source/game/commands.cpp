@@ -177,6 +177,85 @@ bool Chess::MoveCommand::Read(ibytestream& stream)
     return true;
 }
 
+//////////////////////ReplacePieceCommand//////////////////////////
+
+Chess::ReplacePieceCommand::ReplacePieceCommand(Pos pos, PieceType replace_type)
+    : pos_(pos)
+    , replaceType_(replace_type)
+{
+}
+
+bool Chess::ReplacePieceCommand::Validate(const Game& game) const
+{
+    return true;
+}
+
+void Chess::ReplacePieceCommand::Do(Game& game)
+{
+    auto piece = game.FindPieceAt(pos_);
+    if (!piece)
+        return;
+
+    auto color = piece->GetColor();
+    replacedType_ = piece->GetType();
+    game.RemovePiece(*piece);
+    auto new_piece = new Piece(replaceType_, color);
+    game.AddPiece(*new_piece);
+    new_piece->SetPos(pos_);
+}
+
+void Chess::ReplacePieceCommand::Undo(Game& game)
+{
+    auto piece = game.FindPieceAt(pos_);
+    if (!piece)
+        return;
+
+    auto color = piece->GetColor();
+    game.RemovePiece(*piece);
+    auto new_piece = new Piece(replacedType_, color);
+    game.AddPiece(*new_piece);
+    new_piece->SetPos(pos_);
+}
+
+Chess::ICommand::Type Chess::ReplacePieceCommand::GetType() const
+{
+    return ICommand::Type::Replace;
+}
+
+std::string Chess::ReplacePieceCommand::ToString() const
+{
+    return "";
+}
+
+bool Chess::ReplacePieceCommand::IsFromReplication() const
+{
+    return isFromReplication_;
+}
+
+void Chess::ReplacePieceCommand::MarkFromReplication()
+{
+    isFromReplication_ = true;
+}
+
+void Chess::ReplacePieceCommand::Write(obytestream& stream) const
+{
+    stream << pos_;
+    stream << replaceType_;
+    stream << replacedType_;
+}
+
+bool Chess::ReplacePieceCommand::Read(ibytestream& stream)
+{
+    if (!(stream >> pos_))
+        return false;
+    if (!(stream >> replaceType_))
+        return false;
+    if (!(stream >> replacedType_))
+        return false;
+
+    return true;
+}
+
 //////////////////////CompoundCommand/////////////////////////////
 
 Chess::CompoundCommand::CompoundCommand(std::vector<ICommandUnPtr>&& commands)

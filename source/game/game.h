@@ -36,7 +36,8 @@ namespace Chess
 		bool IsCheckMate(Color color) const;
 		bool HasKingAttackedAfterMove(Color color) const;
 
-        ICommand* CreateCommand(Piece& piece, Pos pos) const;
+        bool IsPromotionMove(const Piece& piece, Pos pos) const;
+        ICommand* CreateCommand(Piece& piece, Pos pos, PieceType promotion_type) const;
 
     protected:
 

@@ -13,7 +13,7 @@ public:
 	enum class Type : char
 	{
 		Move,
-		Promote,
+        Replace,
 		Compound
 	};
 
@@ -72,6 +72,32 @@ protected:
     bool fromReplication_ = false;
 };
 
+class ReplacePieceCommand : public ICommand
+{
+public:
+
+    ReplacePieceCommand(Pos piece, PieceType replace_type);
+
+    bool Validate(const Game& game) const override;
+    void Do(Game& game) override;
+    void Undo(Game& game) override;
+
+    Type GetType() const override;
+    std::string ToString() const override;
+
+    bool IsFromReplication() const override;
+    void MarkFromReplication() override;
+
+protected:
+
+    void Write(obytestream& stream) const override;
+    bool Read(ibytestream& stream) override;
+
+    Pos pos_;
+    PieceType replaceType_;
+    PieceType replacedType_;
+    bool isFromReplication_ = false;
+};
 
 class CompoundCommand : public ICommand
 {
@@ -96,8 +122,5 @@ protected:
     std::vector<ICommandUnPtr> commands_;
     bool fromReplication_ = false;
 };
-
-
-
 
 }

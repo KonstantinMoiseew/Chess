@@ -191,7 +191,16 @@ bool Chess::Game::HasKingAttackedAfterMove(Color color) const
 	return false;
 }
 
-Chess::ICommand* Chess::Game::CreateCommand(Piece& piece, Pos pos) const
+bool Chess::Game::IsPromotionMove(const Piece& piece, Pos pos) const
+{
+    if (piece.GetType() == Chess::PieceType::Pawn)
+        if (pos.y_ == 0 || pos.y_ == 7)
+            return true;
+
+    return false;
+}
+
+Chess::ICommand* Chess::Game::CreateCommand(Piece& piece, Pos pos, PieceType promotion_type) const
 {
     auto move_delta = pos - piece.GetPos();
     if (piece.GetType() == Chess::PieceType::King &&
@@ -209,6 +218,14 @@ Chess::ICommand* Chess::Game::CreateCommand(Piece& piece, Pos pos) const
             return nullptr;
 
         commands.push_back(Chess::ICommandUnPtr(new Chess::MoveCommand(*rook, pos - Chess::Pos(1, 0) * sgn(move_delta.x_))));
+        return new Chess::CompoundCommand(std::move(commands));
+    }
+
+    if (IsPromotionMove(piece, pos))
+    {
+        std::vector<Chess::ICommandUnPtr> commands;
+        commands.push_back(Chess::ICommandUnPtr(new Chess::MoveCommand(piece, pos)));
+        commands.push_back(Chess::ICommandUnPtr(new Chess::ReplacePieceCommand(pos, promotion_type)));
         return new Chess::CompoundCommand(std::move(commands));
     }
 
