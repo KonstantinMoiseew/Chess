@@ -15,6 +15,9 @@
 #include <QMetaEnum>
 
 
+bool g_DBG_Play_As_White = true;
+bool g_DBG_Automatch = false;
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui_(new Ui::MainWindow)
@@ -74,6 +77,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui_->actionLoad, &QAction::triggered, this, &MainWindow::OnLoadgameClick);
 	connect(ui_->actionHost, &QAction::triggered, this, &MainWindow::OnHostGame);
 	connect(ui_->actionConnect, &QAction::triggered, this, &MainWindow::OnConnectToGame);
+    connect(ui_->actionAutomatch, &QAction::triggered, this, &MainWindow::OnAutomatch);
+
+    ui_->DBGplayAsWhite->setChecked(g_DBG_Play_As_White);
+
+    if (g_DBG_Automatch)
+        OnAutomatch();
 }
 
 MainWindow::~MainWindow()
@@ -246,6 +255,13 @@ void MainWindow::OnConnectToGame()
 	OnNewgameClick();
 	network_->ConnectToGame();
     player_ = Chess::Color::Black;
+}
+
+void MainWindow::OnAutomatch()
+{
+    OnNewgameClick();
+    network_->Automatch();
+    player_ = ui_->DBGplayAsWhite->isChecked() ? Chess::Color::White : Chess::Color::Black;
 }
 
 void MainWindow::OnNetworkError(QAbstractSocket::SocketError error)

@@ -32,8 +32,23 @@ void Network::ConnectToGame()
         connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred), this, &Network::OnNetworkError);
 	}
 
-	socket_->connectToHost("localhost", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
+    socket_->connectToHost("localhost", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
 	socket_->waitForConnected(1000);
+}
+
+void Network::Automatch()
+{
+    if (!socket_)
+    {
+        socket_ = new QTcpSocket(this);
+        connect(socket_, &QTcpSocket::connected, this, &Network::OnConnected);
+        connect(socket_, &QTcpSocket::readyRead, this, &Network::OnNetworkRead);
+        connect(socket_, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::errorOccurred), this, &Network::OnNetworkError);
+    }
+
+    //socket_->connectToHost("23.254.229.241", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
+    socket_->connectToHost("127.0.0.1", port, QIODevice::ReadWrite,  QAbstractSocket::IPv4Protocol);
+    socket_->waitForConnected(1000);
 }
 
 void Network::OnNewConnection()

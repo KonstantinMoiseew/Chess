@@ -7,6 +7,9 @@
 #include "game/history.h"
 #include "pieceitem.h"
 
+extern bool g_DBG_Play_As_White;
+extern bool g_DBG_Automatch;
+
 namespace Ui {
 class MainWindow;
 }
@@ -44,6 +47,7 @@ public slots:
     void OnLoadgameClick();
 	void OnHostGame();
 	void OnConnectToGame();
+    void OnAutomatch();
 	void OnNetworkError(QAbstractSocket::SocketError error);
 
 private:

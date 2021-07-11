@@ -19,6 +19,7 @@ public:
 
 	void HostGame();
 	void ConnectToGame();
+    void Automatch();
 
 	void OnCommandExecuted(Chess::ICommand& command) override;
 

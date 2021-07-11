@@ -123,6 +123,22 @@
      <string>B</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="DBGplayAsWhite">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>550</y>
+      <width>111</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DBG PlayAsWhite</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -142,6 +158,7 @@
     <addaction name="actionLoad"/>
     <addaction name="actionHost"/>
     <addaction name="actionConnect"/>
+    <addaction name="actionAutomatch"/>
    </widget>
    <addaction name="menuGame"/>
   </widget>
@@ -169,6 +186,11 @@
   <action name="actionConnect">
    <property name="text">
     <string>Connect</string>
+   </property>
+  </action>
+  <action name="actionAutomatch">
+   <property name="text">
+    <string>Automatch</string>
    </property>
   </action>
  </widget>
