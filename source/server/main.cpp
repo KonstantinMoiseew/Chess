@@ -5,90 +5,143 @@
 
 using protocol = asio::ip::tcp;
 
-const short PORT = 7777;
+const short PORT = 15678;
 
-struct Game
+struct Client
 {
-	Game(protocol::socket* p1, protocol::socket* p2)
+	Client(asio::io_service& service)
+		: socket(new protocol::socket(service))
+		, buffer(1024)
 	{
-		players[0] = p1;
-		players[1] = p2;
 	}
 
-	~Game()
+	protocol::socket* GetSocket() const
 	{
-		delete players[0];
-		delete players[1];
+		return socket.get();
 	}
 
-	protocol::socket* players[2];
+	std::unique_ptr<protocol::socket> socket;
+	std::vector<char> buffer;
+	int id = 0;
 };
 
-int main()
+
+class Server
 {
-	asio::io_context context;
+public:
 
-	std::vector<protocol::socket*> new_clients;
-	std::mutex new_clients_mutex;
-
-	std::thread accept_thread([&]()
+	Server()
+		: acceptor(io_service, protocol::endpoint(protocol::v4(), PORT))
 	{
+	}
+
+
+	void Run()
+	{
+		Accept();
+
 		try
 		{
-			protocol::acceptor acceptor(context, protocol::endpoint(protocol::v4(), PORT));
-			while (true)
-			{
-				protocol::socket* new_socket = new protocol::socket(context);
-				acceptor.accept(*new_socket);
-
-				std::lock_guard<std::mutex> g(new_clients_mutex);
-				new_clients.push_back(new_socket);
-			}
+			io_service.run();
 		}
 		catch (std::exception& e)
 		{
-			std::cerr << "Accept thread fail: " << e.what() << std::endl;
-		}
-	});
-
-	std::vector<Game*> games;
-
-	while (true)
-	{
-		{
-			std::lock_guard<std::mutex> g(new_clients_mutex);
-			int j = 0;
-			for (int i = 0; i < (int)new_clients.size(); i++)
-			{
-				if (i % 2)
-				{
-					j = i;
-					games.push_back(new Game(new_clients[i], new_clients[i - 1]));
-				}
-			}
-			new_clients.erase(new_clients.begin(), new_clients.begin() + j);
-		}
-
-		for (auto game : games)
-		{
-			for (int i = 0; i < 2; i++)
-			{
-				std::vector<char> data;
-				asio::read(*game->players[i], asio::buffer(data), [](const asio::error_code& error, std::size_t bytes_transferred)
-				{
-					if (error)
-						return (size_t)0;
-
-					return bytes_transferred;
-				});
-				if (!data.empty())
-				{
-					asio::write(*game->players[!i], asio::buffer(data));
-				}
-			}
+			std::cout << "Exception in IO service: " << e.what() << std::endl;
 		}
 	}
-	
-	accept_thread.join();
+
+protected:
+
+	void Accept()
+	{
+		auto client = new Client(io_service);
+
+		acceptor.async_accept(*client->GetSocket(), 
+			[this, client](asio::error_code ec)
+		{
+			if (ec)
+			{
+				std::cout << "Error while accepting: " << ec.message() << std::endl;
+				delete client;
+
+				Accept();
+				return;
+			}
+
+
+			int player_id = clients.size();
+			client->id = player_id;
+			std::cout << "Player#" << player_id << " connected" << std::endl;
+			std::lock_guard<std::mutex> g(clients_mutex);
+			{
+				clients.push_back(client);
+			}
+
+			Read(client);
+			Accept();
+		});
+	}
+
+	void Read(Client* client)
+	{
+		std::function<void(asio::error_code, size_t)> on_read = [this, client](asio::error_code ec, size_t bytes_transferred)
+		{
+			if (ec)
+			{
+				std::cout << "Error while reading: " << ec.message() << std::endl;
+				return;
+			}
+
+			std::cout << "Read " << bytes_transferred << " bytes from player#" << client->id << std::endl;
+
+			std::lock_guard<std::mutex> g(clients_mutex);
+			{
+				int opponent_player_id = client->id;
+				if (client->id % 2 == 0)
+					opponent_player_id++;
+				else
+					opponent_player_id--;
+
+				if (opponent_player_id >= clients.size())
+				{
+					std::cout << "Error - no player with id = " << opponent_player_id  << std::endl;
+					return;
+				}
+
+				Write(client, clients[opponent_player_id], bytes_transferred);
+			}
+		};
+
+		asio::async_read(*client->GetSocket(), asio::buffer(client->buffer), asio::transfer_at_least(1), on_read);
+	}
+
+	void Write(Client* from, Client* to, size_t bytes_transferred)
+	{
+		asio::async_write(*to->GetSocket(), asio::buffer(from->buffer, bytes_transferred), 
+			[this, from, to](asio::error_code ec, size_t bytes_transferred)
+		{
+			if (ec)
+			{
+				std::cout << "Error while writing: " << ec.message() << std::endl;
+				return;
+			}
+
+			std::cout << "Wrote " << bytes_transferred << " bytes to player#" << to->id << std::endl;
+			Read(from);
+		});
+	}
+
+	asio::io_service io_service;
+	protocol::acceptor acceptor;
+
+	std::vector<Client*> clients;
+	std::mutex clients_mutex;
+};
+
+
+int main()
+{
+	Server server;
+	server.Run();
 	return 0;
 }
